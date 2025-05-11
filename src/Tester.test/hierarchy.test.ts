@@ -54,81 +54,66 @@ export async function hierarchyTest() {
   )
 
   const results = await tester.run()
-  const expectedResults = `[
-  {
-    "spec": "should be a isolated test",
-    "passed": true,
-    "options": {
-      "timeout": 1000
-    }
-  },
-  {
-    "spec": "should fail in a isolated test",
-    "error": {
-      "descriptor": {
-        "message": "Expected 12 but got 10",
-        "expected": 12,
-        "actual": 10
+  const expectedResults = [
+    {
+      spec: 'should be a isolated test',
+      passed: true,
+      options: {
+        timeout: 1000
       }
     },
-    "passed": false,
-    "options": {
-      "timeout": 2000
-    }
-  },
-  {
-    "spec": [
-      "Main describe",
-      "should be a describe nested test"
-    ],
-    "passed": true,
-    "options": {
-      "timeout": 1000
-    }
-  },
-  {
-    "spec": [
-      "Main describe",
-      "Nested describe level 1",
-      "should be a nested describe test"
-    ],
-    "passed": true,
-    "options": {
-      "timeout": 1200
-    }
-  },
-  {
-    "spec": [
-      "Main describe",
-      "Nested describe level 1",
-      "Nested describe level 2",
-      "should be a deeply nested test"
-    ],
-    "passed": true,
-    "options": {
-      "timeout": 500
-    }
-  },
-  {
-    "spec": [
-      "Main describe",
-      "should fail in a describe nested test"
-    ],
-    "error": {
-      "descriptor": {
-        "message": "Expected 12 but got 10",
-        "expected": 12,
-        "actual": 10
+    {
+      spec: 'should fail in a isolated test',
+      error: {
+        descriptor: {
+          message: 'Expected 12 but got 10',
+          expected: 12,
+          actual: 10
+        }
+      },
+      passed: false,
+      options: {
+        timeout: 2000
       }
     },
-    "passed": false,
-    "options": {
-      "timeout": 1000
+    {
+      spec: ['Main describe', 'should be a describe nested test'],
+      passed: true,
+      options: {
+        timeout: 1000
+      }
+    },
+    {
+      spec: ['Main describe', 'Nested describe level 1', 'should be a nested describe test'],
+      passed: true,
+      options: {
+        timeout: 1200
+      }
+    },
+    {
+      spec: ['Main describe', 'Nested describe level 1', 'Nested describe level 2', 'should be a deeply nested test'],
+      passed: true,
+      options: {
+        timeout: 500
+      }
+    },
+    {
+      spec: ['Main describe', 'should fail in a describe nested test'],
+      error: {
+        descriptor: {
+          message: 'Expected 12 but got 10',
+          expected: 12,
+          actual: 10
+        }
+      },
+      passed: false,
+      options: {
+        timeout: 1000
+      }
     }
-  }
-]`
+  ]
 
-  if (JSON.stringify(results, null, 2) !== expectedResults) {
+  if (JSON.stringify(results, null, 2) !== JSON.stringify(expectedResults, null, 2)) {
     console.log(JSON.stringify(results, null, 2))
     throw new Error('Hierarchy test failed')
   } else {

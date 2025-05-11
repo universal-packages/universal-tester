@@ -83,11 +83,6 @@ tester.describe(MyCode, () => {
 
 - **`only`**: `boolean` (default: `false`)
   It will run only the tests that are inside the `describe` block.
-- **`runOrder`**: `sequence` | `random` | `parallel` (default: `sequence`)
-  It defines the order of the tests inside the `describe` block.
-  - **`sequence`**: Run tests in the order they are defined.
-  - **`random`**: Run tests in random order.
-  - **`parallel`**: Run tests in parallel.
 - **`skip`**: `boolean` (default: `false`)
   It will skip the tests that are inside the `describe` block.
 - **`skipReason`**: `string` (default: `null`)
