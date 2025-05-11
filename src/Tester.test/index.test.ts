@@ -1,3 +1,5 @@
+import { describeOnlyTest } from './describeOnly.test'
+import { describeSkipTest } from './describeSkip.test'
 import { hierarchyTest } from './hierarchy.test'
 import { onlyTest } from './only.test'
 import { parallelTest } from './parallel.test'
@@ -47,11 +49,25 @@ async function runTests() {
     console.error('Only test failed:', error)
   }
 
+  console.log('\n--- RUNNING DESCRIBE ONLY TESTS ---')
+  try {
+    await describeOnlyTest()
+  } catch (error) {
+    console.error('Describe only test failed:', error)
+  }
+
   console.log('\n--- RUNNING SKIP TESTS ---')
   try {
     await skipTest()
   } catch (error) {
     console.error('Skip test failed:', error)
+  }
+
+  console.log('\n--- RUNNING DESCRIBE SKIP TESTS ---')
+  try {
+    await describeSkipTest()
+  } catch (error) {
+    console.error('Describe skip test failed:', error)
   }
 
   console.log('\n--- RUNNING TIMEOUT TESTS ---')

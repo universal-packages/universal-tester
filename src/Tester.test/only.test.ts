@@ -1,8 +1,6 @@
 import { Tester } from '../Tester'
 
 export async function onlyTest() {
-  console.log('Testing "only" functionality:')
-
   const tester = new Tester()
 
   tester.test('should not run because only is set on another test', () => {
