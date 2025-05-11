@@ -78,53 +78,42 @@ export class Tester {
       // Shuffle the array for random execution
       testsToRun.sort(() => Math.random() - 0.5)
     } else if (this.options.runOrder === 'parallel') {
-      // For parallel execution, we need to prepare the tests first to handle 'only' and 'skip'
-      const preparedTests = testsToRun.map((test) => {
-        // If some tests have 'only' and this one doesn't, mark it as skipped
-        if (hasOnlyTests && !test.options.only) {
-          return {
-            ...test,
-            options: {
-              ...test.options,
-              skip: true,
-              skipReason: '"only" tests are active'
-            }
-          }
-        }
-        return test
-      })
-
-      // Run tests in parallel
-      await Promise.all(preparedTests.map((test) => this.runTest(test)))
+      // For parallel execution, we'll pass the hasOnlyTests flag to runTest
+      await Promise.all(testsToRun.map((test) => this.runTest(test, hasOnlyTests)))
       return this.testResults
     }
 
     // Run each test in sequence
     for (const test of testsToRun) {
-      // If some tests have 'only' and this one doesn't, mark it as skipped
-      const shouldSkip = test.options.skip || (hasOnlyTests && !test.options.only)
-      const skipReason = test.options.skipReason || (hasOnlyTests && !test.options.only ? '"only" tests are active' : undefined)
-
-      if (shouldSkip) {
-        // Skip the test and record the result
-        const spec = test.specPath.length === 0 ? test.name : [...test.specPath, test.name]
-        this.testResults.push({
-          spec,
-          passed: true,
-          options: test.options,
-          skipped: true,
-          skipReason: skipReason
-        })
-        continue
+      await this.runTest(test, hasOnlyTests)
+      
+      // If bail is enabled and a test has failed, stop execution
+      if (this.options.bail && this.testResults.some(result => !result.passed)) {
+        break
       }
-
-      await this.runTest(test)
     }
 
     return this.testResults
   }
 
-  private async runTest(test: TestDescription) {
+  private async runTest(test: TestDescription, hasOnlyTests: boolean) {
+    // Determine if the test should be skipped
+    const shouldSkip = test.options.skip || (hasOnlyTests && !test.options.only)
+    const skipReason = test.options.skipReason || (hasOnlyTests && !test.options.only ? '"only" tests are active' : undefined)
+    const spec = test.specPath.length === 0 ? test.name : [...test.specPath, test.name]
+
+    // If the test should be skipped, record the result without executing
+    if (shouldSkip) {
+      this.testResults.push({
+        spec,
+        passed: true,
+        options: test.options,
+        skipped: true,
+        skipReason: skipReason
+      })
+      return
+    }
+
     // Set up timeout handling
     let timeoutId: NodeJS.Timeout | undefined
 
@@ -146,8 +135,6 @@ export class Tester {
       await Promise.race([Promise.resolve().then(() => test.fn()), timeoutPromise])
 
       // If we get here, the test passed
-      const spec = test.specPath.length === 0 ? test.name : [...test.specPath, test.name]
-
       this.testResults.push({
         spec,
         passed: true,
@@ -155,8 +142,6 @@ export class Tester {
       })
     } catch (error: unknown) {
       if (error instanceof TestError) {
-        const spec = test.specPath.length === 0 ? test.name : [...test.specPath, test.name]
-
         this.testResults.push({
           spec,
           error: error,
