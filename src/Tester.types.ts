@@ -10,7 +10,6 @@ export interface TesterOptions {
 
 export interface DescribeOptions {
   only?: boolean
-  runOrder?: RunOrder
   skip?: boolean
   skipReason?: string
   timeout?: number
@@ -34,4 +33,7 @@ export interface TestResult {
   spec: string | string[]
   error?: TestError
   passed: boolean
+  options: TestOptions
+  skipped?: boolean
+  skipReason?: string
 }

@@ -10,9 +10,9 @@
   "repository": "git@github.com:universal-packages/universal-tester.git",
   "scripts": {
     "build": "tsc --p tsconfig.dis.json",
-    "test": "tsx src/Tester.test.ts",
-    "test:coverage": "c8 --reporter=text --reporter=json --reporter=html --reporter=lcov --reporter=text-summary tsx src/Tester.test.ts",
-    "test:watch": "tsx watch src/Tester.test.ts",
+    "test": "tsx src/Tester.test/index.test.ts",
+    "test:coverage": "c8 --reporter=text --reporter=json --reporter=html --reporter=lcov --reporter=text-summary tsx src/Tester.test/index.test.ts",
+    "test:watch": "tsx watch src/Tester.test/index.test.ts",
     "format": "prettier --write \"./{src,tests}/**/*.{ts,tsx,js,jsx,json}\"",
     "update-universal-dependencies": "umaintenance update-universal-dependencies"
   },
