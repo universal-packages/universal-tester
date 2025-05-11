@@ -1,0 +1,48 @@
+{
+  "name": "@universal-packages/tester",
+  "version": "0.0.0",
+  "description": "Basic tester",
+  "author": "David De Anda <david@universal-packages.com> (https://github.com/universal-packages)",
+  "license": "MIT",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "type": "module",
+  "repository": "git@github.com:universal-packages/universal-tester.git",
+  "scripts": {
+    "build": "tsc --p tsconfig.dis.json",
+    "test": "tsx src/Tester.test.ts",
+    "test:coverage": "c8 --reporter=text --reporter=json --reporter=html --reporter=lcov --reporter=text-summary tsx src/Tester.test.ts",
+    "test:watch": "tsx watch src/Tester.test.ts",
+    "format": "prettier --write \"./{src,tests}/**/*.{ts,tsx,js,jsx,json}\"",
+    "update-universal-dependencies": "umaintenance update-universal-dependencies"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+    "@types/node": "^22.15.17",
+    "@universal-packages/maintenance": "^1.7.4",
+    "c8": "^10.1.3",
+    "prettier": "^3.5.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 180,
+    "trailingComma": "none",
+    "plugins": [
+      "@trivago/prettier-plugin-sort-imports"
+    ],
+    "importOrder": [
+      "^[./]"
+    ],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true,
+    "importOrderParserPlugins": [
+      "typescript",
+      "jsx",
+      "classProperties",
+      "decorators-legacy"
+    ]
+  }
+}
