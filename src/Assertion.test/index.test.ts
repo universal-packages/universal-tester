@@ -3,16 +3,23 @@ import { toBeCloseToTest } from './toBeCloseTo.test'
 import { toBeDefinedTest } from './toBeDefined.test'
 import { toBeFalsyTest } from './toBeFalsy.test'
 import { toBeGreaterThanTest } from './toBeGreaterThan.test'
+import { toBeGreaterThanOrEqualTest } from './toBeGreaterThanOrEqual.test'
 import { toBeInstanceOfTest } from './toBeInstanceOf.test'
 import { toBeLessThanTest } from './toBeLessThan.test'
+import { toBeLessThanOrEqualTest } from './toBeLessThanOrEqual.test'
+import { toBeNaNTest } from './toBeNaN.test'
 import { toBeNullTest } from './toBeNull.test'
 import { toBeTruthyTest } from './toBeTruthy.test'
 import { toBeUndefinedTest } from './toBeUndefined.test'
 import { toContainTest } from './toContain.test'
+import { toContainEqualTest } from './toContainEqual.test'
 import { toEqualTest } from './toEqual.test'
 import { toHaveLengthTest } from './toHaveLength.test'
 import { toHavePropertyTest } from './toHaveProperty.test'
 import { toMatchTest } from './toMatch.test'
+import { toMatchObjectTest } from './toMatchObject.test'
+import { toRejectTest } from './toReject.test'
+import { toResolveTest } from './toResolve.test'
 import { toThrowTest } from './toThrow.test'
 
 export async function assertionTest() {
@@ -72,6 +79,13 @@ export async function assertionTest() {
     console.error('toContain test failed:', error)
   }
 
+  console.log('\n--- RUNNING toContainEqual TESTS ---')
+  try {
+    await toContainEqualTest()
+  } catch (error) {
+    console.error('toContainEqual test failed:', error)
+  }
+
   console.log('\n--- RUNNING toHaveLength TESTS ---')
   try {
     await toHaveLengthTest()
@@ -93,6 +107,13 @@ export async function assertionTest() {
     console.error('toBeGreaterThan test failed:', error)
   }
 
+  console.log('\n--- RUNNING toBeGreaterThanOrEqual TESTS ---')
+  try {
+    await toBeGreaterThanOrEqualTest()
+  } catch (error) {
+    console.error('toBeGreaterThanOrEqual test failed:', error)
+  }
+
   console.log('\n--- RUNNING toBeLessThan TESTS ---')
   try {
     await toBeLessThanTest()
@@ -100,11 +121,32 @@ export async function assertionTest() {
     console.error('toBeLessThan test failed:', error)
   }
 
+  console.log('\n--- RUNNING toBeLessThanOrEqual TESTS ---')
+  try {
+    await toBeLessThanOrEqualTest()
+  } catch (error) {
+    console.error('toBeLessThanOrEqual test failed:', error)
+  }
+
+  console.log('\n--- RUNNING toBeNaN TESTS ---')
+  try {
+    await toBeNaNTest()
+  } catch (error) {
+    console.error('toBeNaN test failed:', error)
+  }
+
   console.log('\n--- RUNNING toMatch TESTS ---')
   try {
     await toMatchTest()
   } catch (error) {
     console.error('toMatch test failed:', error)
+  }
+
+  console.log('\n--- RUNNING toMatchObject TESTS ---')
+  try {
+    await toMatchObjectTest()
+  } catch (error) {
+    console.error('toMatchObject test failed:', error)
   }
 
   console.log('\n--- RUNNING toThrow TESTS ---')
@@ -126,5 +168,19 @@ export async function assertionTest() {
     await toBeCloseToTest()
   } catch (error) {
     console.error('toBeCloseTo test failed:', error)
+  }
+
+  console.log('\n--- RUNNING toResolve TESTS ---')
+  try {
+    await toResolveTest()
+  } catch (error) {
+    console.error('toResolve test failed:', error)
+  }
+
+  console.log('\n--- RUNNING toReject TESTS ---')
+  try {
+    await toRejectTest()
+  } catch (error) {
+    console.error('toReject test failed:', error)
   }
 }

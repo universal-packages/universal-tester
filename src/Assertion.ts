@@ -612,6 +612,394 @@ export class Assertion {
     }
   }
 
+  public async toResolve(expected?: any): Promise<void> {
+    if (typeof this.value?.then !== 'function') {
+      throw new TestError({
+        message: 'Expected a promise, but got {{actual}}',
+        messageLocals: {
+          actual: this.getMessageLocalName(this.value)
+        },
+        expected: 'promise',
+        actual: this.value
+      })
+    }
+
+    try {
+      const result = await this.value
+      
+      if (this.expectNot) {
+        throw new TestError({
+          message: 'Expected promise to reject, but it resolved with {{actual}}',
+          messageLocals: {
+            actual: this.getMessageLocalName(result)
+          },
+          expected: 'rejection',
+          actual: result
+        })
+      } else if (arguments.length > 0) {
+        // Check if the resolved value matches the expected value
+        const difference = this.diff(expected, result)
+        
+        if (!difference.same) {
+          throw new TestError({
+            message: 'Expected promise to resolve with {{expected}}, but got {{actual}}',
+            messageLocals: {
+              expected: this.getMessageLocalName(expected),
+              actual: this.getMessageLocalName(result)
+            },
+            expected,
+            actual: result,
+            difference
+          })
+        }
+      }
+    } catch (error) {
+      if (!this.expectNot) {
+        // If we're here, the promise rejected but we expected it to resolve
+        throw new TestError({
+          message: 'Expected promise to resolve, but it rejected with {{actual}}',
+          messageLocals: {
+            actual: error instanceof Error ? error.message : this.getMessageLocalName(error)
+          },
+          expected: 'resolution',
+          actual: error
+        })
+      } else if (arguments.length > 0) {
+        // We expected it to not resolve with a specific value
+        // Since it rejected, it indeed didn't resolve with that value
+        // So this is actually a success case for `.not.toResolve(expected)`
+      }
+    }
+  }
+
+  public async toReject(expected?: string | RegExp | Error): Promise<void> {
+    if (typeof this.value?.then !== 'function') {
+      throw new TestError({
+        message: 'Expected a promise, but got {{actual}}',
+        messageLocals: {
+          actual: this.getMessageLocalName(this.value)
+        },
+        expected: 'promise',
+        actual: this.value
+      })
+    }
+
+    try {
+      const result = await this.value
+      
+      if (this.expectNot) {
+        // We expected the promise not to reject, and it didn't reject
+        // If expected is provided, we need to additionally check result value
+        if (arguments.length > 0) {
+          // For not.toReject(expected), if the promise resolves, we're good
+          // regardless of what it resolved with
+        }
+      } else {
+        // We expected the promise to reject, but it resolved
+        throw new TestError({
+          message: 'Expected promise to reject, but it resolved with {{actual}}',
+          messageLocals: {
+            actual: this.getMessageLocalName(result)
+          },
+          expected: 'rejection',
+          actual: result
+        })
+      }
+    } catch (error) {
+      if (this.expectNot) {
+        // We expected the promise not to reject, but it did
+        if (arguments.length === 0) {
+          // We expected it not to reject at all
+          throw new TestError({
+            message: 'Expected promise not to reject, but it rejected with {{actual}}',
+            messageLocals: {
+              actual: error instanceof Error ? error.message : this.getMessageLocalName(error)
+            },
+            expected: 'no rejection',
+            actual: error
+          })
+        } else {
+          // We expected it not to reject with a specific error
+          let matches = false
+          
+          if (expected instanceof RegExp) {
+            matches = expected.test(error instanceof Error ? error.message : String(error))
+          } else if (typeof expected === 'string') {
+            matches = (error instanceof Error ? error.message : String(error)).includes(expected)
+          } else if (expected instanceof Error) {
+            matches = error instanceof Error && error.message === expected.message
+          }
+          
+          if (matches) {
+            throw new TestError({
+              message: 'Expected promise not to reject with {{expected}}, but it did',
+              messageLocals: {
+                expected: expected instanceof Error ? expected.message : this.getMessageLocalName(expected)
+              },
+              expected,
+              actual: error
+            })
+          }
+        }
+      } else {
+        // We expected the promise to reject, which it did
+        if (arguments.length > 0) {
+          // We expected it to reject with a specific error
+          let matches = false
+          
+          if (expected instanceof RegExp) {
+            matches = expected.test(error instanceof Error ? error.message : String(error))
+          } else if (typeof expected === 'string') {
+            matches = (error instanceof Error ? error.message : String(error)).includes(expected)
+          } else if (expected instanceof Error) {
+            matches = error instanceof Error && error.message === expected.message
+          }
+          
+          if (!matches) {
+            throw new TestError({
+              message: 'Expected promise to reject with {{expected}}, but it rejected with {{actual}}',
+              messageLocals: {
+                expected: expected instanceof Error ? expected.message : this.getMessageLocalName(expected),
+                actual: error instanceof Error ? error.message : this.getMessageLocalName(error)
+              },
+              expected,
+              actual: error
+            })
+          }
+        }
+      }
+    }
+  }
+
+  public toBeGreaterThanOrEqual(number: number) {
+    if (typeof this.value !== 'number') {
+      throw new TestError({
+        message: 'Expected a number, but got {{actual}}',
+        messageLocals: {
+          actual: this.getMessageLocalName(this.value)
+        },
+        expected: 'number',
+        actual: this.value
+      })
+    }
+
+    if (this.expectNot) {
+      if (this.value >= number)
+        throw new TestError({
+          message: 'Expected {{actual}} not to be greater than or equal to {{expected}}, but it was',
+          messageLocals: {
+            expected: String(number),
+            actual: String(this.value)
+          },
+          expected: number,
+          actual: this.value
+        })
+    } else {
+      if (this.value < number)
+        throw new TestError({
+          message: 'Expected {{actual}} to be greater than or equal to {{expected}}, but it was not',
+          messageLocals: {
+            expected: String(number),
+            actual: String(this.value)
+          },
+          expected: number,
+          actual: this.value
+        })
+    }
+  }
+
+  public toBeLessThanOrEqual(number: number) {
+    if (typeof this.value !== 'number') {
+      throw new TestError({
+        message: 'Expected a number, but got {{actual}}',
+        messageLocals: {
+          actual: this.getMessageLocalName(this.value)
+        },
+        expected: 'number',
+        actual: this.value
+      })
+    }
+
+    if (this.expectNot) {
+      if (this.value <= number)
+        throw new TestError({
+          message: 'Expected {{actual}} not to be less than or equal to {{expected}}, but it was',
+          messageLocals: {
+            expected: String(number),
+            actual: String(this.value)
+          },
+          expected: number,
+          actual: this.value
+        })
+    } else {
+      if (this.value > number)
+        throw new TestError({
+          message: 'Expected {{actual}} to be less than or equal to {{expected}}, but it was not',
+          messageLocals: {
+            expected: String(number),
+            actual: String(this.value)
+          },
+          expected: number,
+          actual: this.value
+        })
+    }
+  }
+
+  public toBeNaN() {
+    const isNaN = Number.isNaN(this.value)
+
+    if (this.expectNot) {
+      if (isNaN)
+        throw new TestError({
+          message: 'Expected value not to be NaN, but it was',
+          messageLocals: {},
+          expected: 'not NaN',
+          actual: NaN
+        })
+    } else {
+      if (!isNaN)
+        throw new TestError({
+          message: 'Expected value to be NaN, but got {{actual}}',
+          messageLocals: {
+            actual: this.getMessageLocalName(this.value)
+          },
+          expected: NaN,
+          actual: this.value
+        })
+    }
+  }
+
+  public toContainEqual(item: any) {
+    const isArray = Array.isArray(this.value)
+
+    if (!isArray) {
+      throw new TestError({
+        message: 'Expected an array, but got {{actual}}',
+        messageLocals: {
+          actual: this.getMessageLocalName(this.value)
+        },
+        expected: 'array',
+        actual: this.value
+      })
+    }
+
+    const containsEqual = this.value.some((v: any) => this.diff(v, item).same)
+
+    if (this.expectNot) {
+      if (containsEqual)
+        throw new TestError({
+          message: 'Expected {{actual}} not to contain an item equal to {{expected}}, but it did',
+          messageLocals: {
+            expected: this.getMessageLocalName(item),
+            actual: this.getMessageLocalName(this.value)
+          },
+          expected: item,
+          actual: this.value
+        })
+    } else {
+      if (!containsEqual)
+        throw new TestError({
+          message: 'Expected {{actual}} to contain an item equal to {{expected}}, but it did not',
+          messageLocals: {
+            expected: this.getMessageLocalName(item),
+            actual: this.getMessageLocalName(this.value)
+          },
+          expected: item,
+          actual: this.value
+        })
+    }
+  }
+
+  public toMatchObject(object: Record<string, any>) {
+    if (typeof this.value !== 'object' || this.value === null) {
+      throw new TestError({
+        message: 'Expected an object, but got {{actual}}',
+        messageLocals: {
+          actual: this.getMessageLocalName(this.value)
+        },
+        expected: 'object',
+        actual: this.value
+      })
+    }
+
+    const isMatch = this.objectContainsSubset(this.value, object)
+
+    if (this.expectNot) {
+      if (isMatch)
+        throw new TestError({
+          message: 'Expected object not to match subset {{expected}}, but it did',
+          messageLocals: {
+            expected: this.getMessageLocalName(object)
+          },
+          expected: object,
+          actual: this.value
+        })
+    } else {
+      if (!isMatch.matched)
+        throw new TestError({
+          message: 'Expected object to match subset {{expected}}, but it did not match at: {{path}}',
+          messageLocals: {
+            expected: this.getMessageLocalName(object),
+            path: isMatch.path || 'root'
+          },
+          expected: object,
+          actual: this.value
+        })
+    }
+  }
+
+  // Helper method for toMatchObject
+  private objectContainsSubset(obj: any, subset: any, path = ''): { matched: boolean; path?: string } {
+    // Check each property in the subset
+    for (const key in subset) {
+      if (!Object.prototype.hasOwnProperty.call(subset, key)) continue;
+      
+      const currentPath = path ? `${path}.${key}` : key;
+      
+      // Check if the property exists in the object
+      if (!(key in obj)) {
+        return { matched: false, path: currentPath };
+      }
+      
+      const subsetValue = subset[key];
+      const objValue = obj[key];
+      
+      // Check if the property is an object and we need to check recursively
+      if (
+        typeof subsetValue === 'object' && 
+        subsetValue !== null && 
+        !Array.isArray(subsetValue) &&
+        typeof objValue === 'object' && 
+        objValue !== null && 
+        !Array.isArray(objValue)
+      ) {
+        const result = this.objectContainsSubset(objValue, subsetValue, currentPath);
+        if (!result.matched) {
+          return result;
+        }
+      } 
+      // For arrays, check if all elements in the subset are in the object
+      else if (Array.isArray(subsetValue) && Array.isArray(objValue)) {
+        if (subsetValue.length > objValue.length) {
+          return { matched: false, path: currentPath };
+        }
+        
+        // Check each item in the subset array
+        for (let i = 0; i < subsetValue.length; i++) {
+          if (!objValue.some(item => this.diff(item, subsetValue[i]).same)) {
+            return { matched: false, path: `${currentPath}[${i}]` };
+          }
+        }
+      }
+      // For primitive values and other types, use diff
+      else if (!this.diff(objValue, subsetValue).same) {
+        return { matched: false, path: currentPath };
+      }
+    }
+    
+    return { matched: true };
+  }
+
   protected diff(expected: any, actual: any) {
     return diff(expected, actual)
   }
