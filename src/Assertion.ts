@@ -58,4 +58,8 @@ export class Assertion {
         })
     }
   }
+
+  protected diff(expected: any, actual: any) {
+    return this.diff(expected, actual)
+  }
 }

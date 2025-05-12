@@ -1,7 +1,9 @@
+import { DiffResult } from './diff.types'
+
 export interface ErrorDescriptor {
   message: string
   messageLocals: Record<string, string>
   expected: any
   actual: any
-  difference?: string
+  difference?: DiffResult
 }

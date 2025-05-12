@@ -1,11 +1,12 @@
 import { ErrorDescriptor } from './TestError.types'
+import { DiffResult } from './diff.types'
 
 export class TestError extends Error {
   public override readonly message: string
   public readonly messageLocals: Record<string, string>
   public readonly expected: any
   public readonly actual: any
-  public readonly difference?: string
+  public readonly difference?: DiffResult
 
   public constructor(descriptor: ErrorDescriptor) {
     super()
