@@ -1,5 +1,6 @@
 import { TestError } from './TestError'
 import { diff } from './diff'
+import { DiffResult } from './diff.types'
 
 export class Assertion {
   public readonly value: any
@@ -930,75 +931,74 @@ export class Assertion {
       })
     }
 
-    const isMatch = this.objectContainsSubset(this.value, object)
+    const difference = this.diff(object, this.value)
+
+    // Returns true if all differences are only 'added' (i.e., actual has extra keys, but all expected keys match)
+    const isOnlyAdded = (diff: DiffResult): boolean => {
+      if (diff.type === 'object') {
+        return Object.values(diff.keys).every(child => {
+          if (child.type === 'added') return true
+          if (child.type === 'object' || child.type === 'array') return isOnlyAdded(child)
+          return child.same
+        })
+      }
+      if (diff.type === 'array') {
+        return diff.items.every(child => {
+          if (child.type === 'added') return true
+          if (child.type === 'object' || child.type === 'array') return isOnlyAdded(child)
+          return child.same
+        })
+      }
+      // For primitives, only 'added' or 'same' are allowed
+      return diff.type === 'added' || diff.same
+    }
+
+    // Returns a copy of the diff with all 'added' keys/items removed
+    const stripAddedTypes = (diff: DiffResult): DiffResult => {
+      if (diff.type === 'object') {
+        const newKeys: Record<string, DiffResult> = {}
+        for (const [key, child] of Object.entries(diff.keys)) {
+          if (child.type === 'added') continue
+          newKeys[key] = stripAddedTypes(child)
+        }
+        return { ...diff, keys: newKeys }
+      }
+      if (diff.type === 'array') {
+        const newItems = diff.items.filter(child => child.type !== 'added').map(stripAddedTypes)
+        return { ...diff, items: newItems }
+      }
+      return diff
+    }
+
+    const differenceWithoutAdded = stripAddedTypes(difference)
 
     if (this.expectNot) {
-      if (isMatch)
+      if (difference.same || isOnlyAdded(difference)) {
         throw new TestError({
-          message: 'Expected object not to match subset {{expected}}, but it did',
-          messageLocals: {
-            expected: this.getMessageLocalName(object)
-          },
-          expected: object,
-          actual: this.value
-        })
-    } else {
-      if (!isMatch.matched)
-        throw new TestError({
-          message: 'Expected object to match subset {{expected}}, but it did not match at: {{path}}',
+          message: 'Expected {{expected}} not to match {{actual}}',
           messageLocals: {
             expected: this.getMessageLocalName(object),
-            path: isMatch.path || 'root'
+            actual: this.getMessageLocalName(this.value)
           },
           expected: object,
-          actual: this.value
+          actual: this.value,
+          difference: differenceWithoutAdded
         })
-    }
-  }
-
-  // Helper method for toMatchObject
-  private objectContainsSubset(obj: any, subset: any, path = ''): { matched: boolean; path?: string } {
-    // Check each property in the subset
-    for (const key in subset) {
-      if (!Object.prototype.hasOwnProperty.call(subset, key)) continue
-
-      const currentPath = path ? `${path}.${key}` : key
-
-      // Check if the property exists in the object
-      if (!(key in obj)) {
-        return { matched: false, path: currentPath }
       }
-
-      const subsetValue = subset[key]
-      const objValue = obj[key]
-
-      // Check if the property is an object and we need to check recursively
-      if (typeof subsetValue === 'object' && subsetValue !== null && !Array.isArray(subsetValue) && typeof objValue === 'object' && objValue !== null && !Array.isArray(objValue)) {
-        const result = this.objectContainsSubset(objValue, subsetValue, currentPath)
-        if (!result.matched) {
-          return result
-        }
-      }
-      // For arrays, check if all elements in the subset are in the object
-      else if (Array.isArray(subsetValue) && Array.isArray(objValue)) {
-        if (subsetValue.length > objValue.length) {
-          return { matched: false, path: currentPath }
-        }
-
-        // Check each item in the subset array
-        for (let i = 0; i < subsetValue.length; i++) {
-          if (!objValue.some((item) => this.diff(item, subsetValue[i]).same)) {
-            return { matched: false, path: `${currentPath}[${i}]` }
-          }
-        }
-      }
-      // For primitive values and other types, use diff
-      else if (!this.diff(objValue, subsetValue).same) {
-        return { matched: false, path: currentPath }
+    } else {
+      if (!difference.same && !isOnlyAdded(difference)) {
+        throw new TestError({
+          message: 'Expected {{expected}} to match {{actual}}',
+          messageLocals: {
+            expected: this.getMessageLocalName(object),
+            actual: this.getMessageLocalName(this.value)
+          },
+          expected: object,
+          actual: this.value,
+          difference: differenceWithoutAdded
+        })
       }
     }
-
-    return { matched: true }
   }
 
   protected diff(expected: any, actual: any) {

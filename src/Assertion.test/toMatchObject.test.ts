@@ -68,13 +68,31 @@ export async function toMatchObjectTest() {
     {
       spec: 'should fail when property does not match',
       error: {
-        message: 'Expected object to match subset {{expected}}, but it did not match at: {{path}}',
+        message: 'Expected {{expected}} to match {{actual}}',
         messageLocals: {
           expected: 'Object',
-          path: 'a'
+          actual: 'Object'
         },
-        expected: { a: 2 },
-        actual: { a: 1, b: 2, c: 3 }
+        expected: {
+          a: 2
+        },
+        actual: {
+          a: 1,
+          b: 2,
+          c: 3
+        },
+        difference: {
+          type: 'object',
+          keys: {
+            a: {
+              type: 'different',
+              expected: 2,
+              actual: 1,
+              same: false
+            }
+          },
+          same: false
+        }
       },
       passed: false,
       options: {
@@ -84,13 +102,30 @@ export async function toMatchObjectTest() {
     {
       spec: 'should fail when property does not exist',
       error: {
-        message: 'Expected object to match subset {{expected}}, but it did not match at: {{path}}',
+        message: 'Expected {{expected}} to match {{actual}}',
         messageLocals: {
           expected: 'Object',
-          path: 'd'
+          actual: 'Object'
         },
-        expected: { d: 4 },
-        actual: { a: 1, b: 2, c: 3 }
+        expected: {
+          d: 4
+        },
+        actual: {
+          a: 1,
+          b: 2,
+          c: 3
+        },
+        difference: {
+          type: 'object',
+          keys: {
+            d: {
+              type: 'removed',
+              value: 4,
+              same: false
+            }
+          },
+          same: false
+        }
       },
       passed: false,
       options: {
@@ -137,13 +172,40 @@ export async function toMatchObjectTest() {
     {
       spec: 'should fail for array with non-matching items',
       error: {
-        message: 'Expected object to match subset {{expected}}, but it did not match at: {{path}}',
+        message: 'Expected {{expected}} to match {{actual}}',
         messageLocals: {
           expected: 'Object',
-          path: 'arr[1]'
+          actual: 'Object'
         },
-        expected: { arr: [1, 4] },
-        actual: { arr: [1, 2, 3] }
+        expected: {
+          arr: [1, 4]
+        },
+        actual: {
+          arr: [1, 2, 3]
+        },
+        difference: {
+          type: 'object',
+          keys: {
+            arr: {
+              type: 'array',
+              items: [
+                {
+                  type: 'same',
+                  value: 1,
+                  same: true
+                },
+                {
+                  type: 'different',
+                  expected: 4,
+                  actual: 2,
+                  same: false
+                }
+              ],
+              same: false
+            }
+          },
+          same: false
+        }
       },
       passed: false,
       options: {
@@ -160,13 +222,51 @@ export async function toMatchObjectTest() {
     {
       spec: 'should fail for nested objects with non-matching property',
       error: {
-        message: 'Expected object to match subset {{expected}}, but it did not match at: {{path}}',
+        message: 'Expected {{expected}} to match {{actual}}',
         messageLocals: {
           expected: 'Object',
-          path: 'b.d.e'
+          actual: 'Object'
         },
-        expected: { b: { d: { e: 4 } } },
-        actual: { a: 1, b: { c: 2, d: { e: 3 } } }
+        expected: {
+          b: {
+            d: {
+              e: 4
+            }
+          }
+        },
+        actual: {
+          a: 1,
+          b: {
+            c: 2,
+            d: {
+              e: 3
+            }
+          }
+        },
+        difference: {
+          type: 'object',
+          keys: {
+            b: {
+              type: 'object',
+              keys: {
+                d: {
+                  type: 'object',
+                  keys: {
+                    e: {
+                      type: 'different',
+                      expected: 4,
+                      actual: 3,
+                      same: false
+                    }
+                  },
+                  same: false
+                }
+              },
+              same: false
+            }
+          },
+          same: false
+        }
       },
       passed: false,
       options: {
@@ -183,12 +283,36 @@ export async function toMatchObjectTest() {
     {
       spec: 'should fail for not.toMatchObject when object matches',
       error: {
-        message: 'Expected object not to match subset {{expected}}, but it did',
+        message: 'Expected {{expected}} not to match {{actual}}',
         messageLocals: {
-          expected: 'Object'
+          expected: 'Object',
+          actual: 'Object'
         },
-        expected: { a: 1, b: 2 },
-        actual: { a: 1, b: 2, c: 3 }
+        expected: {
+          a: 1,
+          b: 2
+        },
+        actual: {
+          a: 1,
+          b: 2,
+          c: 3
+        },
+        difference: {
+          type: 'object',
+          keys: {
+            a: {
+              type: 'same',
+              value: 1,
+              same: true
+            },
+            b: {
+              type: 'same',
+              value: 2,
+              same: true
+            }
+          },
+          same: false
+        }
       },
       passed: false,
       options: {
@@ -203,4 +327,4 @@ export async function toMatchObjectTest() {
   } else {
     console.log('toMatchObject test passed')
   }
-} 
+}
