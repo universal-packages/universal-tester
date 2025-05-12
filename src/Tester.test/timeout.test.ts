@@ -16,11 +16,12 @@ export async function timeoutTest() {
     {
       spec: 'should handle test that times out',
       error: {
-        descriptor: {
-          message: 'Test timed out after 100ms',
-          expected: 'test to complete within timeout',
-          actual: 'test exceeded timeout of 100ms'
-        }
+        message: 'Test timed out after {{timeout}}ms',
+        messageLocals: {
+          timeout: '100'
+        },
+        expected: 100,
+        actual: 100000
       },
       passed: false,
       options: {

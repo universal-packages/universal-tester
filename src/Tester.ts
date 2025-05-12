@@ -1,6 +1,6 @@
-import { Assertion } from './Assertion.ts'
-import { TestError } from './TestError.ts'
-import { DescribeOptions, TestDescription, TestOptions, TestResult, TesterOptions } from './Tester.types.ts'
+import { Assertion } from './Assertion'
+import { TestError } from './TestError'
+import { DescribeOptions, TestDescription, TestOptions, TestResult, TesterOptions } from './Tester.types'
 
 export class Tester {
   public readonly options: TesterOptions
@@ -86,9 +86,9 @@ export class Tester {
     // Run each test in sequence
     for (const test of testsToRun) {
       await this.runTest(test, hasOnlyTests)
-      
+
       // If bail is enabled and a test has failed, stop execution
-      if (this.options.bail && this.testResults.some(result => !result.passed)) {
+      if (this.options.bail && this.testResults.some((result) => !result.passed)) {
         break
       }
     }
@@ -123,9 +123,12 @@ export class Tester {
         timeoutId = setTimeout(() => {
           reject(
             new TestError({
-              message: `Test timed out after ${test.options.timeout}ms`,
-              expected: 'test to complete within timeout',
-              actual: `test exceeded timeout of ${test.options.timeout}ms`
+              message: `Test timed out after {{timeout}}ms`,
+              messageLocals: {
+                timeout: String(test.options.timeout)
+              },
+              expected: test.options.timeout,
+              actual: 100000
             })
           )
         }, test.options.timeout)

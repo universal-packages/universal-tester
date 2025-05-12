@@ -7,7 +7,7 @@ import { randomTest } from './random.test'
 import { skipTest } from './skip.test'
 import { timeoutTest } from './timeout.test'
 
-async function runTests() {
+export async function testerTest() {
   console.log('\n--- RUNNING HIERARCHY TESTS ---')
   try {
     await hierarchyTest()
@@ -77,8 +77,3 @@ async function runTests() {
     console.error('Timeout test failed:', error)
   }
 }
-
-runTests().catch((error) => {
-  console.error('Test runner failed:', error)
-  process.exit(1)
-})

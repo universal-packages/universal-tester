@@ -65,11 +65,13 @@ export async function hierarchyTest() {
     {
       spec: 'should fail in a isolated test',
       error: {
-        descriptor: {
-          message: 'Expected 12 but got 10',
-          expected: 12,
-          actual: 10
-        }
+        message: 'Expected {{expected}} but got {{actual}}',
+        messageLocals: {
+          expected: '12',
+          actual: '10'
+        },
+        expected: 12,
+        actual: 10
       },
       passed: false,
       options: {
@@ -100,11 +102,13 @@ export async function hierarchyTest() {
     {
       spec: ['Main describe', 'should fail in a describe nested test'],
       error: {
-        descriptor: {
-          message: 'Expected 12 but got 10',
-          expected: 12,
-          actual: 10
-        }
+        message: 'Expected {{expected}} but got {{actual}}',
+        messageLocals: {
+          expected: '12',
+          actual: '10'
+        },
+        expected: 12,
+        actual: 10
       },
       passed: false,
       options: {

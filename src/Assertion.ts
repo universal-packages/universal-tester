@@ -15,17 +15,44 @@ export class Assertion {
   }
 
   public toBe(expected: any) {
+    let expectedLocal: string = String(expected)
+    let actualLocal: string = String(this.value)
+
+    if (typeof expected === 'object' && expected !== null) {
+      expectedLocal = 'Object'
+    }
+
+    if (typeof this.value === 'object' && this.value !== null) {
+      actualLocal = 'Object'
+    }
+
+    if (Array.isArray(expected)) {
+      expectedLocal = 'Array'
+    }
+
+    if (Array.isArray(this.value)) {
+      actualLocal = 'Array'
+    }
+
     if (this.expectNot) {
       if (this.value === expected)
         throw new TestError({
-          message: `Expected ${this.value} to not be ${expected}, but it was`,
+          message: `Expected {{expected}} not to be {{actual}}, but it was`,
+          messageLocals: {
+            expected: expectedLocal,
+            actual: actualLocal
+          },
           expected,
           actual: this.value
         })
     } else {
       if (this.value !== expected)
         throw new TestError({
-          message: `Expected ${expected} but got ${this.value}`,
+          message: `Expected {{expected}} but got {{actual}}`,
+          messageLocals: {
+            expected: expectedLocal,
+            actual: actualLocal
+          },
           expected,
           actual: this.value
         })
