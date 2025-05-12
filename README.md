@@ -1,15 +1,15 @@
 # Tester
 
-[![npm version](https://badge.fury.io/js/@universal-packages%2Ffile-tester.svg)](https://www.npmjs.com/package/@universal-packages/file-tester)
-[![Testing](https://github.com/universal-packages/universal-file-tester/actions/workflows/testing.yml/badge.svg)](https://github.com/universal-packages/universal-file-tester/actions/workflows/testing.yml)
-[![codecov](https://codecov.io/gh/universal-packages/universal-file-tester/branch/main/graph/badge.svg?token=CXPJSN8IGL)](https://codecov.io/gh/universal-packages/universal-file-tester)
+[![npm version](https://badge.fury.io/js/@universal-packages%2Ftester.svg)](https://www.npmjs.com/package/@universal-packages/tester)
+[![Testing](https://github.com/universal-packages/universal-tester/actions/workflows/testing.yml/badge.svg)](https://github.com/universal-packages/universal-tester/actions/workflows/testing.yml)
+[![codecov](https://codecov.io/gh/universal-packages/universal-tester/branch/main/graph/badge.svg?token=CXPJSN8IGL)](https://codecov.io/gh/universal-packages/universal-tester)
 
 Class based tester utilities.
 
 # Getting Started
 
 ```shell
-npm install @universal-packages/file-tester
+npm install @universal-packages/tester
 ```
 
 # Usage
