@@ -1,4 +1,5 @@
 import { TestError } from './TestError'
+import { diff } from './diff'
 
 export class Assertion {
   public readonly value: any
@@ -15,32 +16,13 @@ export class Assertion {
   }
 
   public toBe(expected: any) {
-    let expectedLocal: string = String(expected)
-    let actualLocal: string = String(this.value)
-
-    if (typeof expected === 'object' && expected !== null) {
-      expectedLocal = 'Object'
-    }
-
-    if (typeof this.value === 'object' && this.value !== null) {
-      actualLocal = 'Object'
-    }
-
-    if (Array.isArray(expected)) {
-      expectedLocal = 'Array'
-    }
-
-    if (Array.isArray(this.value)) {
-      actualLocal = 'Array'
-    }
-
     if (this.expectNot) {
       if (this.value === expected)
         throw new TestError({
           message: `Expected {{expected}} not to be {{actual}}, but it was`,
           messageLocals: {
-            expected: expectedLocal,
-            actual: actualLocal
+            expected: this.getMessageLocalName(expected),
+            actual: this.getMessageLocalName(this.value)
           },
           expected,
           actual: this.value
@@ -50,8 +32,8 @@ export class Assertion {
         throw new TestError({
           message: `Expected {{expected}} but got {{actual}}`,
           messageLocals: {
-            expected: expectedLocal,
-            actual: actualLocal
+            expected: this.getMessageLocalName(expected),
+            actual: this.getMessageLocalName(this.value)
           },
           expected,
           actual: this.value
@@ -59,7 +41,59 @@ export class Assertion {
     }
   }
 
+  public toEqual(expected: any) {
+    const difference = this.diff(expected, this.value)
+
+    if (this.expectNot) {
+      if (difference.same) {
+        throw new TestError({
+          message: 'Expected {{expected}} not to equal {{actual}}, but it did',
+          messageLocals: {
+            expected: this.getMessageLocalName(expected),
+            actual: this.getMessageLocalName(this.value)
+          },
+          expected,
+          actual: this.value,
+          difference
+        })
+      }
+    } else {
+      if (!difference.same) {
+        let message: string = 'Expected {{expected}} to equal {{actual}}'
+        let messageLocals: Record<string, string> = {
+          expected: this.getMessageLocalName(expected),
+          actual: this.getMessageLocalName(this.value)
+        }
+
+        if (difference.type === 'object') {
+          message = 'Expected objects to be equal, but they were not'
+          messageLocals = {}
+        }
+
+        if (difference.type === 'array') {
+          message = 'Expected arrays to be equal, but they were not'
+          messageLocals = {}
+        }
+
+        throw new TestError({
+          message,
+          messageLocals,
+          expected,
+          actual: this.value,
+          difference
+        })
+      }
+    }
+  }
+
   protected diff(expected: any, actual: any) {
-    return this.diff(expected, actual)
+    return diff(expected, actual)
+  }
+
+  protected getMessageLocalName(value: any) {
+    if (Array.isArray(value)) return 'Array'
+    if (typeof value === 'object' && value !== null) return 'Object'
+
+    return String(value)
   }
 }

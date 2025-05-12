@@ -213,8 +213,8 @@ export async function toBeTest() {
 
   if (JSON.stringify(results, null, 2) !== JSON.stringify(expectedResults, null, 2)) {
     console.log(JSON.stringify(results, null, 2))
-    throw new Error('Hierarchy test failed')
+    throw new Error('toBe test failed')
   } else {
-    console.log('Hierarchy test passed')
+    console.log('toBe test passed')
   }
 }
