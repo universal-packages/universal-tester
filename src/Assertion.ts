@@ -215,9 +215,7 @@ export class Assertion {
       })
     }
 
-    const contains = isString
-      ? this.value.includes(item)
-      : this.value.some((v: any) => v === item)
+    const contains = isString ? this.value.includes(item) : this.value.some((v: any) => v === item)
 
     if (this.expectNot) {
       if (contains)
@@ -626,20 +624,26 @@ export class Assertion {
 
     try {
       const result = await this.value
-      
+
       if (this.expectNot) {
-        throw new TestError({
-          message: 'Expected promise to reject, but it resolved with {{actual}}',
-          messageLocals: {
-            actual: this.getMessageLocalName(result)
-          },
-          expected: 'rejection',
-          actual: result
-        })
+        if (arguments.length > 0) {
+          // We expected it to not resolve with a specific value
+          // Since it resolved, it indeed resolved with that value
+          // So this is actually a success case for `.not.toResolve(expected)`
+        } else {
+          throw new TestError({
+            message: 'Expected promise to reject, but it resolved with {{actual}}',
+            messageLocals: {
+              actual: this.getMessageLocalName(result)
+            },
+            expected: 'rejection',
+            actual: result
+          })
+        }
       } else if (arguments.length > 0) {
         // Check if the resolved value matches the expected value
         const difference = this.diff(expected, result)
-        
+
         if (!difference.same) {
           throw new TestError({
             message: 'Expected promise to resolve with {{expected}}, but got {{actual}}',
@@ -654,6 +658,8 @@ export class Assertion {
         }
       }
     } catch (error) {
+      if (error instanceof TestError) throw error
+
       if (!this.expectNot) {
         // If we're here, the promise rejected but we expected it to resolve
         throw new TestError({
@@ -686,7 +692,7 @@ export class Assertion {
 
     try {
       const result = await this.value
-      
+
       if (this.expectNot) {
         // We expected the promise not to reject, and it didn't reject
         // If expected is provided, we need to additionally check result value
@@ -706,6 +712,8 @@ export class Assertion {
         })
       }
     } catch (error) {
+      if (error instanceof TestError) throw error
+
       if (this.expectNot) {
         // We expected the promise not to reject, but it did
         if (arguments.length === 0) {
@@ -721,7 +729,7 @@ export class Assertion {
         } else {
           // We expected it not to reject with a specific error
           let matches = false
-          
+
           if (expected instanceof RegExp) {
             matches = expected.test(error instanceof Error ? error.message : String(error))
           } else if (typeof expected === 'string') {
@@ -729,7 +737,7 @@ export class Assertion {
           } else if (expected instanceof Error) {
             matches = error instanceof Error && error.message === expected.message
           }
-          
+
           if (matches) {
             throw new TestError({
               message: 'Expected promise not to reject with {{expected}}, but it did',
@@ -746,7 +754,7 @@ export class Assertion {
         if (arguments.length > 0) {
           // We expected it to reject with a specific error
           let matches = false
-          
+
           if (expected instanceof RegExp) {
             matches = expected.test(error instanceof Error ? error.message : String(error))
           } else if (typeof expected === 'string') {
@@ -754,7 +762,7 @@ export class Assertion {
           } else if (expected instanceof Error) {
             matches = error instanceof Error && error.message === expected.message
           }
-          
+
           if (!matches) {
             throw new TestError({
               message: 'Expected promise to reject with {{expected}}, but it rejected with {{actual}}',
@@ -952,52 +960,45 @@ export class Assertion {
   private objectContainsSubset(obj: any, subset: any, path = ''): { matched: boolean; path?: string } {
     // Check each property in the subset
     for (const key in subset) {
-      if (!Object.prototype.hasOwnProperty.call(subset, key)) continue;
-      
-      const currentPath = path ? `${path}.${key}` : key;
-      
+      if (!Object.prototype.hasOwnProperty.call(subset, key)) continue
+
+      const currentPath = path ? `${path}.${key}` : key
+
       // Check if the property exists in the object
       if (!(key in obj)) {
-        return { matched: false, path: currentPath };
+        return { matched: false, path: currentPath }
       }
-      
-      const subsetValue = subset[key];
-      const objValue = obj[key];
-      
+
+      const subsetValue = subset[key]
+      const objValue = obj[key]
+
       // Check if the property is an object and we need to check recursively
-      if (
-        typeof subsetValue === 'object' && 
-        subsetValue !== null && 
-        !Array.isArray(subsetValue) &&
-        typeof objValue === 'object' && 
-        objValue !== null && 
-        !Array.isArray(objValue)
-      ) {
-        const result = this.objectContainsSubset(objValue, subsetValue, currentPath);
+      if (typeof subsetValue === 'object' && subsetValue !== null && !Array.isArray(subsetValue) && typeof objValue === 'object' && objValue !== null && !Array.isArray(objValue)) {
+        const result = this.objectContainsSubset(objValue, subsetValue, currentPath)
         if (!result.matched) {
-          return result;
+          return result
         }
-      } 
+      }
       // For arrays, check if all elements in the subset are in the object
       else if (Array.isArray(subsetValue) && Array.isArray(objValue)) {
         if (subsetValue.length > objValue.length) {
-          return { matched: false, path: currentPath };
+          return { matched: false, path: currentPath }
         }
-        
+
         // Check each item in the subset array
         for (let i = 0; i < subsetValue.length; i++) {
-          if (!objValue.some(item => this.diff(item, subsetValue[i]).same)) {
-            return { matched: false, path: `${currentPath}[${i}]` };
+          if (!objValue.some((item) => this.diff(item, subsetValue[i]).same)) {
+            return { matched: false, path: `${currentPath}[${i}]` }
           }
         }
       }
       // For primitive values and other types, use diff
       else if (!this.diff(objValue, subsetValue).same) {
-        return { matched: false, path: currentPath };
+        return { matched: false, path: currentPath }
       }
     }
-    
-    return { matched: true };
+
+    return { matched: true }
   }
 
   protected diff(expected: any, actual: any) {

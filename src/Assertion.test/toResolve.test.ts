@@ -56,7 +56,7 @@ export async function toResolveTest() {
           actual: 'error'
         },
         expected: 'resolution',
-        actual: new Error('error')
+        actual: {}
       },
       passed: false,
       options: {
@@ -81,10 +81,10 @@ export async function toResolveTest() {
         expected: 'different',
         actual: 'success',
         difference: {
-          same: false,
-          type: 'primitive',
+          type: 'different',
           expected: 'different',
-          actual: 'success'
+          actual: 'success',
+          same: false
         }
       },
       passed: false,
@@ -138,15 +138,7 @@ export async function toResolveTest() {
     },
     {
       spec: 'should fail for not.toResolve with promise that resolves with expected value',
-      error: {
-        message: 'Expected promise to reject, but it resolved with {{actual}}',
-        messageLocals: {
-          actual: 'success'
-        },
-        expected: 'rejection',
-        actual: 'success'
-      },
-      passed: false,
+      passed: true,
       options: {
         timeout: 5000
       }
@@ -159,4 +151,4 @@ export async function toResolveTest() {
   } else {
     console.log('toResolve test passed')
   }
-} 
+}

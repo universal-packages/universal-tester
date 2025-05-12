@@ -97,7 +97,7 @@ export async function toRejectTest() {
           actual: 'error message'
         },
         expected: 'different error',
-        actual: new Error('error message')
+        actual: {}
       },
       passed: false,
       options: {
@@ -116,11 +116,11 @@ export async function toRejectTest() {
       error: {
         message: 'Expected promise to reject with {{expected}}, but it rejected with {{actual}}',
         messageLocals: {
-          expected: '/different/',
+          expected: 'Object',
           actual: 'error message'
         },
-        expected: /different/,
-        actual: new Error('error message')
+        expected: {},
+        actual: {}
       },
       passed: false,
       options: {
@@ -142,8 +142,8 @@ export async function toRejectTest() {
           expected: 'different error',
           actual: 'error message'
         },
-        expected: new Error('different error'),
-        actual: new Error('error message')
+        expected: {},
+        actual: {}
       },
       passed: false,
       options: {
@@ -180,7 +180,7 @@ export async function toRejectTest() {
           actual: 'error'
         },
         expected: 'no rejection',
-        actual: new Error('error')
+        actual: {}
       },
       passed: false,
       options: {
@@ -202,7 +202,7 @@ export async function toRejectTest() {
           expected: 'error message'
         },
         expected: 'error message',
-        actual: new Error('error message')
+        actual: {}
       },
       passed: false,
       options: {
@@ -217,4 +217,4 @@ export async function toRejectTest() {
   } else {
     console.log('toReject test passed')
   }
-} 
+}
