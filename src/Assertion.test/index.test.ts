@@ -14,6 +14,8 @@ import { toBeUndefinedTest } from './toBeUndefined.test'
 import { toContainTest } from './toContain.test'
 import { toContainEqualTest } from './toContainEqual.test'
 import { toEqualTest } from './toEqual.test'
+import { toHaveBeenCalledTest } from './toHaveBeenCalled.test'
+import { toHaveBeenCalledWithTest } from './toHaveBeenCalledWith.test'
 import { toHaveLengthTest } from './toHaveLength.test'
 import { toHavePropertyTest } from './toHaveProperty.test'
 import { toMatchTest } from './toMatch.test'
@@ -182,5 +184,19 @@ export async function assertionTest() {
     await toRejectTest()
   } catch (error) {
     console.error('toReject test failed:', error)
+  }
+
+  console.log('\n--- RUNNING toHaveBeenCalled TESTS ---')
+  try {
+    await toHaveBeenCalledTest()
+  } catch (error) {
+    console.error('toHaveBeenCalled test failed:', error)
+  }
+
+  console.log('\n--- RUNNING toHaveBeenCalledWith TESTS ---')
+  try {
+    await toHaveBeenCalledWithTest()
+  } catch (error) {
+    console.error('toHaveBeenCalledWith test failed:', error)
   }
 }

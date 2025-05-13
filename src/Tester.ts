@@ -1,6 +1,7 @@
 import { Assertion } from './Assertion'
 import { TestError } from './TestError'
 import { DescribeOptions, TestDescription, TestOptions, TestResult, TesterOptions } from './Tester.types'
+import { createMockFunction } from './createMockFunction'
 
 export class Tester {
   public readonly options: TesterOptions
@@ -16,6 +17,10 @@ export class Tester {
 
   public constructor(options?: TesterOptions) {
     this.options = { bail: false, runOrder: 'sequence', timeout: 5000, ...options }
+  }
+
+  public mockFn() {
+    return createMockFunction()
   }
 
   public describe(name: string | Function, fn: () => void, options?: DescribeOptions) {

@@ -1,4 +1,5 @@
 import { TestError } from './TestError'
+import { MockFunctionCall } from './createMockFunction.types'
 import { diff } from './diff'
 import { DiffResult } from './diff.types'
 
@@ -936,14 +937,14 @@ export class Assertion {
     // Returns true if all differences are only 'added' (i.e., actual has extra keys, but all expected keys match)
     const isOnlyAdded = (diff: DiffResult): boolean => {
       if (diff.type === 'object') {
-        return Object.values(diff.keys).every(child => {
+        return Object.values(diff.keys).every((child) => {
           if (child.type === 'added') return true
           if (child.type === 'object' || child.type === 'array') return isOnlyAdded(child)
           return child.same
         })
       }
       if (diff.type === 'array') {
-        return diff.items.every(child => {
+        return diff.items.every((child) => {
           if (child.type === 'added') return true
           if (child.type === 'object' || child.type === 'array') return isOnlyAdded(child)
           return child.same
@@ -964,7 +965,7 @@ export class Assertion {
         return { ...diff, keys: newKeys }
       }
       if (diff.type === 'array') {
-        const newItems = diff.items.filter(child => child.type !== 'added').map(stripAddedTypes)
+        const newItems = diff.items.filter((child) => child.type !== 'added').map(stripAddedTypes)
         return { ...diff, items: newItems }
       }
       return diff
@@ -996,6 +997,84 @@ export class Assertion {
           expected: object,
           actual: this.value,
           difference: differenceWithoutAdded
+        })
+      }
+    }
+  }
+
+  public toHaveBeenCalled() {
+    if (typeof this.value !== 'function' || !('calls' in this.value)) {
+      throw new TestError({
+        message: 'Expected a mock function, but got {{actual}}',
+        messageLocals: {
+          actual: this.getMessageLocalName(this.value)
+        },
+        expected: 'mock function',
+        actual: this.value
+      })
+    }
+
+    const callCount = this.value.calls.length
+
+    if (this.expectNot) {
+      if (callCount > 0) {
+        throw new TestError({
+          message: 'Expected mock function not to have been called, but it was called {{count}} times',
+          messageLocals: {
+            count: String(callCount)
+          },
+          expected: 0,
+          actual: callCount
+        })
+      }
+    } else {
+      if (callCount === 0) {
+        throw new TestError({
+          message: 'Expected mock function to have been called, but it was not called',
+          messageLocals: {},
+          expected: 'at least 1 call',
+          actual: '0 calls'
+        })
+      }
+    }
+  }
+
+  public toHaveBeenCalledWith(...args: any[]) {
+    if (typeof this.value !== 'function' || !('calls' in this.value)) {
+      throw new TestError({
+        message: 'Expected a mock function, but got {{actual}}',
+        messageLocals: {
+          actual: this.getMessageLocalName(this.value)
+        },
+        expected: 'mock function',
+        actual: this.value
+      })
+    }
+
+    const calls: MockFunctionCall[] = this.value.calls
+    const callDiffs = calls.map((call) => this.diff(args, call.args))
+
+    // Check if any call matches the expected arguments
+    const matchingCall = callDiffs.some((diff) => diff.same)
+
+    if (this.expectNot) {
+      if (matchingCall) {
+        throw new TestError({
+          message: 'Expected mock function not to have been called with given arguments, but it was',
+          messageLocals: {},
+          expected: args,
+          actual: calls.map((call) => call.args),
+          differences: callDiffs
+        })
+      }
+    } else {
+      if (!matchingCall) {
+        throw new TestError({
+          message: 'Expected mock function to have been called with given arguments, but it was not',
+          messageLocals: {},
+          expected: args,
+          actual: calls.map((call) => call.args),
+          differences: callDiffs
         })
       }
     }

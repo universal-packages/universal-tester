@@ -7,6 +7,7 @@ export class TestError extends Error {
   public readonly expected: any
   public readonly actual: any
   public readonly difference?: DiffResult
+  public readonly differences?: DiffResult[]
 
   public constructor(descriptor: ErrorDescriptor) {
     super()
@@ -15,5 +16,6 @@ export class TestError extends Error {
     this.expected = descriptor.expected
     this.actual = descriptor.actual
     this.difference = descriptor.difference
+    this.differences = descriptor.differences
   }
 }

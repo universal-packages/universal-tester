@@ -6,4 +6,5 @@ export interface ErrorDescriptor {
   expected: any
   actual: any
   difference?: DiffResult
+  differences?: DiffResult[]
 }
