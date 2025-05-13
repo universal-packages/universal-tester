@@ -76,6 +76,15 @@ export async function toHaveBeenCalledWithTest() {
     tester.expect(regularFn).toHaveBeenCalledWith(1, 2)
   })
 
+  tester.test('toHaveBeenCalledWith should be able to use asymmetric assertions', () => {
+    const mock = tester.mockFn()
+
+    mock({ a: 1, b: { c: 2 } })
+
+    tester.expect(mock).toHaveBeenCalledWith({ a: tester.expectAnything(), b: { c: 2 } })
+    tester.expect(mock).toHaveBeenCalledWith(tester.expectAnything())
+  })
+
   const results = await tester.run()
   const expectedResults = [
     {
@@ -186,6 +195,13 @@ export async function toHaveBeenCalledWithTest() {
         expected: 'mock function'
       },
       passed: false,
+      options: {
+        timeout: 5000
+      }
+    },
+    {
+      spec: 'toHaveBeenCalledWith should be able to use asymmetric assertions',
+      passed: true,
       options: {
         timeout: 5000
       }

@@ -1,6 +1,7 @@
 import { Assertion } from './Assertion'
 import { TestError } from './TestError'
 import { DescribeOptions, TestDescription, TestOptions, TestResult, TesterOptions } from './Tester.types'
+import { AnythingAssertion } from './asymentric-assertions/AnythingAssertion'
 import { createMockFunction } from './createMockFunction'
 
 export class Tester {
@@ -10,6 +11,12 @@ export class Tester {
   private currentSpecPath: string[] = []
   private currentDescribeOptions: DescribeOptions[] = []
   private testResults: TestResult[] = []
+
+  public get not() {
+    return {
+      expectAnything: () => new AnythingAssertion(true)
+    }
+  }
 
   public get results() {
     return this.testResults
@@ -21,6 +28,10 @@ export class Tester {
 
   public mockFn() {
     return createMockFunction()
+  }
+
+  public expectAnything() {
+    return new AnythingAssertion()
   }
 
   public describe(name: string | Function, fn: () => void, options?: DescribeOptions) {

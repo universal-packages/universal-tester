@@ -77,6 +77,14 @@ export async function toEqualTest() {
     tester.expect(1).not.toEqual(1)
   })
 
+  tester.test('should be able to use asymmetric assertions', () => {
+    tester.expect({ a: 1 }).toEqual(tester.expectAnything())
+    tester.expect(35).toEqual(tester.expectAnything())
+    tester.expect(true).toEqual(tester.expectAnything())
+    tester.expect({ a: 35, b: 12 }).toEqual({ a: tester.expectAnything(), b: 12 })
+    tester.expect({ a: 35, b: { c: 12 } }).toEqual({ a: tester.expectAnything(), b: tester.expectAnything() })
+  })
+
   const results = await tester.run()
   const expectedResults = [
     {
@@ -328,6 +336,13 @@ export async function toEqualTest() {
         }
       },
       passed: false,
+      options: {
+        timeout: 5000
+      }
+    },
+    {
+      spec: 'should be able to use asymmetric assertions',
+      passed: true,
       options: {
         timeout: 5000
       }

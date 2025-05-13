@@ -1,5 +1,6 @@
 import { assertionTest } from './Assertion.test/index.test'
 import { testerTest } from './Tester.test/index.test'
+import { asymmetricAssertionsTest } from './asymentric-assertions/index.test'
 import { createMockFunctionTest } from './createMockFunction.test'
 import { diffTest } from './diff.test'
 
@@ -8,6 +9,7 @@ async function runTests() {
   await assertionTest()
   await diffTest()
   await createMockFunctionTest()
+  await asymmetricAssertionsTest()
 }
 
 runTests().catch((error) => {

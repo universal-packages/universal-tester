@@ -68,6 +68,15 @@ export async function toHaveBeenLastCalledWithTest() {
     tester.expect(regularFn).toHaveBeenLastCalledWith('any')
   })
 
+  tester.test('toHaveBeenLastCalledWith should be able to use asymmetric assertions', () => {
+    const mock = tester.mockFn()
+
+    mock({ a: 1, b: { c: 2 } })
+    mock({ a: 3, b: { c: 4 } })
+
+    tester.expect(mock).toHaveBeenLastCalledWith({ a: tester.expectAnything(), b: { c: tester.expectAnything() } })
+  })
+
   const results = await tester.run()
   const regularFn = () => {}
   const expectedResults = [
@@ -181,4 +190,4 @@ export async function toHaveBeenLastCalledWithTest() {
   } else {
     console.log('toHaveBeenLastCalledWith test passed')
   }
-} 
+}

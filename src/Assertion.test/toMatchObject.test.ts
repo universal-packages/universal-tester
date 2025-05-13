@@ -56,6 +56,12 @@ export async function toMatchObjectTest() {
     tester.expect(obj).not.toMatchObject({ a: 1, b: 2 })
   })
 
+  tester.test('should be able to use asymetric matchers', () => {
+    const obj = { a: 1, b: 2, c: 3 }
+    tester.expect(obj).toMatchObject({ a: 1, b: tester.expectAnything() })
+    tester.expect(obj).toMatchObject(tester.expectAnything())
+  })
+
   const results = await tester.run()
   const expectedResults = [
     {
@@ -315,6 +321,13 @@ export async function toMatchObjectTest() {
         }
       },
       passed: false,
+      options: {
+        timeout: 5000
+      }
+    },
+    {
+      spec: 'should be able to use asymetric matchers',
+      passed: true,
       options: {
         timeout: 5000
       }

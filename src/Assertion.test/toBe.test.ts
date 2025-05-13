@@ -63,6 +63,12 @@ export async function toBeTest() {
     tester.expect(1).not.toBe(1)
   })
 
+  tester.test('should be able to use asymmetric assertion', () => {
+    tester.expect(1).toBe(tester.expectAnything())
+    tester.expect(true).toBe(tester.expectAnything())
+    tester.expect({ a: 1 }).toBe(tester.expectAnything())
+  })
+
   const results = await tester.run()
   const expectedResults = [
     {
@@ -202,6 +208,25 @@ export async function toBeTest() {
           actual: '1'
         },
         expected: 1,
+        actual: 1
+      },
+      passed: false,
+      options: {
+        timeout: 5000
+      }
+    },
+    {
+      spec: 'should be able to use asymmetric assertion',
+      error: {
+        message: 'Expected {{expected}} but got {{actual}}',
+        messageLocals: {
+          expected: 'Anything',
+          actual: '1'
+        },
+        expected: {
+          notToExpect: false,
+          assertionName: 'Anything'
+        },
         actual: 1
       },
       passed: false,

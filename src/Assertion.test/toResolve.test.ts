@@ -39,6 +39,12 @@ export async function toResolveTest() {
     await tester.expect(Promise.resolve('success')).not.toResolve('success')
   })
 
+  tester.test('should be able to use asymmetric assertions', () => {
+    const obj = { a: 1, b: 2, c: 3 }
+    tester.expect(obj).toMatchObject({ a: 1, b: tester.expectAnything() })
+    tester.expect(obj).toMatchObject(tester.expectAnything())
+  })
+
   const results = await tester.run()
   const expectedResults = [
     {
@@ -138,6 +144,13 @@ export async function toResolveTest() {
     },
     {
       spec: 'should fail for not.toResolve with promise that resolves with expected value',
+      passed: true,
+      options: {
+        timeout: 5000
+      }
+    },
+    {
+      spec: 'should be able to use asymmetric assertions',
       passed: true,
       options: {
         timeout: 5000

@@ -4,53 +4,69 @@ export async function toThrowTest() {
   const tester = new Tester()
 
   tester.test('should pass for function that throws', () => {
-    tester.expect(() => {
-      throw new Error('test error')
-    }).toThrow()
+    tester
+      .expect(() => {
+        throw new Error('test error')
+      })
+      .toThrow()
   })
 
   tester.test('should fail for function that does not throw', () => {
-    tester.expect(() => {
-      // Do nothing
-    }).toThrow()
+    tester
+      .expect(() => {
+        // Do nothing
+      })
+      .toThrow()
   })
 
   tester.test('should pass for function that throws with matching string', () => {
-    tester.expect(() => {
-      throw new Error('test error')
-    }).toThrow('test error')
+    tester
+      .expect(() => {
+        throw new Error('test error')
+      })
+      .toThrow('test error')
   })
 
   tester.test('should fail for function that throws with non-matching string', () => {
-    tester.expect(() => {
-      throw new Error('test error')
-    }).toThrow('different error')
+    tester
+      .expect(() => {
+        throw new Error('test error')
+      })
+      .toThrow('different error')
   })
 
   tester.test('should pass for function that throws with matching regex', () => {
-    tester.expect(() => {
-      throw new Error('test error')
-    }).toThrow(/test/)
+    tester
+      .expect(() => {
+        throw new Error('test error')
+      })
+      .toThrow(/test/)
   })
 
   tester.test('should fail for function that throws with non-matching regex', () => {
-    tester.expect(() => {
-      throw new Error('test error')
-    }).toThrow(/different/)
+    tester
+      .expect(() => {
+        throw new Error('test error')
+      })
+      .toThrow(/different/)
   })
 
   tester.test('should pass for function that throws with matching error', () => {
     const error = new Error('test error')
-    tester.expect(() => {
-      throw new Error('test error')
-    }).toThrow(error)
+    tester
+      .expect(() => {
+        throw new Error('test error')
+      })
+      .toThrow(error)
   })
 
   tester.test('should fail for function that throws with non-matching error', () => {
     const error = new Error('different error')
-    tester.expect(() => {
-      throw new Error('test error')
-    }).toThrow(error)
+    tester
+      .expect(() => {
+        throw new Error('test error')
+      })
+      .toThrow(error)
   })
 
   tester.test('should fail for non-function value', () => {
@@ -58,27 +74,35 @@ export async function toThrowTest() {
   })
 
   tester.test('should pass for not.toThrow with function that does not throw', () => {
-    tester.expect(() => {
-      // Do nothing
-    }).not.toThrow()
+    tester
+      .expect(() => {
+        // Do nothing
+      })
+      .not.toThrow()
   })
 
   tester.test('should fail for not.toThrow with function that throws', () => {
-    tester.expect(() => {
-      throw new Error('test error')
-    }).not.toThrow()
+    tester
+      .expect(() => {
+        throw new Error('test error')
+      })
+      .not.toThrow()
   })
 
   tester.test('should pass for not.toThrow with function that throws non-matching error', () => {
-    tester.expect(() => {
-      throw new Error('test error')
-    }).not.toThrow('different error')
+    tester
+      .expect(() => {
+        throw new Error('test error')
+      })
+      .not.toThrow('different error')
   })
 
   tester.test('should fail for not.toThrow with function that throws matching error', () => {
-    tester.expect(() => {
-      throw new Error('test error')
-    }).not.toThrow('test error')
+    tester
+      .expect(() => {
+        throw new Error('test error')
+      })
+      .not.toThrow('test error')
   })
 
   const results = await tester.run()
@@ -234,4 +258,4 @@ export async function toThrowTest() {
   } else {
     console.log('toThrow test passed')
   }
-} 
+}

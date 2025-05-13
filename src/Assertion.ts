@@ -1,3 +1,4 @@
+import { AsymmetricAssertion } from './AsymmetricAssertion'
 import { TestError } from './TestError'
 import { MockFunctionCall } from './createMockFunction.types'
 import { diff } from './diff'
@@ -19,7 +20,7 @@ export class Assertion {
 
   public toBe(expected: any) {
     if (this.expectNot) {
-      if (this.value === expected)
+      if (this.value === expected || this.asymmetricAssertionPasses(expected))
         throw new TestError({
           message: `Expected {{expected}} not to be {{actual}}, but it was`,
           messageLocals: {
@@ -1133,7 +1134,7 @@ export class Assertion {
     }
 
     const calls: MockFunctionCall[] = this.value.calls
-    
+
     if (calls.length === 0) {
       throw new TestError({
         message: 'Expected mock function to have been called, but it was not called',
@@ -1209,7 +1210,7 @@ export class Assertion {
           },
           expected: expectedCount,
           actual: matchCount,
-          allCalls: calls.map(call => call.args)
+          allCalls: calls.map((call) => call.args)
         })
       }
     }
@@ -1228,7 +1229,7 @@ export class Assertion {
     }
 
     const calls: MockFunctionCall[] = this.value.calls
-    
+
     if (n <= 0) {
       throw new TestError({
         message: 'N must be a positive integer',
@@ -1237,7 +1238,7 @@ export class Assertion {
         actual: n
       })
     }
-    
+
     if (calls.length < n) {
       throw new TestError({
         message: 'Expected mock function to have been called at least {{expected}} times, but it was called {{actual}} times',
@@ -1287,9 +1288,14 @@ export class Assertion {
   }
 
   protected getMessageLocalName(value: any) {
+    if (AsymmetricAssertion.isAsymmetricAssertion(value)) return value.name
     if (Array.isArray(value)) return 'Array'
     if (typeof value === 'object' && value !== null) return 'Object'
 
     return String(value)
+  }
+
+  protected asymmetricAssertionPasses(assertion: AsymmetricAssertion) {
+    return AsymmetricAssertion.isAsymmetricAssertion(assertion) && assertion.assert(this.value)
   }
 }

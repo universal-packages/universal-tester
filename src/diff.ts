@@ -1,3 +1,4 @@
+import { AsymmetricAssertion } from './AsymmetricAssertion'
 import { DiffResult } from './diff.types'
 
 /**
@@ -15,6 +16,14 @@ export function diff(expected: any, actual: any): DiffResult {
 }
 
 function diffInternal(expected: any, actual: any, expectedRefs: Map<any, string>, actualRefs: Map<any, string>, path: string): DiffResult {
+  if (AsymmetricAssertion.isAsymmetricAssertion(expected)) {
+    if (expected.assert(actual)) {
+      return { type: 'same', value: actual, same: true }
+    } else {
+      return { type: 'different', expected, actual, same: false }
+    }
+  }
+
   // Check for same value (strict equality for primitives)
   if (expected === actual) {
     return { type: 'same', value: expected, same: true }
@@ -69,7 +78,7 @@ function diffArrays(expected: any[], actual: any[], expectedRefs: Map<any, strin
 
   const maxLength = Math.max(expected.length, actual.length)
   const items: DiffResult[] = []
-  let allSame = expected.length === actual.length; // Start with true only if lengths match
+  let allSame = expected.length === actual.length // Start with true only if lengths match
 
   for (let i = 0; i < maxLength; i++) {
     const itemPath = `${path}[${i}]`
@@ -117,7 +126,7 @@ function diffObjects(expected: Record<string, any>, actual: Record<string, any>,
 
   const allKeys = new Set<string>([...Object.keys(expected), ...Object.keys(actual)])
   const keys: Record<string, DiffResult> = {}
-  let allSame = true; // Start with true and set to false if any differences found
+  let allSame = true // Start with true and set to false if any differences found
 
   for (const key of allKeys) {
     const keyPath = path ? `${path}.${key}` : key
