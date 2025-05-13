@@ -7,4 +7,5 @@ export interface ErrorDescriptor {
   actual: any
   difference?: DiffResult
   differences?: DiffResult[]
+  allCalls?: any[]
 }

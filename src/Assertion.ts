@@ -1080,6 +1080,208 @@ export class Assertion {
     }
   }
 
+  public toHaveBeenCalledTimes(expectedCount: number) {
+    if (typeof this.value !== 'function' || !('calls' in this.value)) {
+      throw new TestError({
+        message: 'Expected a mock function, but got {{actual}}',
+        messageLocals: {
+          actual: this.getMessageLocalName(this.value)
+        },
+        expected: 'mock function',
+        actual: this.value
+      })
+    }
+
+    const callCount = this.value.calls.length
+
+    if (this.expectNot) {
+      if (callCount === expectedCount) {
+        throw new TestError({
+          message: 'Expected mock function not to have been called {{expected}} times, but it was',
+          messageLocals: {
+            expected: String(expectedCount)
+          },
+          expected: expectedCount,
+          actual: callCount
+        })
+      }
+    } else {
+      if (callCount !== expectedCount) {
+        throw new TestError({
+          message: 'Expected mock function to have been called {{expected}} times, but it was called {{actual}} times',
+          messageLocals: {
+            expected: String(expectedCount),
+            actual: String(callCount)
+          },
+          expected: expectedCount,
+          actual: callCount
+        })
+      }
+    }
+  }
+
+  public toHaveBeenLastCalledWith(...args: any[]) {
+    if (typeof this.value !== 'function' || !('calls' in this.value)) {
+      throw new TestError({
+        message: 'Expected a mock function, but got {{actual}}',
+        messageLocals: {
+          actual: this.getMessageLocalName(this.value)
+        },
+        expected: 'mock function',
+        actual: this.value
+      })
+    }
+
+    const calls: MockFunctionCall[] = this.value.calls
+    
+    if (calls.length === 0) {
+      throw new TestError({
+        message: 'Expected mock function to have been called, but it was not called',
+        messageLocals: {},
+        expected: 'at least 1 call',
+        actual: '0 calls'
+      })
+    }
+
+    const lastCall = calls[calls.length - 1]
+    const diff = this.diff(args, lastCall.args)
+
+    if (this.expectNot) {
+      if (diff.same) {
+        throw new TestError({
+          message: 'Expected last call not to have been called with given arguments, but it was',
+          messageLocals: {},
+          expected: args,
+          actual: lastCall.args,
+          difference: diff
+        })
+      }
+    } else {
+      if (!diff.same) {
+        throw new TestError({
+          message: 'Expected last call to have been called with {{expected}}, but it was called with {{actual}}',
+          messageLocals: {
+            expected: this.getMessageLocalName(args),
+            actual: this.getMessageLocalName(lastCall.args)
+          },
+          expected: args,
+          actual: lastCall.args,
+          difference: diff
+        })
+      }
+    }
+  }
+
+  public toHaveBeenCalledTimesWith(expectedCount: number, ...args: any[]) {
+    if (typeof this.value !== 'function' || !('calls' in this.value)) {
+      throw new TestError({
+        message: 'Expected a mock function, but got {{actual}}',
+        messageLocals: {
+          actual: this.getMessageLocalName(this.value)
+        },
+        expected: 'mock function',
+        actual: this.value
+      })
+    }
+
+    const calls: MockFunctionCall[] = this.value.calls
+    const matchingCalls = calls.filter((call) => this.diff(args, call.args).same)
+    const matchCount = matchingCalls.length
+
+    if (this.expectNot) {
+      if (matchCount === expectedCount) {
+        throw new TestError({
+          message: 'Expected mock function not to have been called {{expected}} times with given arguments, but it was',
+          messageLocals: {
+            expected: String(expectedCount)
+          },
+          expected: expectedCount,
+          actual: matchCount
+        })
+      }
+    } else {
+      if (matchCount !== expectedCount) {
+        throw new TestError({
+          message: 'Expected mock function to have been called {{expected}} times with given arguments, but it was called {{actual}} times with those arguments',
+          messageLocals: {
+            expected: String(expectedCount),
+            actual: String(matchCount)
+          },
+          expected: expectedCount,
+          actual: matchCount,
+          allCalls: calls.map(call => call.args)
+        })
+      }
+    }
+  }
+
+  public toHaveBeenNthCalledWith(n: number, ...args: any[]) {
+    if (typeof this.value !== 'function' || !('calls' in this.value)) {
+      throw new TestError({
+        message: 'Expected a mock function, but got {{actual}}',
+        messageLocals: {
+          actual: this.getMessageLocalName(this.value)
+        },
+        expected: 'mock function',
+        actual: this.value
+      })
+    }
+
+    const calls: MockFunctionCall[] = this.value.calls
+    
+    if (n <= 0) {
+      throw new TestError({
+        message: 'N must be a positive integer',
+        messageLocals: {},
+        expected: 'positive integer',
+        actual: n
+      })
+    }
+    
+    if (calls.length < n) {
+      throw new TestError({
+        message: 'Expected mock function to have been called at least {{expected}} times, but it was called {{actual}} times',
+        messageLocals: {
+          expected: String(n),
+          actual: String(calls.length)
+        },
+        expected: n,
+        actual: calls.length
+      })
+    }
+
+    const nthCall = calls[n - 1]
+    const diff = this.diff(args, nthCall.args)
+
+    if (this.expectNot) {
+      if (diff.same) {
+        throw new TestError({
+          message: 'Expected {{n}}th call not to have been called with given arguments, but it was',
+          messageLocals: {
+            n: String(n)
+          },
+          expected: args,
+          actual: nthCall.args,
+          difference: diff
+        })
+      }
+    } else {
+      if (!diff.same) {
+        throw new TestError({
+          message: 'Expected {{n}}th call to have been called with {{expected}}, but it was called with {{actual}}',
+          messageLocals: {
+            n: String(n),
+            expected: this.getMessageLocalName(args),
+            actual: this.getMessageLocalName(nthCall.args)
+          },
+          expected: args,
+          actual: nthCall.args,
+          difference: diff
+        })
+      }
+    }
+  }
+
   protected diff(expected: any, actual: any) {
     return diff(expected, actual)
   }
