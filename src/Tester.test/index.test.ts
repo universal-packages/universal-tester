@@ -1,3 +1,4 @@
+import { asymmetricAssertionsTest } from './asymmetricAssertions.test'
 import { describeOnlyTest } from './describeOnly.test'
 import { describeSkipTest } from './describeSkip.test'
 import { hierarchyTest } from './hierarchy.test'
@@ -75,5 +76,12 @@ export async function testerTest() {
     await timeoutTest()
   } catch (error) {
     console.error('Timeout test failed:', error)
+  }
+
+  console.log('\n--- RUNNING ASYMMETRIC ASSERTIONS TESTS ---')
+  try {
+    await asymmetricAssertionsTest()
+  } catch (error) {
+    console.error('Asymmetric assertions test failed:', error)
   }
 }

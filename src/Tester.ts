@@ -2,6 +2,20 @@ import { Assertion } from './Assertion'
 import { TestError } from './TestError'
 import { DescribeOptions, TestDescription, TestOptions, TestResult, TesterOptions } from './Tester.types'
 import { AnythingAssertion } from './asymentric-assertions/AnythingAssertion'
+import { CloseToAssertion } from './asymentric-assertions/CloseToAssertion'
+import { ContainAssertion } from './asymentric-assertions/ContainAssertion'
+import { ContainEqualAssertion } from './asymentric-assertions/ContainEqualAssertion'
+import { FalsyAssertion } from './asymentric-assertions/FalsyAssertion'
+import { GreaterThanAssertion } from './asymentric-assertions/GreaterThanAssertion'
+import { GreaterThanOrEqualAssertion } from './asymentric-assertions/GreaterThanOrEqualAssertion'
+import { HaveLengthAssertion } from './asymentric-assertions/HaveLengthAssertion'
+import { HavePropertyAssertion } from './asymentric-assertions/HavePropertyAssertion'
+import { InstanceOfAssertion } from './asymentric-assertions/InstanceOfAssertion'
+import { LessThanAssertion } from './asymentric-assertions/LessThanAssertion'
+import { LessThanOrEqualAssertion } from './asymentric-assertions/LessThanOrEqualAssertion'
+import { MatchAssertion } from './asymentric-assertions/MatchAssertion'
+import { MatchObjectAssertion } from './asymentric-assertions/MatchObjectAssertion'
+import { TruthyAssertion } from './asymentric-assertions/TruthyAssertion'
 import { createMockFunction } from './createMockFunction'
 
 export class Tester {
@@ -14,7 +28,26 @@ export class Tester {
 
   public get not() {
     return {
-      expectAnything: () => new AnythingAssertion(true)
+      expectAnything: () => new AnythingAssertion(true),
+      expectCloseTo: (value: number, precision?: number) => new CloseToAssertion(value, precision, true),
+      expectContain: (item: any) => new ContainAssertion(item, true),
+      expectContainEqual: (item: any) => new ContainEqualAssertion(item, true),
+      expectFalsy: () => new FalsyAssertion(true),
+      expectGreaterThan: (value: number) => new GreaterThanAssertion(value, true),
+      expectGreaterThanOrEqual: (value: number) => new GreaterThanOrEqualAssertion(value, true),
+      expectHaveLength: (length: number) => new HaveLengthAssertion(length, true),
+      expectHaveProperty: (path: string, value?: any) => {
+        if (arguments.length === 1) {
+          return new HavePropertyAssertion(path, true)
+        }
+        return new HavePropertyAssertion(path, true, value)
+      },
+      expectInstanceOf: (constructor: Function) => new InstanceOfAssertion(constructor, true),
+      expectLessThan: (value: number) => new LessThanAssertion(value, true),
+      expectLessThanOrEqual: (value: number) => new LessThanOrEqualAssertion(value, true),
+      expectMatch: (pattern: RegExp) => new MatchAssertion(pattern, true),
+      expectMatchObject: (obj: Record<string, any>) => new MatchObjectAssertion(obj, true),
+      expectTruthy: () => new TruthyAssertion(true)
     }
   }
 
@@ -32,6 +65,65 @@ export class Tester {
 
   public expectAnything() {
     return new AnythingAssertion()
+  }
+
+  public expectGreaterThan(value: number) {
+    return new GreaterThanAssertion(value)
+  }
+
+  public expectLessThan(value: number) {
+    return new LessThanAssertion(value)
+  }
+
+  public expectGreaterThanOrEqual(value: number) {
+    return new GreaterThanOrEqualAssertion(value)
+  }
+
+  public expectLessThanOrEqual(value: number) {
+    return new LessThanOrEqualAssertion(value)
+  }
+
+  public expectMatch(pattern: RegExp) {
+    return new MatchAssertion(pattern)
+  }
+
+  public expectInstanceOf(constructor: Function) {
+    return new InstanceOfAssertion(constructor)
+  }
+
+  public expectCloseTo(value: number, precision?: number) {
+    return new CloseToAssertion(value, precision)
+  }
+
+  public expectContain(item: any) {
+    return new ContainAssertion(item)
+  }
+
+  public expectContainEqual(item: any) {
+    return new ContainEqualAssertion(item)
+  }
+
+  public expectHaveLength(length: number) {
+    return new HaveLengthAssertion(length)
+  }
+
+  public expectHaveProperty(path: string, value?: any) {
+    if (arguments.length === 1) {
+      return new HavePropertyAssertion(path, false)
+    }
+    return new HavePropertyAssertion(path, false, value)
+  }
+
+  public expectMatchObject(obj: Record<string, any>) {
+    return new MatchObjectAssertion(obj)
+  }
+
+  public expectTruthy() {
+    return new TruthyAssertion()
+  }
+
+  public expectFalsy() {
+    return new FalsyAssertion()
   }
 
   public describe(name: string | Function, fn: () => void, options?: DescribeOptions) {
