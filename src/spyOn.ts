@@ -1,14 +1,11 @@
-import { MockFn, MockFunctionCall } from './createMockFunction.types'
+import { MockFunctionCall } from './createMockFunction.types'
 import { diff } from './diff'
-
-export interface SpyFn extends MockFn {
-  restore(): void
-}
+import { SpyFn } from './spyOn.types'
 
 export function spyOn(object: any, propertyPath: string): SpyFn {
   // Parse the property path to support nested properties like 'property.deep'
   const pathParts = propertyPath.split('.')
-  
+
   // Navigate to the parent object and get the property name
   let target = object
   for (let i = 0; i < pathParts.length - 1; i++) {
@@ -17,12 +14,12 @@ export function spyOn(object: any, propertyPath: string): SpyFn {
     }
     target = target[pathParts[i]]
   }
-  
+
   const propertyName = pathParts[pathParts.length - 1]
-  
+
   // Get the property descriptor to handle both data properties and accessor properties
   let originalDescriptor = Object.getOwnPropertyDescriptor(target, propertyName)
-  
+
   // If not found on the object itself, check the prototype chain
   if (!originalDescriptor) {
     let prototype = Object.getPrototypeOf(target)
@@ -31,22 +28,20 @@ export function spyOn(object: any, propertyPath: string): SpyFn {
       prototype = Object.getPrototypeOf(prototype)
     }
   }
-  
+
   if (!originalDescriptor) {
     throw new Error(`Cannot spy on ${propertyPath}: property does not exist`)
   }
-  
+
   // Get the original value/function
-  const originalValue = originalDescriptor.value !== undefined 
-    ? originalDescriptor.value 
-    : (originalDescriptor.get ? originalDescriptor.get() : undefined)
-  
+  const originalValue = originalDescriptor.value !== undefined ? originalDescriptor.value : originalDescriptor.get ? originalDescriptor.get() : undefined
+
   // Track calls and implementations (same as createMockFunction)
   const calls: MockFunctionCall[] = []
   const implementations: Array<(...args: any[]) => any> = []
   const scenarios: Array<{ args: any[]; result: any }> = []
   let defaultImplementation: ((...args: any[]) => any) | null = null
-  
+
   const findMatchingScenario = (args: any[]): { args: any[]; result: any } | undefined => {
     return scenarios.find((scenario) => {
       if (scenario.args.length !== args.length) {
@@ -57,12 +52,12 @@ export function spyOn(object: any, propertyPath: string): SpyFn {
       })
     })
   }
-  
+
   // Create the spy function that preserves original behavior
   const spyFn = (...args: any[]): any => {
     let result: any
     let error: Error | undefined
-    
+
     try {
       // Check if there's a scenario match first
       const matchingScenario = findMatchingScenario(args)
@@ -92,10 +87,10 @@ export function spyOn(object: any, propertyPath: string): SpyFn {
       // Record the call
       calls.push({ args, result, error })
     }
-    
+
     return result
   }
-  
+
   // Replace the original property with our spy
   if (originalDescriptor.value !== undefined) {
     // It's a data property or method
@@ -118,7 +113,7 @@ export function spyOn(object: any, propertyPath: string): SpyFn {
     // Fallback: simple assignment
     target[propertyName] = spyFn
   }
-  
+
   // Add all the mock function properties
   Object.defineProperties(spyFn, {
     calls: {
@@ -162,7 +157,7 @@ export function spyOn(object: any, propertyPath: string): SpyFn {
       value: (): void => {
         // Restore the original property descriptor
         Object.defineProperty(target, propertyName, originalDescriptor)
-        
+
         // Clear all tracking data
         calls.length = 0
         implementations.length = 0
@@ -172,6 +167,6 @@ export function spyOn(object: any, propertyPath: string): SpyFn {
       configurable: true
     }
   })
-  
+
   return spyFn as SpyFn
-} 
+}

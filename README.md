@@ -51,7 +51,7 @@ new Tester(options?: TesterOptions)
 - **`timeout`**: `number` (default: `5000`)
   If the test takes longer than the timeout, it will be killed and marked as failed.
 
-#### Instance Methods
+### Instance Methods
 
 #### describe
 
@@ -79,7 +79,7 @@ tester.describe(MyCode, () => {
 })
 ```
 
-#### DescribeOptions
+##### DescribeOptions
 
 - **`only`**: `boolean` (default: `false`)
   It will run only the tests that are inside the `describe` block.
@@ -113,7 +113,7 @@ tester.test('should do something', () => {
 })
 ```
 
-#### TestOptions
+##### TestOptions
 
 - **`only`**: `boolean` (default: `false`)
   It will run only the tests that are inside the `describe` block.

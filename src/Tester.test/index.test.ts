@@ -2,6 +2,7 @@ import { asymmetricAssertionsTest } from './asymmetricAssertions.test'
 import { describeOnlyTest } from './describeOnly.test'
 import { describeSkipTest } from './describeSkip.test'
 import { hierarchyTest } from './hierarchy.test'
+import { lifecycleHooksTest } from './lifecycleHooks.test'
 import { onlyTest } from './only.test'
 import { parallelTest } from './parallel.test'
 import { randomTest } from './random.test'
@@ -14,6 +15,13 @@ export async function testerTest() {
     await hierarchyTest()
   } catch (error) {
     console.error('Hierarchy test failed:', error)
+  }
+
+  console.log('\n--- RUNNING LIFECYCLE HOOKS TESTS ---')
+  try {
+    await lifecycleHooksTest()
+  } catch (error) {
+    console.error('Lifecycle hooks test failed:', error)
   }
 
   console.log('\n--- RUNNING RANDOM ORDER TESTS ---')
