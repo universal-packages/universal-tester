@@ -633,6 +633,294 @@ mockFn('third')
 tester.expect(mockFn).toHaveBeenNthCalledWith(2, 'second')
 ```
 
+### Mock function creation
+
+#### mockFn
+
+```ts
+mockFn(): MockFn
+```
+
+The `mockFn` method creates a mock function that can be used for testing. Mock functions allow you to track calls, control return values, and implement custom behavior for testing purposes.
+
+```ts
+const mockFn = tester.mockFn()
+```
+
+##### Basic Usage
+
+By default, a mock function returns `undefined` when called:
+
+```ts
+const mockFn = tester.mockFn()
+tester.expect(mockFn()).toBeUndefined()
+```
+
+##### implement
+
+```ts
+implement(fn: Function): void
+```
+
+Sets a permanent implementation for the mock function:
+
+```ts
+const mockFn = tester.mockFn()
+mockFn.implement((a: number, b: number) => a + b)
+tester.expect(mockFn(1, 2)).toBe(3)
+tester.expect(mockFn(3, 4)).toBe(7)
+```
+
+##### implementOnce
+
+```ts
+implementOnce(fn: Function): void
+```
+
+Sets a one-time implementation for the mock function. After the first call, subsequent calls will use the next `implementOnce` or fall back to the default behavior:
+
+```ts
+const mockFn = tester.mockFn()
+mockFn.implementOnce(() => 'first call')
+mockFn.implementOnce(() => 'second call')
+tester.expect(mockFn()).toBe('first call')
+tester.expect(mockFn()).toBe('second call')
+tester.expect(mockFn()).toBeUndefined()
+```
+
+##### scenario
+
+```ts
+scenario(args: any[], returnValue: any): void
+```
+
+Sets up scenario-based return values. When the mock function is called with arguments that match the scenario, it returns the specified value:
+
+```ts
+const mockFn = tester.mockFn()
+mockFn.scenario([1, 2], 'one and two')
+mockFn.scenario(['hello'], 'greeting')
+mockFn.scenario([{ a: 1, b: 2 }], 'object match')
+
+tester.expect(mockFn(1, 2)).toBe('one and two')
+tester.expect(mockFn('hello')).toBe('greeting')
+tester.expect(mockFn({ a: 1, b: 2 })).toBe('object match')
+tester.expect(mockFn('other')).toBeUndefined()
+```
+
+##### calls
+
+```ts
+calls: Array<{ args: any[] }>
+```
+
+An array that tracks all calls made to the mock function, including the arguments passed:
+
+```ts
+const mockFn = tester.mockFn()
+mockFn('first')
+mockFn('second', 123)
+mockFn({ complex: 'object' })
+
+tester.expect(mockFn.calls.length).toBe(3)
+tester.expect(mockFn.calls[0].args).toEqual(['first'])
+tester.expect(mockFn.calls[1].args).toEqual(['second', 123])
+tester.expect(mockFn.calls[2].args[0]).toEqual({ complex: 'object' })
+```
+
+##### reset
+
+```ts
+reset(): void
+```
+
+Resets the mock function, clearing all call history, implementations, and scenarios:
+
+```ts
+const mockFn = tester.mockFn()
+mockFn.implement(() => 'implementation')
+mockFn.scenario([1], 'one')
+mockFn()
+
+mockFn.reset()
+
+tester.expect(mockFn.calls.length).toBe(0)
+tester.expect(mockFn()).toBeUndefined()
+tester.expect(mockFn(1)).toBeUndefined() // Scenario is gone
+```
+
+Mock functions work seamlessly with all the mock function matchers like `toHaveBeenCalled`, `toHaveBeenCalledWith`, `toHaveBeenCalledTimes`, etc.
+
+#### spyOn
+
+```ts
+spyOn(object: any, propertyPath: string): SpyFn
+```
+
+The `spyOn` method creates a spy for an existing method on an object. Unlike `mockFn`, spies preserve the original behavior of the method while allowing you to track calls and optionally override the implementation.
+
+```ts
+const obj = { getValue: () => 'original' }
+const spy = tester.spyOn(obj, 'getValue')
+```
+
+##### Basic Spying
+
+By default, spying preserves the original method behavior while tracking all calls:
+
+```ts
+class Calculator {
+  sum(a: number, b: number): number {
+    return a + b
+  }
+}
+
+const calculator = new Calculator()
+const spy = tester.spyOn(calculator, 'sum')
+
+const result = calculator.sum(1, 2)
+tester.expect(result).toBe(3) // Original behavior preserved
+tester.expect(spy.calls).toHaveLength(1)
+tester.expect(spy.calls[0].args).toEqual([1, 2])
+tester.expect(spy.calls[0].result).toBe(3)
+```
+
+##### Call Tracking
+
+Spies automatically track all method calls with their arguments and return values:
+
+```ts
+const obj = { multiply: (x: number, y: number) => x * y }
+const spy = tester.spyOn(obj, 'multiply')
+
+obj.multiply(3, 4)
+obj.multiply(5, 6)
+
+tester.expect(spy.calls).toHaveLength(2)
+tester.expect(spy.calls[0].args).toEqual([3, 4])
+tester.expect(spy.calls[0].result).toBe(12)
+tester.expect(spy.calls[1].args).toEqual([5, 6])
+tester.expect(spy.calls[1].result).toBe(30)
+```
+
+##### implement
+
+```ts
+implement(fn: Function): void
+```
+
+Override the original method implementation permanently:
+
+```ts
+const obj = { getValue: () => 'original' }
+const spy = tester.spyOn(obj, 'getValue')
+
+spy.implement(() => 'mocked')
+
+tester.expect(obj.getValue()).toBe('mocked')
+tester.expect(spy.calls[0].result).toBe('mocked')
+```
+
+##### implementOnce
+
+```ts
+implementOnce(fn: Function): void
+```
+
+Override the method implementation for one call only, then fall back to original behavior:
+
+```ts
+const obj = { getValue: () => 'original' }
+const spy = tester.spyOn(obj, 'getValue')
+
+spy.implementOnce(() => 'once')
+
+tester.expect(obj.getValue()).toBe('once') // First call uses override
+tester.expect(obj.getValue()).toBe('original') // Second call uses original
+```
+
+##### scenario
+
+```ts
+scenario(args: any[], returnValue: any): void
+```
+
+Return specific values when called with matching arguments, otherwise use original behavior:
+
+```ts
+const obj = { add: (a: number, b: number) => a + b }
+const spy = tester.spyOn(obj, 'add')
+
+spy.scenario([1, 2], 100)
+
+tester.expect(obj.add(1, 2)).toBe(100) // Scenario match
+tester.expect(obj.add(3, 4)).toBe(7) // Original behavior
+```
+
+##### restore
+
+```ts
+restore(): void
+```
+
+Restore the original method implementation and stop spying:
+
+```ts
+const obj = { getValue: () => 'original' }
+const spy = tester.spyOn(obj, 'getValue')
+
+spy.implement(() => 'mocked')
+tester.expect(obj.getValue()).toBe('mocked')
+
+spy.restore()
+tester.expect(obj.getValue()).toBe('original')
+```
+
+##### Context Preservation
+
+Spies preserve the `this` context, ensuring methods work correctly with object state:
+
+```ts
+class Counter {
+  count: number = 0
+  
+  increment(): number {
+    this.count++
+    return this.count
+  }
+}
+
+const counter = new Counter()
+const spy = tester.spyOn(counter, 'increment')
+
+tester.expect(counter.increment()).toBe(1)
+tester.expect(counter.count).toBe(1) // State correctly modified
+tester.expect(spy.calls[0].result).toBe(1)
+```
+
+Even with custom implementations, `this` context is preserved:
+
+```ts
+const spy = tester.spyOn(counter, 'increment')
+spy.implement(function(this: Counter) {
+  this.count += 2 // Custom behavior with correct context
+  return this.count
+})
+```
+
+##### Error Handling
+
+Attempting to spy on non-existent properties throws an error:
+
+```ts
+const obj = {}
+tester.expect(() => {
+  tester.spyOn(obj, 'nonExistent')
+}).toThrow('Cannot spy on nonExistent: property does not exist')
+```
+
+Spies work seamlessly with all mock function matchers like `toHaveBeenCalled`, `toHaveBeenCalledWith`, `toHaveBeenCalledTimes`, etc.
+
 ## Typescript
 
 This library is developed in TypeScript and shipped fully typed.
