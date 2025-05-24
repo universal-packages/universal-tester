@@ -1,5 +1,5 @@
-import { AsymmetricAssertion } from 'src/AsymmetricAssertion'
-import { diff } from 'src/diff'
+import { AsymmetricAssertion } from '../AsymmetricAssertion'
+import { diff } from '../diff'
 
 export class ContainEqualAssertion extends AsymmetricAssertion {
   protected override readonly assertionName: string = 'ContainEqual'
@@ -14,8 +14,8 @@ export class ContainEqualAssertion extends AsymmetricAssertion {
     if (!Array.isArray(value)) {
       return false
     }
-    
+
     const result = value.some((v: any) => diff(v, this.expected).same)
     return this.notToExpect ? !result : result
   }
-} 
+}

@@ -1,7 +1,7 @@
-import { AsymmetricAssertion } from 'src/AsymmetricAssertion'
+import { AsymmetricAssertion } from '../AsymmetricAssertion'
 
-export class LessThanAssertion extends AsymmetricAssertion {
-  protected override readonly assertionName: string = 'LessThan'
+export class LessThanOrEqualAssertion extends AsymmetricAssertion {
+  protected override readonly assertionName: string = 'LessThanOrEqual'
   private readonly expected: number
 
   constructor(expected: number, notToExpect = false) {
@@ -14,7 +14,7 @@ export class LessThanAssertion extends AsymmetricAssertion {
       return this.notToExpect ? true : false
     }
     
-    const result = value < this.expected
+    const result = value <= this.expected
     return this.notToExpect ? !result : result
   }
 } 

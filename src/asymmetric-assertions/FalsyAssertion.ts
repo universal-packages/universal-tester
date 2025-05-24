@@ -1,4 +1,4 @@
-import { AsymmetricAssertion } from 'src/AsymmetricAssertion'
+import { AsymmetricAssertion } from '../AsymmetricAssertion'
 
 export class FalsyAssertion extends AsymmetricAssertion {
   protected override readonly assertionName: string = 'Falsy'
@@ -7,4 +7,4 @@ export class FalsyAssertion extends AsymmetricAssertion {
     const result = !value
     return this.notToExpect ? !result : result
   }
-} 
+}

@@ -1,4 +1,4 @@
-import { AsymmetricAssertion } from 'src/AsymmetricAssertion'
+import { AsymmetricAssertion } from '../AsymmetricAssertion'
 
 export class HaveLengthAssertion extends AsymmetricAssertion {
   protected override readonly assertionName: string = 'HaveLength'

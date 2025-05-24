@@ -1,6 +1,6 @@
-import { AsymmetricAssertion } from 'src/AsymmetricAssertion'
-import { diff } from 'src/diff'
-import { DiffResult } from 'src/diff.types'
+import { AsymmetricAssertion } from '../AsymmetricAssertion'
+import { diff } from '../diff'
+import { DiffResult } from '../diff.types'
 
 export class MatchObjectAssertion extends AsymmetricAssertion {
   protected override readonly assertionName: string = 'MatchObject'

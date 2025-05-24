@@ -1,4 +1,4 @@
-import { AsymmetricAssertion } from 'src/AsymmetricAssertion'
+import { AsymmetricAssertion } from '../AsymmetricAssertion'
 
 export class MatchAssertion extends AsymmetricAssertion {
   protected override readonly assertionName: string = 'Match'

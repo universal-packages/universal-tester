@@ -1,5 +1,5 @@
-import { AsymmetricAssertion } from 'src/AsymmetricAssertion'
-import { diff } from 'src/diff'
+import { AsymmetricAssertion } from '../AsymmetricAssertion'
+import { diff } from '../diff'
 
 export class HavePropertyAssertion extends AsymmetricAssertion {
   protected override readonly assertionName: string = 'HaveProperty'

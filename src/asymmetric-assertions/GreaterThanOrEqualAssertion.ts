@@ -1,4 +1,4 @@
-import { AsymmetricAssertion } from 'src/AsymmetricAssertion'
+import { AsymmetricAssertion } from '../AsymmetricAssertion'
 
 export class GreaterThanOrEqualAssertion extends AsymmetricAssertion {
   protected override readonly assertionName: string = 'GreaterThanOrEqual'
@@ -13,8 +13,8 @@ export class GreaterThanOrEqualAssertion extends AsymmetricAssertion {
     if (typeof value !== 'number') {
       return this.notToExpect ? true : false
     }
-    
+
     const result = value >= this.expected
     return this.notToExpect ? !result : result
   }
-} 
+}

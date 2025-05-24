@@ -1,6 +1,6 @@
 import { assertionTest } from './Assertion.test/index.test'
 import { testerTest } from './Tester.test/index.test'
-import { asymmetricAssertionsTest } from './asymentric-assertions/index.test'
+import { asymmetricAssertionsTest } from './asymmetric-assertions/index.test'
 import { createMockFunctionTest } from './createMockFunction.test'
 import { diffTest } from './diff.test'
 
