@@ -17,6 +17,7 @@ import { MatchAssertion } from './asymmetric-assertions/MatchAssertion'
 import { MatchObjectAssertion } from './asymmetric-assertions/MatchObjectAssertion'
 import { TruthyAssertion } from './asymmetric-assertions/TruthyAssertion'
 import { createMockFunction } from './createMockFunction'
+import { spyOn, SpyFn } from './spyOn'
 
 export class Tester {
   public readonly options: TesterOptions
@@ -61,6 +62,10 @@ export class Tester {
 
   public mockFn() {
     return createMockFunction()
+  }
+
+  public spyOn(object: any, propertyPath: string): SpyFn {
+    return spyOn(object, propertyPath)
   }
 
   public expectAnything() {

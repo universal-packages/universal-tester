@@ -1,4 +1,4 @@
-import { Tester } from 'src/Tester'
+import { Tester } from '../Tester'
 
 import { LessThanAssertion } from './LessThanAssertion'
 
