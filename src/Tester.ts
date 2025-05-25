@@ -1,3 +1,5 @@
+import EventEmitter from 'events'
+
 import { Assertion } from './Assertion'
 import { TestError } from './TestError'
 import { DescribeOptions, LifecycleHook, TestDescription, TestOptions, TestResult, TesterOptions } from './Tester.types'
@@ -20,7 +22,7 @@ import { createMockFunction } from './createMockFunction'
 import { spyOn } from './spyOn'
 import { SpyFn } from './spyOn.types'
 
-export class Tester {
+export class Tester extends EventEmitter {
   public readonly options: TesterOptions
 
   private tests: TestDescription[] = []
@@ -62,6 +64,7 @@ export class Tester {
   }
 
   public constructor(options?: TesterOptions) {
+    super()
     this.options = { bail: false, runOrder: 'sequence', timeout: 5000, ...options }
   }
 
@@ -231,7 +234,7 @@ export class Tester {
 
     // Build a tree structure to represent the test hierarchy
     const testTree = this.buildTestTree(testsToRun)
-    
+
     // Execute the test tree
     await this.executeTestTree(testTree, hasOnlyTests)
 
@@ -240,39 +243,38 @@ export class Tester {
 
   private buildTestTree(tests: TestDescription[]) {
     const tree: any = { children: new Map(), tests: [] }
-    
+
     for (const test of tests) {
       let currentNode = tree
-      
+
       // Navigate through the spec path to find/create the right node
       for (const pathSegment of test.specPath) {
         if (!currentNode.children.has(pathSegment)) {
-          currentNode.children.set(pathSegment, { 
-            children: new Map(), 
-            tests: [], 
-            specPath: [...currentNode.specPath || [], pathSegment] 
+          currentNode.children.set(pathSegment, {
+            children: new Map(),
+            tests: [],
+            specPath: [...(currentNode.specPath || []), pathSegment]
           })
         }
         currentNode = currentNode.children.get(pathSegment)
       }
-      
+
       // Add the test to the current node
       currentNode.tests.push(test)
     }
-    
+
     return tree
   }
 
   private async executeTestTree(node: any, hasOnlyTests: boolean, specPath: string[] = []) {
     // Execute before hooks for this level
-    const beforeHooksForLevel = this.getHooksInScope(this.beforeHooks, specPath)
-      .filter(hook => JSON.stringify(hook.specPath) === JSON.stringify(specPath))
+    const beforeHooksForLevel = this.getHooksInScope(this.beforeHooks, specPath).filter((hook) => JSON.stringify(hook.specPath) === JSON.stringify(specPath))
     await this.executeHooks(beforeHooksForLevel)
 
     // Execute tests at this level
     for (const test of node.tests) {
       await this.runTest(test, hasOnlyTests)
-      
+
       // If bail is enabled and a test has failed, stop execution
       if (this.options.bail && this.testResults.some((result) => !result.passed)) {
         return
@@ -285,8 +287,7 @@ export class Tester {
     }
 
     // Execute after hooks for this level (in reverse order compared to before hooks)
-    const afterHooksForLevel = this.getHooksInScope(this.afterHooks, specPath)
-      .filter(hook => JSON.stringify(hook.specPath) === JSON.stringify(specPath))
+    const afterHooksForLevel = this.getHooksInScope(this.afterHooks, specPath).filter((hook) => JSON.stringify(hook.specPath) === JSON.stringify(specPath))
     await this.executeHooks(afterHooksForLevel)
   }
 
@@ -295,18 +296,18 @@ export class Tester {
     if (hookSpecPath.length > testSpecPath.length) {
       return false
     }
-    
+
     for (let i = 0; i < hookSpecPath.length; i++) {
       if (hookSpecPath[i] !== testSpecPath[i]) {
         return false
       }
     }
-    
+
     return true
   }
 
   private getHooksInScope(hooks: LifecycleHook[], testSpecPath: string[]): LifecycleHook[] {
-    return hooks.filter(hook => this.isHookInScope(hook.specPath, testSpecPath))
+    return hooks.filter((hook) => this.isHookInScope(hook.specPath, testSpecPath))
   }
 
   private async executeHooks(hooks: LifecycleHook[]): Promise<void> {
