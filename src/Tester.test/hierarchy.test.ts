@@ -86,6 +86,20 @@ export async function hierarchyTest() {
       }
     },
     {
+      spec: ['Main describe', 'Nested describe level 1', 'should be a nested describe test'],
+      passed: true,
+      options: {
+        timeout: 1200
+      }
+    },
+    {
+      spec: ['Main describe', 'Nested describe level 1', 'Nested describe level 2', 'should be a deeply nested test'],
+      passed: true,
+      options: {
+        timeout: 500
+      }
+    },
+    {
       spec: ['Main describe', 'should fail in a describe nested test'],
       error: {
         message: 'Expected {{expected}} but got {{actual}}',
@@ -99,20 +113,6 @@ export async function hierarchyTest() {
       passed: false,
       options: {
         timeout: 1000
-      }
-    },
-    {
-      spec: ['Main describe', 'Nested describe level 1', 'should be a nested describe test'],
-      passed: true,
-      options: {
-        timeout: 1200
-      }
-    },
-    {
-      spec: ['Main describe', 'Nested describe level 1', 'Nested describe level 2', 'should be a deeply nested test'],
-      passed: true,
-      options: {
-        timeout: 500
       }
     }
   ]

@@ -29,11 +29,6 @@ export interface TestDescription {
   specPath: string[]
 }
 
-export interface LifecycleHook {
-  fn: () => void | Promise<void>
-  specPath: string[]
-}
-
 export interface TestResult {
   spec: string | string[]
   error?: TestError

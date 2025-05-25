@@ -2,7 +2,7 @@ import EventEmitter from 'events'
 
 import { Assertion } from './Assertion'
 import { TestError } from './TestError'
-import { DescribeOptions, LifecycleHook, TestDescription, TestOptions, TestResult, TesterOptions } from './Tester.types'
+import { DescribeOptions, TestDescription, TestOptions, TestResult, TesterOptions } from './Tester.types'
 import { AnythingAssertion } from './asymmetric-assertions/AnythingAssertion'
 import { CloseToAssertion } from './asymmetric-assertions/CloseToAssertion'
 import { ContainAssertion } from './asymmetric-assertions/ContainAssertion'
@@ -20,7 +20,6 @@ import { MatchObjectAssertion } from './asymmetric-assertions/MatchObjectAsserti
 import { TruthyAssertion } from './asymmetric-assertions/TruthyAssertion'
 import { createMockFunction } from './createMockFunction'
 import { spyOn } from './spyOn'
-import { SpyFn } from './spyOn.types'
 
 export class Tester extends EventEmitter {
   public readonly options: TesterOptions
@@ -29,10 +28,6 @@ export class Tester extends EventEmitter {
   private currentSpecPath: string[] = []
   private currentDescribeOptions: DescribeOptions[] = []
   private testResults: TestResult[] = []
-  private beforeHooks: LifecycleHook[] = []
-  private beforeEachHooks: LifecycleHook[] = []
-  private afterHooks: LifecycleHook[] = []
-  private afterEachHooks: LifecycleHook[] = []
 
   public get not() {
     return {
@@ -72,36 +67,8 @@ export class Tester extends EventEmitter {
     return createMockFunction()
   }
 
-  public spyOn(object: any, propertyPath: string): SpyFn {
+  public spyOn(object: any, propertyPath: string) {
     return spyOn(object, propertyPath)
-  }
-
-  public before(callback: () => void | Promise<void>) {
-    this.beforeHooks.push({
-      fn: callback,
-      specPath: [...this.currentSpecPath]
-    })
-  }
-
-  public beforeEach(callback: () => void | Promise<void>) {
-    this.beforeEachHooks.push({
-      fn: callback,
-      specPath: [...this.currentSpecPath]
-    })
-  }
-
-  public after(callback: () => void | Promise<void>) {
-    this.afterHooks.push({
-      fn: callback,
-      specPath: [...this.currentSpecPath]
-    })
-  }
-
-  public afterEach(callback: () => void | Promise<void>) {
-    this.afterEachHooks.push({
-      fn: callback,
-      specPath: [...this.currentSpecPath]
-    })
   }
 
   public expectAnything() {
@@ -232,88 +199,17 @@ export class Tester extends EventEmitter {
       return this.testResults
     }
 
-    // Build a tree structure to represent the test hierarchy
-    const testTree = this.buildTestTree(testsToRun)
-
-    // Execute the test tree
-    await this.executeTestTree(testTree, hasOnlyTests)
-
-    return this.testResults
-  }
-
-  private buildTestTree(tests: TestDescription[]) {
-    const tree: any = { children: new Map(), tests: [] }
-
-    for (const test of tests) {
-      let currentNode = tree
-
-      // Navigate through the spec path to find/create the right node
-      for (const pathSegment of test.specPath) {
-        if (!currentNode.children.has(pathSegment)) {
-          currentNode.children.set(pathSegment, {
-            children: new Map(),
-            tests: [],
-            specPath: [...(currentNode.specPath || []), pathSegment]
-          })
-        }
-        currentNode = currentNode.children.get(pathSegment)
-      }
-
-      // Add the test to the current node
-      currentNode.tests.push(test)
-    }
-
-    return tree
-  }
-
-  private async executeTestTree(node: any, hasOnlyTests: boolean, specPath: string[] = []) {
-    // Execute before hooks for this level
-    const beforeHooksForLevel = this.getHooksInScope(this.beforeHooks, specPath).filter((hook) => JSON.stringify(hook.specPath) === JSON.stringify(specPath))
-    await this.executeHooks(beforeHooksForLevel)
-
-    // Execute tests at this level
-    for (const test of node.tests) {
+    // Run each test in sequence
+    for (const test of testsToRun) {
       await this.runTest(test, hasOnlyTests)
 
       // If bail is enabled and a test has failed, stop execution
       if (this.options.bail && this.testResults.some((result) => !result.passed)) {
-        return
+        break
       }
     }
 
-    // Execute child nodes
-    for (const [childName, childNode] of node.children) {
-      await this.executeTestTree(childNode, hasOnlyTests, [...specPath, childName])
-    }
-
-    // Execute after hooks for this level (in reverse order compared to before hooks)
-    const afterHooksForLevel = this.getHooksInScope(this.afterHooks, specPath).filter((hook) => JSON.stringify(hook.specPath) === JSON.stringify(specPath))
-    await this.executeHooks(afterHooksForLevel)
-  }
-
-  private isHookInScope(hookSpecPath: string[], testSpecPath: string[]): boolean {
-    // A hook is in scope if the test's spec path starts with the hook's spec path
-    if (hookSpecPath.length > testSpecPath.length) {
-      return false
-    }
-
-    for (let i = 0; i < hookSpecPath.length; i++) {
-      if (hookSpecPath[i] !== testSpecPath[i]) {
-        return false
-      }
-    }
-
-    return true
-  }
-
-  private getHooksInScope(hooks: LifecycleHook[], testSpecPath: string[]): LifecycleHook[] {
-    return hooks.filter((hook) => this.isHookInScope(hook.specPath, testSpecPath))
-  }
-
-  private async executeHooks(hooks: LifecycleHook[]): Promise<void> {
-    for (const hook of hooks) {
-      await Promise.resolve().then(() => hook.fn())
-    }
+    return this.testResults
   }
 
   private async runTest(test: TestDescription, hasOnlyTests: boolean) {
@@ -338,10 +234,6 @@ export class Tester extends EventEmitter {
     let timeoutId: NodeJS.Timeout | undefined
 
     try {
-      // Execute beforeEach hooks
-      const beforeEachHooksForTest = this.getHooksInScope(this.beforeEachHooks, test.specPath)
-      await this.executeHooks(beforeEachHooksForTest)
-
       // Create a promise that rejects after the timeout
       const timeoutPromise = new Promise<void>((_, reject) => {
         timeoutId = setTimeout(() => {
@@ -367,10 +259,6 @@ export class Tester extends EventEmitter {
         passed: true,
         options: test.options
       })
-
-      // Execute afterEach hooks
-      const afterEachHooksForTest = this.getHooksInScope(this.afterEachHooks, test.specPath)
-      await this.executeHooks(afterEachHooksForTest)
     } catch (error: unknown) {
       if (error instanceof TestError) {
         this.testResults.push({
@@ -379,15 +267,6 @@ export class Tester extends EventEmitter {
           passed: false,
           options: test.options
         })
-
-        // Still execute afterEach hooks even if test failed
-        try {
-          const afterEachHooksForTest = this.getHooksInScope(this.afterEachHooks, test.specPath)
-          await this.executeHooks(afterEachHooksForTest)
-        } catch (hookError) {
-          // If afterEach hook fails, we don't want to override the original test error
-          console.error('afterEach hook failed:', hookError)
-        }
 
         if (this.options.bail) {
           throw error
