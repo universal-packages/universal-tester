@@ -31,6 +31,8 @@ tester.describe(MyCode, () => {
     tester.expect(result).toEqual('expected result')
   })
 })
+
+const testResults = await tester.run()
 ```
 
 ### Constructor <small><small>`constructor`</small></small>
@@ -533,10 +535,26 @@ toThrow(expected?: Error | RegExp | string)
 The `toThrow` matcher is used to test if a function throws an error. You can optionally specify the expected error message, error instance, or a regex pattern.
 
 ```ts
-tester.expect(() => { throw new Error('Something went wrong') }).toThrow()
-tester.expect(() => { throw new Error('Something went wrong') }).toThrow('Something went wrong')
-tester.expect(() => { throw new Error('Something went wrong') }).toThrow(/went wrong/)
-tester.expect(() => { throw new Error('Something went wrong') }).toThrow(new Error('Something went wrong'))
+tester
+  .expect(() => {
+    throw new Error('Something went wrong')
+  })
+  .toThrow()
+tester
+  .expect(() => {
+    throw new Error('Something went wrong')
+  })
+  .toThrow('Something went wrong')
+tester
+  .expect(() => {
+    throw new Error('Something went wrong')
+  })
+  .toThrow(/went wrong/)
+tester
+  .expect(() => {
+    throw new Error('Something went wrong')
+  })
+  .toThrow(new Error('Something went wrong'))
 ```
 
 ### Mock function matchers
@@ -883,7 +901,7 @@ Spies preserve the `this` context, ensuring methods work correctly with object s
 ```ts
 class Counter {
   count: number = 0
-  
+
   increment(): number {
     this.count++
     return this.count
@@ -902,7 +920,7 @@ Even with custom implementations, `this` context is preserved:
 
 ```ts
 const spy = tester.spyOn(counter, 'increment')
-spy.implement(function(this: Counter) {
+spy.implement(function (this: Counter) {
   this.count += 2 // Custom behavior with correct context
   return this.count
 })
@@ -914,9 +932,11 @@ Attempting to spy on non-existent properties throws an error:
 
 ```ts
 const obj = {}
-tester.expect(() => {
-  tester.spyOn(obj, 'nonExistent')
-}).toThrow('Cannot spy on nonExistent: property does not exist')
+tester
+  .expect(() => {
+    tester.spyOn(obj, 'nonExistent')
+  })
+  .toThrow('Cannot spy on nonExistent: property does not exist')
 ```
 
 Spies work seamlessly with all mock function matchers like `toHaveBeenCalled`, `toHaveBeenCalledWith`, `toHaveBeenCalledTimes`, etc.
@@ -1094,14 +1114,16 @@ expectContainEqual(item: any)
 Matches arrays containing an object that deeply equals the expected value:
 
 ```ts
-tester.expect({ 
-  users: [
-    { id: 1, name: 'John' }, 
-    { id: 2, name: 'Jane' }
-  ] 
-}).toEqual({
-  users: tester.expectContainEqual({ id: 1, name: 'John' })
-})
+tester
+  .expect({
+    users: [
+      { id: 1, name: 'John' },
+      { id: 2, name: 'Jane' }
+    ]
+  })
+  .toEqual({
+    users: tester.expectContainEqual({ id: 1, name: 'John' })
+  })
 ```
 
 #### expectHaveLength
@@ -1146,11 +1168,13 @@ expectMatchObject(obj: Record<string, any>)
 Matches objects that contain at least the specified properties and values:
 
 ```ts
-tester.expect({ 
-  user: { id: 1, name: 'John', email: 'john@example.com', role: 'admin' } 
-}).toEqual({
-  user: tester.expectMatchObject({ name: 'John', role: 'admin' })
-})
+tester
+  .expect({
+    user: { id: 1, name: 'John', email: 'john@example.com', role: 'admin' }
+  })
+  .toEqual({
+    user: tester.expectMatchObject({ name: 'John', role: 'admin' })
+  })
 ```
 
 #### expectTruthy
