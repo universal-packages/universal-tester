@@ -1,6 +1,7 @@
 export * from './Tester'
 export * from './Tester.types'
 export * from './diff'
+export * from './diff.types'
 export * from './createMockFunction'
 export * from './createMockFunction.types'
 export * from './spyOn'
