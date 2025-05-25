@@ -921,6 +921,332 @@ tester.expect(() => {
 
 Spies work seamlessly with all mock function matchers like `toHaveBeenCalled`, `toHaveBeenCalledWith`, `toHaveBeenCalledTimes`, etc.
 
+### Asymmetric assertions
+
+Asymmetric assertions are special objects that allow you to perform partial matching within complex data structures. They are particularly useful when testing objects or arrays where you only care about certain properties or values matching specific criteria, rather than exact equality.
+
+Asymmetric assertions work with matchers like `toEqual`, `toMatchObject`, `toHaveBeenCalledWith`, and others, allowing you to specify flexible matching rules for nested values.
+
+#### Basic Usage
+
+Instead of requiring exact matches, you can use asymmetric assertions to test specific conditions:
+
+```ts
+// Instead of exact matching
+tester.expect({ id: 1, name: 'John', timestamp: 1634567890 }).toEqual({
+  id: 1,
+  name: 'John',
+  timestamp: 1634567890 // Hard to predict exact timestamp
+})
+
+// Use asymmetric assertions for flexible matching
+tester.expect({ id: 1, name: 'John', timestamp: 1634567890 }).toEqual({
+  id: 1,
+  name: tester.expectAnything(),
+  timestamp: tester.expectGreaterThan(1634567000)
+})
+```
+
+#### expectAnything
+
+```ts
+expectAnything()
+```
+
+Matches any value, including `null`, `undefined`, and `NaN`:
+
+```ts
+tester.expect({ a: 1, b: 'hello', c: null }).toEqual({
+  a: 1,
+  b: tester.expectAnything(),
+  c: tester.expectAnything()
+})
+
+tester.expect([1, 'hello', null]).toEqual([1, tester.expectAnything(), tester.expectAnything()])
+```
+
+#### expectGreaterThan
+
+```ts
+expectGreaterThan(value: number)
+```
+
+Matches numbers greater than the specified value:
+
+```ts
+tester.expect({ score: 85, count: 20 }).toEqual({
+  score: tester.expectGreaterThan(80),
+  count: tester.expectGreaterThan(10)
+})
+```
+
+#### expectLessThan
+
+```ts
+expectLessThan(value: number)
+```
+
+Matches numbers less than the specified value:
+
+```ts
+tester.expect({ temperature: 15, humidity: 45 }).toEqual({
+  temperature: tester.expectLessThan(20),
+  humidity: tester.expectLessThan(50)
+})
+```
+
+#### expectGreaterThanOrEqual
+
+```ts
+expectGreaterThanOrEqual(value: number)
+```
+
+Matches numbers greater than or equal to the specified value:
+
+```ts
+tester.expect({ min: 10, max: 100 }).toEqual({
+  min: tester.expectGreaterThanOrEqual(10),
+  max: tester.expectGreaterThanOrEqual(50)
+})
+```
+
+#### expectLessThanOrEqual
+
+```ts
+expectLessThanOrEqual(value: number)
+```
+
+Matches numbers less than or equal to the specified value:
+
+```ts
+tester.expect({ limit: 100, current: 75 }).toEqual({
+  limit: tester.expectLessThanOrEqual(100),
+  current: tester.expectLessThanOrEqual(100)
+})
+```
+
+#### expectCloseTo
+
+```ts
+expectCloseTo(value: number, precision?: number)
+```
+
+Matches floating-point numbers that are close to the expected value within a specified precision:
+
+```ts
+tester.expect({ result: 10.001, pi: 3.14159 }).toEqual({
+  result: tester.expectCloseTo(10, 2),
+  pi: tester.expectCloseTo(3.14, 2)
+})
+```
+
+#### expectMatch
+
+```ts
+expectMatch(pattern: RegExp)
+```
+
+Matches strings that match the provided regular expression:
+
+```ts
+tester.expect({ email: 'user@example.com', phone: '123-456-7890' }).toEqual({
+  email: tester.expectMatch(/@example\.com$/),
+  phone: tester.expectMatch(/^\d{3}-\d{3}-\d{4}$/)
+})
+```
+
+#### expectInstanceOf
+
+```ts
+expectInstanceOf(constructor: Function)
+```
+
+Matches values that are instances of the specified constructor or class:
+
+```ts
+tester.expect({ created: new Date(), error: new Error('test') }).toEqual({
+  created: tester.expectInstanceOf(Date),
+  error: tester.expectInstanceOf(Error)
+})
+```
+
+#### expectContain
+
+```ts
+expectContain(item: any)
+```
+
+Matches strings containing a substring or arrays containing a specific value:
+
+```ts
+tester.expect({ message: 'hello world', tags: ['important', 'test'] }).toEqual({
+  message: tester.expectContain('world'),
+  tags: tester.expectContain('important')
+})
+```
+
+#### expectContainEqual
+
+```ts
+expectContainEqual(item: any)
+```
+
+Matches arrays containing an object that deeply equals the expected value:
+
+```ts
+tester.expect({ 
+  users: [
+    { id: 1, name: 'John' }, 
+    { id: 2, name: 'Jane' }
+  ] 
+}).toEqual({
+  users: tester.expectContainEqual({ id: 1, name: 'John' })
+})
+```
+
+#### expectHaveLength
+
+```ts
+expectHaveLength(length: number)
+```
+
+Matches arrays or strings with the specified length:
+
+```ts
+tester.expect({ items: [1, 2, 3], title: 'hello' }).toEqual({
+  items: tester.expectHaveLength(3),
+  title: tester.expectHaveLength(5)
+})
+```
+
+#### expectHaveProperty
+
+```ts
+expectHaveProperty(path: string, value?: any)
+```
+
+Matches objects that have the specified property, optionally with a specific value:
+
+```ts
+tester.expect({ user: { name: 'John', age: 30 } }).toEqual({
+  user: tester.expectHaveProperty('name')
+})
+
+tester.expect({ config: { enabled: true, timeout: 5000 } }).toEqual({
+  config: tester.expectHaveProperty('enabled', true)
+})
+```
+
+#### expectMatchObject
+
+```ts
+expectMatchObject(obj: Record<string, any>)
+```
+
+Matches objects that contain at least the specified properties and values:
+
+```ts
+tester.expect({ 
+  user: { id: 1, name: 'John', email: 'john@example.com', role: 'admin' } 
+}).toEqual({
+  user: tester.expectMatchObject({ name: 'John', role: 'admin' })
+})
+```
+
+#### expectTruthy
+
+```ts
+expectTruthy()
+```
+
+Matches any truthy value:
+
+```ts
+tester.expect({ active: true, count: 5, name: 'test' }).toEqual({
+  active: tester.expectTruthy(),
+  count: tester.expectTruthy(),
+  name: tester.expectTruthy()
+})
+```
+
+#### expectFalsy
+
+```ts
+expectFalsy()
+```
+
+Matches any falsy value (`false`, `0`, `''`, `null`, `undefined`, `NaN`):
+
+```ts
+tester.expect({ disabled: false, count: 0, name: '' }).toEqual({
+  disabled: tester.expectFalsy(),
+  count: tester.expectFalsy(),
+  name: tester.expectFalsy()
+})
+```
+
+#### Negated Asymmetric Assertions
+
+All asymmetric assertions support negation using the `not` property:
+
+```ts
+tester.expect({ score: 5, message: 'hello' }).toEqual({
+  score: tester.not.expectGreaterThan(10),
+  message: tester.not.expectMatch(/world/)
+})
+```
+
+#### Complex Examples
+
+Asymmetric assertions can be combined for sophisticated testing scenarios:
+
+```ts
+const apiResponse = {
+  id: 123,
+  name: 'Test Object',
+  created: new Date(),
+  tags: ['important', 'test', 'example'],
+  metadata: {
+    version: '1.0.5',
+    priority: 1,
+    settings: {
+      enabled: true,
+      timeout: 500
+    }
+  },
+  items: [
+    { id: 1, name: 'Item 1' },
+    { id: 2, name: 'Item 2' },
+    { id: 3, name: 'Item 3' }
+  ]
+}
+
+tester.expect(apiResponse).toEqual({
+  id: tester.expectGreaterThan(100),
+  name: tester.expectMatch(/Test/),
+  created: tester.expectInstanceOf(Date),
+  tags: tester.expectContain('important'),
+  metadata: tester.expectMatchObject({
+    version: tester.expectMatch(/^\d+\.\d+\.\d+$/),
+    priority: tester.expectLessThanOrEqual(10),
+    settings: tester.expectHaveProperty('enabled', true)
+  }),
+  items: tester.expectHaveLength(3)
+})
+```
+
+Asymmetric assertions work seamlessly with mock function matchers:
+
+```ts
+const mockFn = tester.mockFn()
+mockFn({ timestamp: Date.now(), data: 'test' })
+
+tester.expect(mockFn).toHaveBeenCalledWith({
+  timestamp: tester.expectGreaterThan(0),
+  data: tester.expectAnything()
+})
+```
+
 ## Typescript
 
 This library is developed in TypeScript and shipped fully typed.
