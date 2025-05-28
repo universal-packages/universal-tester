@@ -66,10 +66,9 @@ export async function parallelTest() {
     }
   ]
 
-  if (JSON.stringify(results, null, 2) !== JSON.stringify(expectedResults, null, 2)) {
-    console.log(JSON.stringify(results, null, 2))
-    throw new Error('Parallel test failed')
-  } else {
+  try {
+    tester.expect(results).toMatchObject(expectedResults)
+
     const totalTime = Date.now() - startTime
 
     // In truly parallel execution, the total time should be less than the sum of all test times
@@ -88,5 +87,8 @@ export async function parallelTest() {
     } else {
       console.log('Parallel test passed')
     }
+  } catch {
+    console.log(JSON.stringify(results, null, 2))
+    throw new Error('Parallel test failed')
   }
 }

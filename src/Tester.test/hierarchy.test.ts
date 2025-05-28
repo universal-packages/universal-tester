@@ -117,10 +117,11 @@ export async function hierarchyTest() {
     }
   ]
 
-  if (JSON.stringify(results, null, 2) !== JSON.stringify(expectedResults, null, 2)) {
+  try {
+    tester.expect(results).toMatchObject(expectedResults)
+    console.log('Hierarchy test passed')
+  } catch {
     console.log(JSON.stringify(results, null, 2))
     throw new Error('Hierarchy test failed')
-  } else {
-    console.log('Hierarchy test passed')
   }
 }

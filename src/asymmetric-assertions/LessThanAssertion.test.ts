@@ -84,10 +84,11 @@ export async function lessThanAssertionTest() {
     }
   ]
 
-  if (JSON.stringify(results, null, 2) !== JSON.stringify(expectedResults, null, 2)) {
-    console.log(JSON.stringify(results, null, 2))
-    throw new Error('Results do not match expected results')
-  } else {
+  try {
+    tester.expect(results).toMatchObject(expectedResults)
     console.log('LessThanAssertion test passed')
+  } catch {
+    console.log(JSON.stringify(results, null, 2))
+    throw new Error('LessThanAssertion test failed')
   }
 } 

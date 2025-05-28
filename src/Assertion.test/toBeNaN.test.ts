@@ -1,3 +1,4 @@
+import { TestError } from '../TestError'
 import { Tester } from '../Tester'
 
 export async function toBeNaNTest() {
@@ -122,10 +123,11 @@ export async function toBeNaNTest() {
     }
   ]
 
-  if (JSON.stringify(results, null, 2) !== JSON.stringify(expectedResults, null, 2)) {
+  try {
+    tester.expect(results).toMatchObject(expectedResults)
+    console.log('toBeNaN test passed')
+  } catch (error) {
     console.log(JSON.stringify(results, null, 2))
     throw new Error('toBeNaN test failed')
-  } else {
-    console.log('toBeNaN test passed')
   }
-} 
+}

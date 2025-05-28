@@ -252,10 +252,11 @@ export async function toThrowTest() {
     }
   ]
 
-  if (JSON.stringify(results, null, 2) !== JSON.stringify(expectedResults, null, 2)) {
+  try {
+    tester.expect(results).toMatchObject(expectedResults)
+    console.log('toThrow test passed')
+  } catch {
     console.log(JSON.stringify(results, null, 2))
     throw new Error('toThrow test failed')
-  } else {
-    console.log('toThrow test passed')
   }
 }

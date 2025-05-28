@@ -119,10 +119,11 @@ export async function toBeLessThanOrEqualTest() {
     }
   ]
 
-  if (JSON.stringify(results, null, 2) !== JSON.stringify(expectedResults, null, 2)) {
+  try {
+    tester.expect(results).toMatchObject(expectedResults)
+    console.log('toBeLessThanOrEqual test passed')
+  } catch {
     console.log(JSON.stringify(results, null, 2))
     throw new Error('toBeLessThanOrEqual test failed')
-  } else {
-    console.log('toBeLessThanOrEqual test passed')
   }
 } 

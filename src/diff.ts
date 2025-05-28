@@ -29,6 +29,11 @@ function diffInternal(expected: any, actual: any, expectedRefs: Map<any, string>
     return { type: 'same', value: expected, same: true }
   }
 
+  // NaN is a special case
+  if (Number.isNaN(expected) && Number.isNaN(actual)) {
+    return { type: 'same', value: expected, same: true }
+  }
+
   // Check for null or undefined separately - at the root level we use 'different'
   if (expected === null || expected === undefined || actual === null || actual === undefined) {
     // For direct value comparisons, we use 'different' even if one is undefined

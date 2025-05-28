@@ -119,10 +119,11 @@ export async function toHaveBeenCalledTest() {
     }
   ]
 
-  if (JSON.stringify(results, null, 2) !== JSON.stringify(expectedResults, null, 2)) {
+  try {
+    tester.expect(results).toMatchObject(expectedResults)
+    console.log('toHaveBeenCalled test passed')
+  } catch {
     console.log(JSON.stringify(results, null, 2))
     throw new Error('toHaveBeenCalled test failed')
-  } else {
-    console.log('toHaveBeenCalled test passed')
   }
 }

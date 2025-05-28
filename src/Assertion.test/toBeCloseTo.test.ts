@@ -154,10 +154,11 @@ export async function toBeCloseToTest() {
     }
   ]
 
-  if (JSON.stringify(results, null, 2) !== JSON.stringify(expectedResults, null, 2)) {
+  try {
+    tester.expect(results).toMatchObject(expectedResults)
+    console.log('toBeCloseTo test passed')
+  } catch {
     console.log(JSON.stringify(results, null, 2))
     throw new Error('toBeCloseTo test failed')
-  } else {
-    console.log('toBeCloseTo test passed')
   }
-} 
+}

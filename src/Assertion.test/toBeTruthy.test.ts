@@ -176,10 +176,11 @@ export async function toBeTruthyTest() {
     }
   ]
 
-  if (JSON.stringify(results, null, 2) !== JSON.stringify(expectedResults, null, 2)) {
+  try {
+    tester.expect(results).toMatchObject(expectedResults)
+    console.log('toBeTruthy test passed')
+  } catch {
     console.log(JSON.stringify(results, null, 2))
     throw new Error('toBeTruthy test failed')
-  } else {
-    console.log('toBeTruthy test passed')
   }
 } 

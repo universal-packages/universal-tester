@@ -65,10 +65,11 @@ export async function toBeNullTest() {
     }
   ]
 
-  if (JSON.stringify(results, null, 2) !== JSON.stringify(expectedResults, null, 2)) {
+  try {
+    tester.expect(results).toMatchObject(expectedResults)
+    console.log('toBeNull test passed')
+  } catch {
     console.log(JSON.stringify(results, null, 2))
     throw new Error('toBeNull test failed')
-  } else {
-    console.log('toBeNull test passed')
   }
 } 

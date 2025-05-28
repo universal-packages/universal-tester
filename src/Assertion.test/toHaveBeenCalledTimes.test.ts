@@ -63,7 +63,6 @@ export async function toHaveBeenCalledTimesTest() {
   })
 
   const results = await tester.run()
-  const regularFn = () => {}
   const expectedResults = [
     {
       spec: ['toHaveBeenCalledTimes passes when function has been called expected times'],
@@ -133,8 +132,7 @@ export async function toHaveBeenCalledTimesTest() {
         messageLocals: {
           actual: '()=>{}'
         },
-        expected: 'mock function',
-        actual: regularFn
+        expected: 'mock function'
       },
       passed: false,
       options: {
@@ -143,10 +141,11 @@ export async function toHaveBeenCalledTimesTest() {
     }
   ]
 
-  if (JSON.stringify(results, null, 2) !== JSON.stringify(expectedResults, null, 2)) {
+  try {
+    tester.expect(results).toMatchObject(expectedResults)
+    console.log('toHaveBeenCalledTimes test passed')
+  } catch {
     console.log(JSON.stringify(results, null, 2))
     throw new Error('toHaveBeenCalledTimes test failed')
-  } else {
-    console.log('toHaveBeenCalledTimes test passed')
   }
-} 
+}

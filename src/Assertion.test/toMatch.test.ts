@@ -88,10 +88,11 @@ export async function toMatchTest() {
     }
   ]
 
-  if (JSON.stringify(results, null, 2) !== JSON.stringify(expectedResults, null, 2)) {
+  try {
+    tester.expect(results).toMatchObject(expectedResults)
+    console.log('toMatch test passed')
+  } catch {
     console.log(JSON.stringify(results, null, 2))
     throw new Error('toMatch test failed')
-  } else {
-    console.log('toMatch test passed')
   }
 } 
