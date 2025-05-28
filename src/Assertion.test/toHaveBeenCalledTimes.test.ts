@@ -66,14 +66,14 @@ export async function toHaveBeenCalledTimesTest() {
   const regularFn = () => {}
   const expectedResults = [
     {
-      spec: 'toHaveBeenCalledTimes passes when function has been called expected times',
+      spec: ['toHaveBeenCalledTimes passes when function has been called expected times'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'toHaveBeenCalledTimes fails when function has been called more than expected',
+      spec: ['toHaveBeenCalledTimes fails when function has been called more than expected'],
       error: {
         message: 'Expected mock function to have been called {{expected}} times, but it was called {{actual}} times',
         messageLocals: {
@@ -89,7 +89,7 @@ export async function toHaveBeenCalledTimesTest() {
       }
     },
     {
-      spec: 'toHaveBeenCalledTimes fails when function has been called fewer than expected',
+      spec: ['toHaveBeenCalledTimes fails when function has been called fewer than expected'],
       error: {
         message: 'Expected mock function to have been called {{expected}} times, but it was called {{actual}} times',
         messageLocals: {
@@ -105,14 +105,14 @@ export async function toHaveBeenCalledTimesTest() {
       }
     },
     {
-      spec: 'not.toHaveBeenCalledTimes passes when function has been called different times',
+      spec: ['not.toHaveBeenCalledTimes passes when function has been called different times'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'not.toHaveBeenCalledTimes fails when function has been called expected times',
+      spec: ['not.toHaveBeenCalledTimes fails when function has been called expected times'],
       error: {
         message: 'Expected mock function not to have been called {{expected}} times, but it was',
         messageLocals: {
@@ -127,7 +127,7 @@ export async function toHaveBeenCalledTimesTest() {
       }
     },
     {
-      spec: 'toHaveBeenCalledTimes fails with non-mock function',
+      spec: ['toHaveBeenCalledTimes fails with non-mock function'],
       error: {
         message: 'Expected a mock function, but got {{actual}}',
         messageLocals: {

@@ -81,14 +81,14 @@ export async function toHaveBeenLastCalledWithTest() {
   const regularFn = () => {}
   const expectedResults = [
     {
-      spec: 'toHaveBeenLastCalledWith passes when last call matches args',
+      spec: ['toHaveBeenLastCalledWith passes when last call matches args'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'toHaveBeenLastCalledWith fails when last call does not match args',
+      spec: ['toHaveBeenLastCalledWith fails when last call does not match args'],
       error: {
         message: 'Expected last call to have been called with {{expected}}, but it was called with {{actual}}',
         messageLocals: {
@@ -116,14 +116,14 @@ export async function toHaveBeenLastCalledWithTest() {
       }
     },
     {
-      spec: 'not.toHaveBeenLastCalledWith passes when last call does not match args',
+      spec: ['not.toHaveBeenLastCalledWith passes when last call does not match args'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'not.toHaveBeenLastCalledWith fails when last call matches args',
+      spec: ['not.toHaveBeenLastCalledWith fails when last call matches args'],
       error: {
         message: 'Expected last call not to have been called with given arguments, but it was',
         messageLocals: {},
@@ -148,14 +148,14 @@ export async function toHaveBeenLastCalledWithTest() {
       }
     },
     {
-      spec: 'toHaveBeenLastCalledWith works with multiple args',
+      spec: ['toHaveBeenLastCalledWith works with multiple args'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'toHaveBeenLastCalledWith fails when no calls were made',
+      spec: ['toHaveBeenLastCalledWith fails when no calls were made'],
       error: {
         message: 'Expected mock function to have been called, but it was not called',
         messageLocals: {},
@@ -168,7 +168,7 @@ export async function toHaveBeenLastCalledWithTest() {
       }
     },
     {
-      spec: 'toHaveBeenLastCalledWith fails with non-mock function',
+      spec: ['toHaveBeenLastCalledWith fails with non-mock function'],
       error: {
         message: 'Expected a mock function, but got {{actual}}',
         messageLocals: {

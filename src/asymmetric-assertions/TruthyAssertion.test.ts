@@ -51,14 +51,14 @@ export async function truthyAssertionTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'asserts true for truthy values',
+      spec: ['asserts true for truthy values'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'asserts false for falsy values',
+      spec: ['asserts false for falsy values'],
       passed: true,
       options: {
         timeout: 5000

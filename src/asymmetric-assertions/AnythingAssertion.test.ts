@@ -1,5 +1,4 @@
 import { Tester } from '../Tester'
-
 import { AnythingAssertion } from './AnythingAssertion'
 
 export async function anythingAssertionTest() {
@@ -44,7 +43,7 @@ export async function anythingAssertionTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'always asserts with true',
+      spec: ['always asserts with true'],
       passed: true,
       options: {
         timeout: 5000

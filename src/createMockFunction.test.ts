@@ -122,63 +122,63 @@ export async function createMockFunctionTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'creates a mock function that returns undefined by default',
+      spec: ['creates a mock function that returns undefined by default'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'implements a function',
+      spec: ['implements a function'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'implements a function once',
+      spec: ['implements a function once'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'returns values based on argument scenarios',
+      spec: ['returns values based on argument scenarios'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'tracks function calls',
+      spec: ['tracks function calls'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'asserts if a function has been called',
+      spec: ['asserts if a function has been called'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'asserts if a function has been called with specific arguments',
+      spec: ['asserts if a function has been called with specific arguments'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'handles complex object matching',
+      spec: ['handles complex object matching'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'resets the mock function',
+      spec: ['resets the mock function'],
       passed: true,
       options: {
         timeout: 5000

@@ -276,127 +276,127 @@ export async function diffTest() {
   // Test specifically for the 'same' property in complex structures
   tester.test('correctly determines the same property for nested structures', () => {
     // Same nested objects
-    const nestedObj1 = { a: 1, b: { c: 2, d: [1, 2, { e: 3 }] } };
-    const nestedObj2 = { a: 1, b: { c: 2, d: [1, 2, { e: 3 }] } };
-    const nestedResult = diff(nestedObj1, nestedObj2);
-    tester.expect(nestedResult.same).toBe(true);
-    
+    const nestedObj1 = { a: 1, b: { c: 2, d: [1, 2, { e: 3 }] } }
+    const nestedObj2 = { a: 1, b: { c: 2, d: [1, 2, { e: 3 }] } }
+    const nestedResult = diff(nestedObj1, nestedObj2)
+    tester.expect(nestedResult.same).toBe(true)
+
     // Same structure but different in deep nesting
-    const nestedObj3 = { a: 1, b: { c: 2, d: [1, 2, { e: 3 }] } };
-    const nestedObj4 = { a: 1, b: { c: 2, d: [1, 2, { e: 4 }] } };
-    const nestedDiffResult = diff(nestedObj3, nestedObj4);
-    tester.expect(nestedDiffResult.same).toBe(false);
-    
+    const nestedObj3 = { a: 1, b: { c: 2, d: [1, 2, { e: 3 }] } }
+    const nestedObj4 = { a: 1, b: { c: 2, d: [1, 2, { e: 4 }] } }
+    const nestedDiffResult = diff(nestedObj3, nestedObj4)
+    tester.expect(nestedDiffResult.same).toBe(false)
+
     // Check if parent is marked as different when a child is different
-    const objWithArrays1 = { arr: [1, 2, 3] };
-    const objWithArrays2 = { arr: [1, 2, 4] };
-    const arrayDiffResult = diff(objWithArrays1, objWithArrays2);
-    tester.expect(arrayDiffResult.same).toBe(false);
+    const objWithArrays1 = { arr: [1, 2, 3] }
+    const objWithArrays2 = { arr: [1, 2, 4] }
+    const arrayDiffResult = diff(objWithArrays1, objWithArrays2)
+    tester.expect(arrayDiffResult.same).toBe(false)
   })
 
   // Run the tests
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'compares same primitive values',
+      spec: ['compares same primitive values'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'compares different primitive values',
+      spec: ['compares different primitive values'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'compares undefined and null values',
+      spec: ['compares undefined and null values'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'compares object keys with undefined values vs missing keys',
+      spec: ['compares object keys with undefined values vs missing keys'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'compares same objects',
+      spec: ['compares same objects'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'compares objects with different values',
+      spec: ['compares objects with different values'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'compares objects with different keys',
+      spec: ['compares objects with different keys'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'compares nested objects',
+      spec: ['compares nested objects'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'compares same arrays',
+      spec: ['compares same arrays'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'compares arrays with different values',
+      spec: ['compares arrays with different values'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'compares arrays with different lengths',
+      spec: ['compares arrays with different lengths'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'compares arrays of objects',
+      spec: ['compares arrays of objects'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'handles circular references',
+      spec: ['handles circular references'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'handles circular references with different values',
+      spec: ['handles circular references with different values'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'correctly determines the same property for nested structures',
+      spec: ['correctly determines the same property for nested structures'],
       passed: true,
       options: {
         timeout: 5000

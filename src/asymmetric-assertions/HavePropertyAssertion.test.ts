@@ -80,42 +80,42 @@ export async function havePropertyAssertionTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'asserts true when object has expected property',
+      spec: ['asserts true when object has expected property'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'works with nested properties using dot notation',
+      spec: ['works with nested properties using dot notation'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'asserts true when object has property with expected value',
+      spec: ['asserts true when object has property with expected value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'works with nested properties and expected values',
+      spec: ['works with nested properties and expected values'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'works with object expected values',
+      spec: ['works with object expected values'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'returns false for non-object values',
+      spec: ['returns false for non-object values']   ,
       passed: true,
       options: {
         timeout: 5000

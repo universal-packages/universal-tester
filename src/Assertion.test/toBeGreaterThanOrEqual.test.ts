@@ -34,21 +34,21 @@ export async function toBeGreaterThanOrEqualTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should pass for greater number',
+      spec: ['should pass for greater number'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should pass for equal number',
+      spec: ['should pass for equal number'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for smaller number',
+      spec: ['should fail for smaller number'],
       error: {
         message: 'Expected {{actual}} to be greater than or equal to {{expected}}, but it was not',
         messageLocals: {
@@ -64,7 +64,7 @@ export async function toBeGreaterThanOrEqualTest() {
       }
     },
     {
-      spec: 'should fail for non-number value',
+      spec: ['should fail for non-number value'],
       error: {
         message: 'Expected a number, but got {{actual}}',
         messageLocals: {
@@ -79,14 +79,14 @@ export async function toBeGreaterThanOrEqualTest() {
       }
     },
     {
-      spec: 'should pass for not.toBeGreaterThanOrEqual with smaller number',
+      spec: ['should pass for not.toBeGreaterThanOrEqual with smaller number'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toBeGreaterThanOrEqual with greater number',
+      spec: ['should fail for not.toBeGreaterThanOrEqual with greater number'],
       error: {
         message: 'Expected {{actual}} not to be greater than or equal to {{expected}}, but it was',
         messageLocals: {
@@ -102,7 +102,7 @@ export async function toBeGreaterThanOrEqualTest() {
       }
     },
     {
-      spec: 'should fail for not.toBeGreaterThanOrEqual with equal number',
+      spec: ['should fail for not.toBeGreaterThanOrEqual with equal number'],
       error: {
         message: 'Expected {{actual}} not to be greater than or equal to {{expected}}, but it was',
         messageLocals: {

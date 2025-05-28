@@ -56,14 +56,14 @@ export async function hierarchyTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should be a isolated test',
+      spec: ['should be a isolated test'],
       passed: true,
       options: {
         timeout: 1000
       }
     },
     {
-      spec: 'should fail in a isolated test',
+      spec: ['should fail in a isolated test']  ,
       error: {
         message: 'Expected {{expected}} but got {{actual}}',
         messageLocals: {

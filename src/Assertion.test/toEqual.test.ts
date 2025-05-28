@@ -88,14 +88,14 @@ export async function toEqualTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should compare two equal numbers',
+      spec: ['should compare two equal numbers'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should compare two unequal numbers',
+      spec: ['should compare two unequal numbers'],
       error: {
         message: 'Expected {{expected}} to equal {{actual}}',
         messageLocals: {
@@ -117,14 +117,14 @@ export async function toEqualTest() {
       }
     },
     {
-      spec: 'should compare two equal strings',
+      spec: ['should compare two equal strings'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should compare two unequal strings',
+      spec: ['should compare two unequal strings'],
       error: {
         message: 'Expected {{expected}} to equal {{actual}}',
         messageLocals: {
@@ -146,14 +146,14 @@ export async function toEqualTest() {
       }
     },
     {
-      spec: 'should compare two equal booleans',
+      spec: ['should compare two equal booleans'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should compare two unequal booleans',
+      spec: ['should compare two unequal booleans'],
       error: {
         message: 'Expected {{expected}} to equal {{actual}}',
         messageLocals: {
@@ -175,14 +175,14 @@ export async function toEqualTest() {
       }
     },
     {
-      spec: 'should compare two equal object instances by value',
+      spec: ['should compare two equal object instances by value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should compare two unequal object instances',
+      spec: ['should compare two unequal object instances'],
       error: {
         message: 'Expected objects to be equal, but they were not',
         messageLocals: {},
@@ -218,14 +218,14 @@ export async function toEqualTest() {
       }
     },
     {
-      spec: 'should compare two equal arrays by value',
+      spec: ['should compare two equal arrays by value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should compare two unequal arrays',
+      spec: ['should compare two unequal arrays'],
       error: {
         message: 'Expected arrays to be equal, but they were not',
         messageLocals: {},
@@ -260,14 +260,14 @@ export async function toEqualTest() {
       }
     },
     {
-      spec: 'should compare nested objects by value',
+      spec: ['should compare nested objects by value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should compare unequal nested objects',
+      spec: ['should compare unequal nested objects'],
       error: {
         message: 'Expected objects to be equal, but they were not',
         messageLocals: {},
@@ -313,14 +313,14 @@ export async function toEqualTest() {
       }
     },
     {
-      spec: 'should assert to not equal',
+      spec: ['should assert to not equal'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail to not equal',
+      spec: ['should fail to not equal'],
       error: {
         message: 'Expected {{expected}} not to equal {{actual}}, but it did',
         messageLocals: {
@@ -341,7 +341,7 @@ export async function toEqualTest() {
       }
     },
     {
-      spec: 'should be able to use asymmetric assertions',
+      spec: ['should be able to use asymmetric assertions'],
       passed: true,
       options: {
         timeout: 5000

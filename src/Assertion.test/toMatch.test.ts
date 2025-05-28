@@ -26,14 +26,14 @@ export async function toMatchTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should pass for string matching regex',
+      spec: ['should pass for string matching regex'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for string not matching regex',
+      spec: ['should fail for string not matching regex'],
       error: {
         message: 'Expected {{actual}} to match {{expected}}, but it did not',
         messageLocals: {
@@ -49,7 +49,7 @@ export async function toMatchTest() {
       }
     },
     {
-      spec: 'should fail for non-string value',
+      spec: ['should fail for non-string value'],
       error: {
         message: 'Expected a string, but got {{actual}}',
         messageLocals: {
@@ -64,14 +64,14 @@ export async function toMatchTest() {
       }
     },
     {
-      spec: 'should pass for not.toMatch with non-matching regex',
+      spec: ['should pass for not.toMatch with non-matching regex'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toMatch with matching regex',
+      spec: ['should fail for not.toMatch with matching regex'],
       error: {
         message: 'Expected {{actual}} not to match {{expected}}, but it did',
         messageLocals: {

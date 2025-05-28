@@ -72,14 +72,14 @@ export async function toBeTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should compare two equal numbers',
+      spec: ['should compare two equal numbers'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should compare two unequal numbers',
+      spec: ['should compare two unequal numbers'],
       error: {
         message: 'Expected {{expected}} but got {{actual}}',
         messageLocals: {
@@ -95,14 +95,14 @@ export async function toBeTest() {
       }
     },
     {
-      spec: 'should compare two equal strings',
+      spec: ['should compare two equal strings'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should compare two unequal strings',
+      spec: ['should compare two unequal strings'],
       error: {
         message: 'Expected {{expected}} but got {{actual}}',
         messageLocals: {
@@ -118,14 +118,14 @@ export async function toBeTest() {
       }
     },
     {
-      spec: 'should compare two equal booleans',
+      spec: ['should compare two equal booleans'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should compare two unequal booleans',
+      spec: ['should compare two unequal booleans'],
       error: {
         message: 'Expected {{expected}} but got {{actual}}',
         messageLocals: {
@@ -141,14 +141,14 @@ export async function toBeTest() {
       }
     },
     {
-      spec: 'should compare two equal object instances',
+      spec: ['should compare two equal object instances'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should compare two unequal object instances',
+      spec: ['should compare two unequal object instances'],
       error: {
         message: 'Expected {{expected}} but got {{actual}}',
         messageLocals: {
@@ -170,14 +170,14 @@ export async function toBeTest() {
       }
     },
     {
-      spec: 'should compare two equal arrays',
+      spec: ['should compare two equal arrays'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should compare two unequal arrays',
+      spec: ['should compare two unequal arrays'],
       error: {
         message: 'Expected {{expected}} but got {{actual}}',
         messageLocals: {
@@ -193,14 +193,14 @@ export async function toBeTest() {
       }
     },
     {
-      spec: 'should assert to not be equal',
+      spec: ['should assert to not be equal'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail to not be equal',
+      spec: ['should fail to not be equal'],
       error: {
         message: 'Expected {{expected}} not to be {{actual}}, but it was',
         messageLocals: {
@@ -216,7 +216,7 @@ export async function toBeTest() {
       }
     },
     {
-      spec: 'should be able to use asymmetric assertion',
+      spec: ['should be able to use asymmetric assertion'],
       error: {
         message: 'Expected {{expected}} but got {{actual}}',
         messageLocals: {

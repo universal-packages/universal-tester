@@ -34,14 +34,14 @@ export async function toBeNaNTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should pass for NaN value',
+      spec: ['should pass for NaN value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for number value',
+      spec: ['should fail for number value'],
       error: {
         message: 'Expected value to be NaN, but got {{actual}}',
         messageLocals: {
@@ -56,7 +56,7 @@ export async function toBeNaNTest() {
       }
     },
     {
-      spec: 'should fail for string value',
+      spec: ['should fail for string value'],
       error: {
         message: 'Expected value to be NaN, but got {{actual}}',
         messageLocals: {
@@ -71,7 +71,7 @@ export async function toBeNaNTest() {
       }
     },
     {
-      spec: 'should fail for null value',
+      spec: ['should fail for null value'],
       error: {
         message: 'Expected value to be NaN, but got {{actual}}',
         messageLocals: {
@@ -86,7 +86,7 @@ export async function toBeNaNTest() {
       }
     },
     {
-      spec: 'should fail for undefined value',
+      spec: ['should fail for undefined value'],
       error: {
         message: 'Expected value to be NaN, but got {{actual}}',
         messageLocals: {
@@ -101,14 +101,14 @@ export async function toBeNaNTest() {
       }
     },
     {
-      spec: 'should pass for not.toBeNaN with number value',
+      spec: ['should pass for not.toBeNaN with number value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toBeNaN with NaN value',
+      spec: ['should fail for not.toBeNaN with NaN value'],
       error: {
         message: 'Expected value not to be NaN, but it was',
         messageLocals: {},

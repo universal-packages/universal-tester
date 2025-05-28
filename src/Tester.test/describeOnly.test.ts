@@ -37,7 +37,7 @@ export async function describeOnlyTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should not run because only is set on a describe block',
+      spec: ['should not run because only is set on a describe block'],
       passed: true,
       options: {
         timeout: 5000
@@ -78,4 +78,4 @@ export async function describeOnlyTest() {
   } else {
     console.log('Describe only test passed')
   }
-} 
+}

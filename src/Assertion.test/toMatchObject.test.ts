@@ -65,14 +65,14 @@ export async function toMatchObjectTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should pass when object matches subset',
+      spec: ['should pass when object matches subset'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail when property does not match',
+      spec: ['should fail when property does not match'],
       error: {
         message: 'Expected {{expected}} to match {{actual}}',
         messageLocals: {
@@ -106,7 +106,7 @@ export async function toMatchObjectTest() {
       }
     },
     {
-      spec: 'should fail when property does not exist',
+      spec: ['should fail when property does not exist'],
       error: {
         message: 'Expected {{expected}} to match {{actual}}',
         messageLocals: {
@@ -139,7 +139,7 @@ export async function toMatchObjectTest() {
       }
     },
     {
-      spec: 'should fail when not an object',
+      spec: ['should fail when not an object'],
       error: {
         message: 'Expected an object, but got {{actual}}',
         messageLocals: {
@@ -154,7 +154,7 @@ export async function toMatchObjectTest() {
       }
     },
     {
-      spec: 'should fail when object is null',
+      spec: ['should fail when object is null'],
       error: {
         message: 'Expected an object, but got {{actual}}',
         messageLocals: {
@@ -169,14 +169,14 @@ export async function toMatchObjectTest() {
       }
     },
     {
-      spec: 'should pass for array with matching items',
+      spec: ['should pass for array with matching items'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for array with non-matching items',
+      spec: ['should fail for array with non-matching items'],
       error: {
         message: 'Expected {{expected}} to match {{actual}}',
         messageLocals: {
@@ -219,14 +219,14 @@ export async function toMatchObjectTest() {
       }
     },
     {
-      spec: 'should pass for nested objects',
+      spec: ['should pass for nested objects'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for nested objects with non-matching property',
+      spec: ['should fail for nested objects with non-matching property'],
       error: {
         message: 'Expected {{expected}} to match {{actual}}',
         messageLocals: {
@@ -280,14 +280,14 @@ export async function toMatchObjectTest() {
       }
     },
     {
-      spec: 'should pass for not.toMatchObject when object does not match',
+      spec: ['should pass for not.toMatchObject when object does not match'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toMatchObject when object matches',
+      spec: ['should fail for not.toMatchObject when object matches'],
       error: {
         message: 'Expected {{expected}} not to match {{actual}}',
         messageLocals: {
@@ -326,7 +326,7 @@ export async function toMatchObjectTest() {
       }
     },
     {
-      spec: 'should be able to use asymetric matchers',
+      spec: ['should be able to use asymetric matchers'],
       passed: true,
       options: {
         timeout: 5000

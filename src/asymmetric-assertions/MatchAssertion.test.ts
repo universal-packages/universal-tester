@@ -60,22 +60,22 @@ export async function matchAssertionTest() {
 
   const results = await tester.run()
   const expectedResults = [
-    {
-      spec: 'asserts true when string matches the regex pattern',
+        {
+          spec: ['asserts true when string matches the regex pattern'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'works with complex regex patterns',
+      spec: ['works with complex regex patterns'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'returns false for non-string values (when notToExpect is false)',
+      spec: ['returns false for non-string values (when notToExpect is false)'],
       passed: true,
       options: {
         timeout: 5000

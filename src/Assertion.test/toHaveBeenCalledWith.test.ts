@@ -88,14 +88,14 @@ export async function toHaveBeenCalledWithTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'toHaveBeenCalledWith passes when function was called with matching primitive arguments',
+      spec: ['toHaveBeenCalledWith passes when function was called with matching primitive arguments'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'toHaveBeenCalledWith fails when function was not called with matching arguments',
+      spec: ['toHaveBeenCalledWith fails when function was not called with matching arguments'],
       error: {
         message: 'Expected mock function to have been called with given arguments, but it was not',
         messageLocals: {},
@@ -127,14 +127,14 @@ export async function toHaveBeenCalledWithTest() {
       }
     },
     {
-      spec: 'not.toHaveBeenCalledWith passes when function was not called with given arguments',
+      spec: ['not.toHaveBeenCalledWith passes when function was not called with given arguments'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'not.toHaveBeenCalledWith fails when function was called with given arguments',
+      spec: ['not.toHaveBeenCalledWith fails when function was called with given arguments'],
       error: {
         message: 'Expected mock function not to have been called with given arguments, but it was',
         messageLocals: {},
@@ -165,28 +165,28 @@ export async function toHaveBeenCalledWithTest() {
       }
     },
     {
-      spec: 'toHaveBeenCalledWith works with objects using deep equality',
+      spec: ['toHaveBeenCalledWith works with objects using deep equality'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'toHaveBeenCalledWith works with arrays',
+      spec: ['toHaveBeenCalledWith works with arrays'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'toHaveBeenCalledWith finds matching call among multiple calls',
+      spec: ['toHaveBeenCalledWith finds matching call among multiple calls'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'toHaveBeenCalledWith fails with non-mock function',
+      spec: ['toHaveBeenCalledWith fails with non-mock function'],
       error: {
         message: 'Expected a mock function, but got {{actual}}',
         messageLocals: {
@@ -200,7 +200,7 @@ export async function toHaveBeenCalledWithTest() {
       }
     },
     {
-      spec: 'toHaveBeenCalledWith should be able to use asymmetric assertions',
+      spec: ['toHaveBeenCalledWith should be able to use asymmetric assertions'],
       passed: true,
       options: {
         timeout: 5000

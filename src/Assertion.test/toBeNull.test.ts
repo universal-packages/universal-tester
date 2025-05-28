@@ -22,14 +22,14 @@ export async function toBeNullTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should pass for null value',
+      spec: ['should pass for null value'], 
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for non-null value',
+      spec: ['should fail for non-null value'],
       error: {
         message: 'Expected value to be null, but got {{actual}}',
         messageLocals: {
@@ -44,14 +44,14 @@ export async function toBeNullTest() {
       }
     },
     {
-      spec: 'should pass for not.toBeNull with non-null value',
+      spec: ['should pass for not.toBeNull with non-null value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toBeNull with null value',
+      spec: ['should fail for not.toBeNull with null value'],
       error: {
         message: 'Expected value not to be null, but it was',
         messageLocals: {},

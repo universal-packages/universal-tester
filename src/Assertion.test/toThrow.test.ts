@@ -108,14 +108,14 @@ export async function toThrowTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should pass for function that throws',
+      spec: ['should pass for function that throws'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for function that does not throw',
+      spec: ['should fail for function that does not throw'],
       error: {
         message: 'Expected function to throw, but it did not',
         messageLocals: {},
@@ -128,14 +128,14 @@ export async function toThrowTest() {
       }
     },
     {
-      spec: 'should pass for function that throws with matching string',
+      spec: ['should pass for function that throws with matching string'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for function that throws with non-matching string',
+      spec: ['should fail for function that throws with non-matching string'],
       error: {
         message: 'Expected function to throw matching error, but it threw {{actual}}',
         messageLocals: {
@@ -150,14 +150,14 @@ export async function toThrowTest() {
       }
     },
     {
-      spec: 'should pass for function that throws with matching regex',
+      spec: ['should pass for function that throws with matching regex'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for function that throws with non-matching regex',
+      spec: ['should fail for function that throws with non-matching regex'],
       error: {
         message: 'Expected function to throw matching error, but it threw {{actual}}',
         messageLocals: {
@@ -172,14 +172,14 @@ export async function toThrowTest() {
       }
     },
     {
-      spec: 'should pass for function that throws with matching error',
+      spec: ['should pass for function that throws with matching error'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for function that throws with non-matching error',
+      spec: ['should fail for function that throws with non-matching error'],
       error: {
         message: 'Expected function to throw matching error, but it threw {{actual}}',
         messageLocals: {
@@ -194,7 +194,7 @@ export async function toThrowTest() {
       }
     },
     {
-      spec: 'should fail for non-function value',
+      spec: ['should fail for non-function value'],
       error: {
         message: 'Expected a function, but got {{actual}}',
         messageLocals: {
@@ -209,14 +209,14 @@ export async function toThrowTest() {
       }
     },
     {
-      spec: 'should pass for not.toThrow with function that does not throw',
+      spec: ['should pass for not.toThrow with function that does not throw'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toThrow with function that throws',
+      spec: ['should fail for not.toThrow with function that throws'],
       error: {
         message: 'Expected function not to throw, but it threw {{actual}}',
         messageLocals: {
@@ -231,14 +231,14 @@ export async function toThrowTest() {
       }
     },
     {
-      spec: 'should pass for not.toThrow with function that throws non-matching error',
+      spec: ['should pass for not.toThrow with function that throws non-matching error'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toThrow with function that throws matching error',
+      spec: ['should fail for not.toThrow with function that throws matching error'],
       error: {
         message: 'Expected function not to throw matching error, but it did',
         messageLocals: {},

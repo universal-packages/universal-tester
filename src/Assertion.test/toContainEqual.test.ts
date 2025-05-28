@@ -42,14 +42,14 @@ export async function toContainEqualTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should pass for array containing structurally equal object',
+      spec: ['should pass for array containing structurally equal object'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for array not containing structurally equal object',
+      spec: ['should fail for array not containing structurally equal object'],
       error: {
         message: 'Expected {{actual}} to contain an item equal to {{expected}}, but it did not',
         messageLocals: {
@@ -65,14 +65,14 @@ export async function toContainEqualTest() {
       }
     },
     {
-      spec: 'should pass for array containing equal primitive',
+      spec: ['should pass for array containing equal primitive'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for array not containing equal primitive',
+      spec: ['should fail for array not containing equal primitive'],
       error: {
         message: 'Expected {{actual}} to contain an item equal to {{expected}}, but it did not',
         messageLocals: {
@@ -88,14 +88,14 @@ export async function toContainEqualTest() {
       }
     },
     {
-      spec: 'should pass for array containing equal nested object',
+      spec: ['should pass for array containing equal nested object'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for array not containing equal nested object',
+      spec: ['should fail for array not containing equal nested object'],
       error: {
         message: 'Expected {{actual}} to contain an item equal to {{expected}}, but it did not',
         messageLocals: {
@@ -111,7 +111,7 @@ export async function toContainEqualTest() {
       }
     },
     {
-      spec: 'should fail for non-array value',
+      spec: ['should fail for non-array value'],
       error: {
         message: 'Expected an array, but got {{actual}}',
         messageLocals: {
@@ -126,14 +126,14 @@ export async function toContainEqualTest() {
       }
     },
     {
-      spec: 'should pass for not.toContainEqual with array not containing equal object',
+      spec: ['should pass for not.toContainEqual with array not containing equal object'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toContainEqual with array containing equal object',
+      spec: ['should fail for not.toContainEqual with array containing equal object'],
       error: {
         message: 'Expected {{actual}} not to contain an item equal to {{expected}}, but it did',
         messageLocals: {

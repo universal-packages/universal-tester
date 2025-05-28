@@ -42,14 +42,14 @@ export async function toHaveLengthTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should pass for array with correct length',
+      spec: ['should pass for array with correct length'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for array with incorrect length',
+      spec: ['should fail for array with incorrect length'],
       error: {
         message: 'Expected {{actual}} to have length {{expected}}, but got length {{actualLength}}',
         messageLocals: {
@@ -66,14 +66,14 @@ export async function toHaveLengthTest() {
       }
     },
     {
-      spec: 'should pass for string with correct length',
+      spec: ['should pass for string with correct length'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for string with incorrect length',
+      spec: ['should fail for string with incorrect length'],
       error: {
         message: 'Expected {{actual}} to have length {{expected}}, but got length {{actualLength}}',
         messageLocals: {
@@ -90,7 +90,7 @@ export async function toHaveLengthTest() {
       }
     },
     {
-      spec: 'should fail for value without length property',
+      spec: ['should fail for value without length property'],
       error: {
         message: 'Expected value to have a length, but it does not',
         messageLocals: {},
@@ -103,14 +103,14 @@ export async function toHaveLengthTest() {
       }
     },
     {
-      spec: 'should pass for not.toHaveLength with array of different length',
+      spec: ['should pass for not.toHaveLength with array of different length'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toHaveLength with array of specified length',
+      spec: ['should fail for not.toHaveLength with array of specified length'],
       error: {
         message: 'Expected {{actual}} not to have length {{expected}}, but it did',
         messageLocals: {
@@ -126,14 +126,14 @@ export async function toHaveLengthTest() {
       }
     },
     {
-      spec: 'should pass for not.toHaveLength with string of different length',
+      spec: ['should pass for not.toHaveLength with string of different length'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toHaveLength with string of specified length',
+      spec: ['should fail for not.toHaveLength with string of specified length'],
       error: {
         message: 'Expected {{actual}} not to have length {{expected}}, but it did',
         messageLocals: {

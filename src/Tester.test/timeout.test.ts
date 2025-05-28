@@ -14,7 +14,7 @@ export async function timeoutTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should handle test that times out',
+      spec: ['should handle test that times out'],
       error: {
         message: 'Test timed out after {{timeout}}ms',
         messageLocals: {

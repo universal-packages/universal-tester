@@ -60,14 +60,14 @@ export async function toRejectTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should pass for promise that rejects',
+      spec: ['should pass for promise that rejects'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for promise that resolves',
+      spec: ['should fail for promise that resolves'],
       error: {
         message: 'Expected promise to reject, but it resolved with {{actual}}',
         messageLocals: {
@@ -82,14 +82,14 @@ export async function toRejectTest() {
       }
     },
     {
-      spec: 'should pass for promise that rejects with expected error message',
+      spec: ['should pass for promise that rejects with expected error message'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for promise that rejects with different error message',
+      spec: ['should fail for promise that rejects with different error message'],
       error: {
         message: 'Expected promise to reject with {{expected}}, but it rejected with {{actual}}',
         messageLocals: {
@@ -105,14 +105,14 @@ export async function toRejectTest() {
       }
     },
     {
-      spec: 'should pass for promise that rejects with matching regex',
+      spec: ['should pass for promise that rejects with matching regex'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for promise that rejects with non-matching regex',
+      spec: ['should fail for promise that rejects with non-matching regex'],
       error: {
         message: 'Expected promise to reject with {{expected}}, but it rejected with {{actual}}',
         messageLocals: {
@@ -128,14 +128,14 @@ export async function toRejectTest() {
       }
     },
     {
-      spec: 'should pass for promise that rejects with matching error',
+      spec: ['should pass for promise that rejects with matching error'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for promise that rejects with different error',
+      spec: ['should fail for promise that rejects with different error'],
       error: {
         message: 'Expected promise to reject with {{expected}}, but it rejected with {{actual}}',
         messageLocals: {
@@ -151,7 +151,7 @@ export async function toRejectTest() {
       }
     },
     {
-      spec: 'should fail for non-promise value',
+      spec: ['should fail for non-promise value'],
       error: {
         message: 'Expected a promise, but got {{actual}}',
         messageLocals: {
@@ -166,14 +166,14 @@ export async function toRejectTest() {
       }
     },
     {
-      spec: 'should pass for not.toReject with promise that resolves',
+      spec: ['should pass for not.toReject with promise that resolves'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toReject with promise that rejects',
+      spec: ['should fail for not.toReject with promise that rejects'],
       error: {
         message: 'Expected promise not to reject, but it rejected with {{actual}}',
         messageLocals: {
@@ -188,14 +188,14 @@ export async function toRejectTest() {
       }
     },
     {
-      spec: 'should pass for not.toReject with promise that rejects with different error',
+      spec: ['should pass for not.toReject with promise that rejects with different error'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toReject with promise that rejects with expected error',
+      spec: ['should fail for not.toReject with promise that rejects with expected error'],
       error: {
         message: 'Expected promise not to reject with {{expected}}, but it did',
         messageLocals: {

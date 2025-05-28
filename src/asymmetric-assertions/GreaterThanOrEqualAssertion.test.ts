@@ -48,14 +48,14 @@ export async function greaterThanOrEqualAssertionTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'asserts true when value is greater than or equal to expected',
+      spec: ['asserts true when value is greater than or equal to expected'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'returns false for non-number values',
+      spec: ['returns false for non-number values']   ,
       passed: true,
       options: {
         timeout: 5000

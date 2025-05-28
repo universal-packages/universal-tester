@@ -2,7 +2,7 @@ import EventEmitter from 'events'
 
 import { Assertion } from './Assertion'
 import { TestError } from './TestError'
-import { DescribeOptions, TestDescription, TestOptions, TestResult, TesterOptions } from './Tester.types'
+import { DescribeOptions, Test, TestOptions, TestResult, TesterOptions, TesterStatus, TestingNode } from './Tester.types'
 import { AnythingAssertion } from './asymmetric-assertions/AnythingAssertion'
 import { CloseToAssertion } from './asymmetric-assertions/CloseToAssertion'
 import { ContainAssertion } from './asymmetric-assertions/ContainAssertion'
@@ -24,10 +24,17 @@ import { spyOn } from './spyOn'
 export class Tester extends EventEmitter {
   public readonly options: TesterOptions
 
-  private tests: TestDescription[] = []
-  private currentSpecPath: string[] = []
-  private currentDescribeOptions: DescribeOptions[] = []
-  private testResults: TestResult[] = []
+  private readonly testingTree: TestingNode
+  private readonly currentTestingNodeStack: TestingNode[] = []
+  private readonly testResults: TestResult[] = []
+  private readonly testsSequence: Test[] = []
+  private _internalStatus: TesterStatus = 'idle'
+
+  private beforeOrAfterHooksOrTestFailed = false
+
+  public get status() {
+    return this._internalStatus
+  }
 
   public get not() {
     return {
@@ -61,6 +68,22 @@ export class Tester extends EventEmitter {
   public constructor(options?: TesterOptions) {
     super()
     this.options = { bail: false, runOrder: 'sequence', timeout: 5000, ...options }
+    this.testingTree = {
+      name: Symbol('root'),
+      describeOptions: { timeout: this.options.timeout },
+      tests: [],
+      children: [],
+      completed: false,
+      beforeHooks: [],
+      beforeHooksErrors: [],
+      beforeHooksHaveRun: false,
+      beforeEachHooks: [],
+      afterEachHooks: [],
+      afterEachHooksErrors: [],
+      afterHooks: [],
+      afterHooksErrors: []
+    }
+    this.currentTestingNodeStack.push(this.testingTree)
   }
 
   public mockFn() {
@@ -137,26 +160,39 @@ export class Tester extends EventEmitter {
   public describe(name: string | Function, fn: () => void, options?: DescribeOptions) {
     const descriptiveName = typeof name === 'string' ? name : name.name || 'Anonymous Function'
 
-    // Push the describe name to the current path
-    this.currentSpecPath.push(descriptiveName)
+    const describeNode: TestingNode = {
+      name: descriptiveName,
+      describeOptions: options || {},
+      tests: [],
+      children: [],
+      parent: this.currentTestingNodeStack[this.currentTestingNodeStack.length - 1],
+      completed: false,
+      beforeHooks: [],
+      beforeHooksErrors: [],
+      beforeHooksHaveRun: false,
+      beforeEachHooks: [],
+      afterEachHooks: [],
+      afterEachHooksErrors: [],
+      afterHooks: [],
+      afterHooksErrors: []
+    }
 
-    // Push the describe options to the stack
-    this.currentDescribeOptions.push(options || {})
+    this.currentTestingNodeStack[this.currentTestingNodeStack.length - 1].children.push(describeNode)
+    this.currentTestingNodeStack.push(describeNode)
 
     // Execute the function to register nested tests and describes
     fn()
 
-    // Remove the describe options and name from the path when we're done
-    this.currentDescribeOptions.pop()
-    this.currentSpecPath.pop()
+    this.currentTestingNodeStack.pop()
   }
 
   public test(name: string, fn: () => void | Promise<void>, options?: TestOptions) {
     // Merge options from describe blocks (from outer to inner)
     const mergedOptions: TestOptions = { timeout: this.options.timeout }
+    const describeOptionsStack = this.currentTestingNodeStack.map((node) => node.describeOptions)
 
     // Apply describe options from outermost to innermost
-    for (const describeOpts of this.currentDescribeOptions) {
+    for (const describeOpts of describeOptionsStack) {
       if (describeOpts.timeout !== undefined) mergedOptions.timeout = describeOpts.timeout
       if (describeOpts.only !== undefined) mergedOptions.only = describeOpts.only
       if (describeOpts.skip !== undefined) mergedOptions.skip = describeOpts.skip
@@ -164,16 +200,34 @@ export class Tester extends EventEmitter {
     }
 
     // Test options take precedence over all describe options
-    if (options) {
-      Object.assign(mergedOptions, options)
-    }
+    if (options) Object.assign(mergedOptions, options)
 
-    this.tests.push({
+    const test: Test = {
       name,
       fn,
       options: mergedOptions,
-      specPath: [...this.currentSpecPath]
-    })
+      parent: this.currentTestingNodeStack[this.currentTestingNodeStack.length - 1],
+      hasRun: false
+    }
+
+    this.testsSequence.push(test)
+    this.currentTestingNodeStack[this.currentTestingNodeStack.length - 1].tests.push(test)
+  }
+
+  public before(fn: () => void | Promise<void>) {
+    this.currentTestingNodeStack[this.currentTestingNodeStack.length - 1].beforeHooks.push(fn)
+  }
+
+  public beforeEach(fn: () => void | Promise<void>) {
+    this.currentTestingNodeStack[this.currentTestingNodeStack.length - 1].beforeEachHooks.push(fn)
+  }
+
+  public after(fn: () => void | Promise<void>) {
+    this.currentTestingNodeStack[this.currentTestingNodeStack.length - 1].afterHooks.push(fn)
+  }
+
+  public afterEach(fn: () => void | Promise<void>) {
+    this.currentTestingNodeStack[this.currentTestingNodeStack.length - 1].afterEachHooks.push(fn)
   }
 
   public expect(value: any) {
@@ -181,13 +235,19 @@ export class Tester extends EventEmitter {
   }
 
   public async run() {
-    this.testResults = []
+    if (this._internalStatus === 'running') {
+      throw new Error('Tester is already running')
+    } else if (this._internalStatus === 'success' || this._internalStatus === 'failure') {
+      throw new Error('Tester has already completed')
+    }
+
+    this._internalStatus = 'running'
 
     // Check if any test has 'only' flag
-    const hasOnlyTests = this.tests.some((test) => test.options.only)
+    const hasOnlyTests = this.testsSequence.some((test) => test.options.only)
 
     // Make a copy of the test array
-    const testsToRun = [...this.tests]
+    const testsToRun = [...this.testsSequence]
 
     // Process tests based on their options and the tester's run order
     if (this.options.runOrder === 'random') {
@@ -196,6 +256,13 @@ export class Tester extends EventEmitter {
     } else if (this.options.runOrder === 'parallel') {
       // For parallel execution, we'll pass the hasOnlyTests flag to runTest
       await Promise.all(testsToRun.map((test) => this.runTest(test, hasOnlyTests)))
+
+      if (this.beforeOrAfterHooksOrTestFailed) {
+        this._internalStatus = 'failure'
+      } else {
+        this._internalStatus = 'success'
+      }
+
       return this.testResults
     }
 
@@ -209,17 +276,53 @@ export class Tester extends EventEmitter {
       }
     }
 
+    if (this.beforeOrAfterHooksOrTestFailed) {
+      this._internalStatus = 'failure'
+    } else {
+      this._internalStatus = 'success'
+    }
+
     return this.testResults
   }
 
-  private async runTest(test: TestDescription, hasOnlyTests: boolean) {
-    // Determine if the test should be skipped
+  private async runTest(test: Test, hasOnlyTests: boolean) {
+    const nodePath: TestingNode[] = []
+    let currentNode: TestingNode | undefined = test.parent
+
+    while (currentNode) {
+      nodePath.push(currentNode)
+      currentNode = currentNode.parent
+    }
+
+    const spec: string[] = [test.name]
+
+    for (const node of nodePath) {
+      if (node.name.toString() !== Symbol('root').toString()) spec.unshift(node.name.toString())
+    }
+
+    const hasBeforeHooksErrors = nodePath.some((node) => node.beforeHooksErrors.length > 0)
+
+    if (hasBeforeHooksErrors) {
+      this.testResults.push({
+        spec,
+        passed: false,
+        options: test.options,
+        error: new TestError({
+          message: 'Can not run if before hooks fail',
+          messageLocals: {},
+          expected: 'Before hooks to not fail',
+          actual: 'Before hooks failed'
+        })
+      })
+      return
+    }
+
     const shouldSkip = test.options.skip || (hasOnlyTests && !test.options.only)
     const skipReason = test.options.skipReason || (hasOnlyTests && !test.options.only ? '"only" tests are active' : undefined)
-    const spec = test.specPath.length === 0 ? test.name : [...test.specPath, test.name]
 
     // If the test should be skipped, record the result without executing
     if (shouldSkip) {
+      test.hasRun = true
       this.testResults.push({
         spec,
         passed: true,
@@ -227,6 +330,29 @@ export class Tester extends EventEmitter {
         skipped: true,
         skipReason: skipReason
       })
+
+      for (const node of nodePath) {
+        const allTestsCompleted = node.tests.every((test) => test.hasRun)
+        const allNodesCompleted = node.children.every((node) => node.completed)
+
+        if (allTestsCompleted && allNodesCompleted) {
+          node.completed = true
+        }
+      }
+
+      for (const node of nodePath) {
+        if (node.completed) {
+          for (const hook of node.afterHooks) {
+            try {
+              await hook()
+            } catch (error: unknown) {
+              this.beforeOrAfterHooksOrTestFailed = true
+              node.afterHooksErrors.push(error as Error)
+            }
+          }
+        }
+      }
+
       return
     }
 
@@ -250,8 +376,71 @@ export class Tester extends EventEmitter {
         }, test.options.timeout)
       })
 
-      // Race the test execution against the timeout
-      await Promise.race([Promise.resolve().then(() => test.fn()), timeoutPromise])
+      // Run all before hooks for each node in the path
+      for (const node of nodePath.slice().reverse()) {
+        if (!node.beforeHooksHaveRun) {
+          node.beforeHooksHaveRun = true
+
+          for (const hook of node.beforeHooks) {
+            try {
+              await hook()
+            } catch (error: unknown) {
+              node.beforeHooksErrors.push(error as Error)
+            }
+          }
+
+          if (node.beforeHooksErrors.length > 0) {
+            this.beforeOrAfterHooksOrTestFailed = true
+
+            this.testResults.push({
+              spec,
+              passed: false,
+              options: test.options,
+              error: new TestError({
+                message: 'Can not run if before hooks fail',
+                messageLocals: {},
+                expected: 'Before hooks to not fail',
+                actual: 'Before hooks failed'
+              })
+            })
+
+            return
+          }
+        }
+      }
+
+      // Now we run all beforeEach hooks for each node in the path they all have to run
+      for (const node of nodePath.slice().reverse()) {
+        for (const hook of node.beforeEachHooks) {
+          try {
+            await hook()
+          } catch (error: unknown) {
+            throw new TestError({
+              message: error instanceof Error ? error.message : 'Unknown error',
+              messageLocals: {},
+              expected: 'BeforeEach hook to not fail',
+              actual: 'BeforeEach hook failed'
+            })
+          }
+        }
+      }
+
+      try {
+        await Promise.race([Promise.resolve().then(() => test.fn()), timeoutPromise])
+      } catch (error: unknown) {
+        throw error
+      } finally {
+        test.hasRun = true
+
+        for (const node of nodePath) {
+          const allTestsCompleted = node.tests.every((test) => test.hasRun)
+          const allNodesCompleted = node.children.every((node) => node.completed)
+
+          if (allTestsCompleted && allNodesCompleted) {
+            node.completed = true
+          }
+        }
+      }
 
       // If we get here, the test passed
       this.testResults.push({
@@ -260,23 +449,42 @@ export class Tester extends EventEmitter {
         options: test.options
       })
     } catch (error: unknown) {
-      if (error instanceof TestError) {
-        this.testResults.push({
-          spec,
-          error: error,
-          passed: false,
-          options: test.options
-        })
+      this.beforeOrAfterHooksOrTestFailed = true
 
-        if (this.options.bail) {
-          throw error
-        }
-      } else {
-        throw error
-      }
+      this.testResults.push({
+        spec,
+        error: error as TestError,
+        passed: false,
+        options: test.options
+      })
     } finally {
       // Clear the timeout to prevent memory leaks
       if (timeoutId) clearTimeout(timeoutId)
+
+      // Now we run all afterEach hooks for each node in the path they all have to run
+      for (const node of nodePath.slice().reverse()) {
+        for (const hook of node.afterEachHooks) {
+          try {
+            await hook()
+          } catch (error: unknown) {
+            this.beforeOrAfterHooksOrTestFailed = true
+            node.afterEachHooksErrors.push(error as Error)
+          }
+        }
+      }
+
+      for (const node of nodePath) {
+        if (node.completed) {
+          for (const hook of node.afterHooks) {
+            try {
+              await hook()
+            } catch (error: unknown) {
+              this.beforeOrAfterHooksOrTestFailed = true
+              node.afterHooksErrors.push(error as Error)
+            }
+          }
+        }
+      }
     }
   }
 }

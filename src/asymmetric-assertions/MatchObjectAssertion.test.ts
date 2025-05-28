@@ -147,28 +147,28 @@ export async function matchObjectAssertionTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'asserts true when object contains all expected keys with matching values',
+      spec: ['asserts true when object contains all expected keys with matching values'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'works with nested objects',
+      spec: ['works with nested objects'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'works with arrays',
+      spec: ['works with arrays'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'returns false for non-object values',
+      spec: ['returns false for non-object values'],
       passed: true,
       options: {
         timeout: 5000

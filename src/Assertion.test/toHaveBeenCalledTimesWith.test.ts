@@ -99,14 +99,14 @@ export async function toHaveBeenCalledTimesWithTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'toHaveBeenCalledTimesWith passes when function has been called expected times with matching arguments',
+      spec: ['toHaveBeenCalledTimesWith passes when function has been called expected times with matching arguments'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'toHaveBeenCalledTimesWith fails when function has been called fewer times with matching arguments',
+      spec: ['toHaveBeenCalledTimesWith fails when function has been called fewer times with matching arguments'],
       error: {
         message: 'Expected mock function to have been called {{expected}} times with given arguments, but it was called {{actual}} times with those arguments',
         messageLocals: {
@@ -126,7 +126,7 @@ export async function toHaveBeenCalledTimesWithTest() {
       }
     },
     {
-      spec: 'toHaveBeenCalledTimesWith fails when function has been called more times with matching arguments',
+      spec: ['toHaveBeenCalledTimesWith fails when function has been called more times with matching arguments'],
       error: {
         message: 'Expected mock function to have been called {{expected}} times with given arguments, but it was called {{actual}} times with those arguments',
         messageLocals: {
@@ -147,14 +147,14 @@ export async function toHaveBeenCalledTimesWithTest() {
       }
     },
     {
-      spec: 'not.toHaveBeenCalledTimesWith passes when function has been called different times with matching arguments',
+      spec: ['not.toHaveBeenCalledTimesWith passes when function has been called different times with matching arguments'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'not.toHaveBeenCalledTimesWith fails when function has been called expected times with matching arguments',
+      spec: ['not.toHaveBeenCalledTimesWith fails when function has been called expected times with matching arguments'],
       error: {
         message: 'Expected mock function not to have been called {{expected}} times with given arguments, but it was',
         messageLocals: {
@@ -169,21 +169,21 @@ export async function toHaveBeenCalledTimesWithTest() {
       }
     },
     {
-      spec: 'toHaveBeenCalledTimesWith works with objects using deep equality',
+      spec: ['toHaveBeenCalledTimesWith works with objects using deep equality'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'toHaveBeenCalledTimesWith works with arrays',
+      spec: ['toHaveBeenCalledTimesWith works with arrays'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'toHaveBeenCalledTimesWith fails with non-mock function',
+      spec: ['toHaveBeenCalledTimesWith fails with non-mock function'],
       error: {
         message: 'Expected a mock function, but got {{actual}}',
         messageLocals: {
@@ -197,7 +197,7 @@ export async function toHaveBeenCalledTimesWithTest() {
       }
     },
     {
-      spec: 'toHaveBeenCalledTimesWith works with asymmetric assertions',
+      spec: ['toHaveBeenCalledTimesWith works with asymmetric assertions'],
       error: {
         message: 'Expected mock function to have been called {{expected}} times with given arguments, but it was called {{actual}} times with those arguments',
         messageLocals: {

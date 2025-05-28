@@ -27,14 +27,14 @@ export async function skipTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should run normally',
+      spec: ['should run normally'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should be skipped',
+      spec: ['should be skipped'],
       passed: true,
       options: {
         timeout: 5000,
@@ -45,7 +45,7 @@ export async function skipTest() {
       skipReason: 'Just because'
     },
     {
-      spec: 'should run normally',
+      spec: ['should run normally'],
       passed: true,
       options: {
         timeout: 5000

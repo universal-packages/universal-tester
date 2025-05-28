@@ -58,14 +58,14 @@ export async function toHavePropertyTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should pass for object with property',
+      spec: ['should pass for object with property'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for object without property',
+      spec: ['should fail for object without property'],
       error: {
         message: 'Expected object to have property {{path}}, but it did not',
         messageLocals: {
@@ -80,14 +80,14 @@ export async function toHavePropertyTest() {
       }
     },
     {
-      spec: 'should pass for nested property',
+      spec: ['should pass for nested property'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for missing nested property',
+      spec: ['should fail for missing nested property'],
       error: {
         message: 'Expected object to have property {{path}}, but it did not',
         messageLocals: {
@@ -102,14 +102,14 @@ export async function toHavePropertyTest() {
       }
     },
     {
-      spec: 'should pass for property with specific value',
+      spec: ['should pass for property with specific value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for property with different value',
+      spec: ['should fail for property with different value'],
       error: {
         message: 'Expected property {{path}} to equal {{expected}}, but got {{actual}}',
         messageLocals: {
@@ -126,14 +126,14 @@ export async function toHavePropertyTest() {
       }
     },
     {
-      spec: 'should pass for nested property with specific value',
+      spec: ['should pass for nested property with specific value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for nested property with different value',
+      spec: ['should fail for nested property with different value'],
       error: {
         message: 'Expected property {{path}} to equal {{expected}}, but got {{actual}}',
         messageLocals: {
@@ -150,7 +150,7 @@ export async function toHavePropertyTest() {
       }
     },
     {
-      spec: 'should fail for non-object value',
+      spec: ['should fail for non-object value'],
       error: {
         message: 'Expected object to have property {{path}}, but it did not',
         messageLocals: {
@@ -165,14 +165,14 @@ export async function toHavePropertyTest() {
       }
     },
     {
-      spec: 'should pass for not.toHaveProperty with missing property',
+      spec: ['should pass for not.toHaveProperty with missing property'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toHaveProperty with existing property',
+      spec: ['should fail for not.toHaveProperty with existing property'],
       error: {
         message: 'Expected object not to have property {{path}}, but it did',
         messageLocals: {
@@ -187,14 +187,14 @@ export async function toHavePropertyTest() {
       }
     },
     {
-      spec: 'should pass for not.toHaveProperty with different value',
+      spec: ['should pass for not.toHaveProperty with different value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toHaveProperty with matching value',
+      spec: ['should fail for not.toHaveProperty with matching value'],
       error: {
         message: 'Expected property {{path}} not to equal {{expected}}, but it did',
         messageLocals: {
@@ -217,4 +217,4 @@ export async function toHavePropertyTest() {
   } else {
     console.log('toHaveProperty test passed')
   }
-} 
+}

@@ -26,21 +26,21 @@ export async function toBeDefinedTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should pass for defined value',
+      spec: ['should pass for defined value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should pass for null value',
+      spec: ['should pass for null value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for undefined value',
+      spec: ['should fail for undefined value'],
       error: {
         message: 'Expected value to be defined, but it was undefined',
         messageLocals: {},
@@ -53,14 +53,14 @@ export async function toBeDefinedTest() {
       }
     },
     {
-      spec: 'should pass for not.toBeDefined with undefined value',
+      spec: ['should pass for not.toBeDefined with undefined value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toBeDefined with defined value',
+      spec: ['should fail for not.toBeDefined with defined value'],
       error: {
         message: 'Expected value to be undefined, but got {{actual}}',
         messageLocals: {

@@ -55,14 +55,14 @@ export async function lessThanOrEqualAssertionTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'asserts true when value is less than or equal to expected',
+      spec: ['asserts true when value is less than or equal to expected'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'returns false for non-number values (when notToExpect is false)',
+      spec: ['returns false for non-number values (when notToExpect is false)'] ,
       passed: true,
       options: {
         timeout: 5000

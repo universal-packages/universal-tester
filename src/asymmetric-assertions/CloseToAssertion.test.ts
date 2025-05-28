@@ -1,5 +1,4 @@
 import { Tester } from '../Tester'
-
 import { CloseToAssertion } from './CloseToAssertion'
 
 export async function closeToAssertionTest() {
@@ -55,21 +54,21 @@ export async function closeToAssertionTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'asserts true when number is close to expected within precision',
+      spec: ['asserts true when number is close to expected within precision'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'works with different precision values',
+      spec: ['works with different precision values'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'returns false for non-number values',
+      spec: ['returns false for non-number values'],
       passed: true,
       options: {
         timeout: 5000
@@ -90,4 +89,4 @@ export async function closeToAssertionTest() {
   } else {
     console.log('CloseToAssertion test passed')
   }
-} 
+}

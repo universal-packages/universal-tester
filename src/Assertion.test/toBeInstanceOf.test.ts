@@ -37,14 +37,14 @@ export async function toBeInstanceOfTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should pass for instance of class',
+      spec: ['should pass for instance of class'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for instance of different class',
+      spec: ['should fail for instance of different class'],
       error: {
         message: 'Expected {{actual}} to be instance of {{expected}}, but it was not',
         messageLocals: {
@@ -60,35 +60,35 @@ export async function toBeInstanceOfTest() {
       }
     },
     {
-      spec: 'should pass for array instance',
+      spec: ['should pass for array instance'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should pass for object instance',
+      spec: ['should pass for object instance'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should pass for date instance',
+      spec: ['should pass for date instance'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should pass for not.toBeInstanceOf with different class',
+      spec: ['should pass for not.toBeInstanceOf with different class'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toBeInstanceOf with matching class',
+      spec: ['should fail for not.toBeInstanceOf with matching class'],
       error: {
         message: 'Expected {{actual}} not to be instance of {{expected}}, but it was',
         messageLocals: {

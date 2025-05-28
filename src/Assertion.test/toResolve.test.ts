@@ -48,14 +48,14 @@ export async function toResolveTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should pass for promise that resolves',
+      spec: ['should pass for promise that resolves'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for promise that rejects',
+      spec: ['should fail for promise that rejects'],
       error: {
         message: 'Expected promise to resolve, but it rejected with {{actual}}',
         messageLocals: {
@@ -70,14 +70,14 @@ export async function toResolveTest() {
       }
     },
     {
-      spec: 'should pass for promise that resolves with expected value',
+      spec: ['should pass for promise that resolves with expected value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for promise that resolves with different value',
+      spec: ['should fail for promise that resolves with different value'],
       error: {
         message: 'Expected promise to resolve with {{expected}}, but got {{actual}}',
         messageLocals: {
@@ -99,7 +99,7 @@ export async function toResolveTest() {
       }
     },
     {
-      spec: 'should fail for non-promise value',
+      spec: ['should fail for non-promise value'],
       error: {
         message: 'Expected a promise, but got {{actual}}',
         messageLocals: {
@@ -114,14 +114,14 @@ export async function toResolveTest() {
       }
     },
     {
-      spec: 'should pass for not.toResolve with promise that rejects',
+      spec: ['should pass for not.toResolve with promise that rejects'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toResolve with promise that resolves',
+      spec: ['should fail for not.toResolve with promise that resolves'],
       error: {
         message: 'Expected promise to reject, but it resolved with {{actual}}',
         messageLocals: {
@@ -136,21 +136,21 @@ export async function toResolveTest() {
       }
     },
     {
-      spec: 'should pass for not.toResolve with promise that resolves with different value',
+      spec: ['should pass for not.toResolve with promise that resolves with different value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toResolve with promise that resolves with expected value',
+      spec: ['should fail for not.toResolve with promise that resolves with expected value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should be able to use asymmetric assertions',
+      spec: ['should be able to use asymmetric assertions'],
       passed: true,
       options: {
         timeout: 5000

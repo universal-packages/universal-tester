@@ -46,14 +46,14 @@ export async function greaterThanAssertionTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'asserts true when value is greater than expected',
+      spec: ['asserts true when value is greater than expected'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'returns false for non-number values',
+      spec: ['returns false for non-number values'],
       passed: true,
       options: {
         timeout: 5000

@@ -55,14 +55,14 @@ export async function toHaveBeenCalledTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'toHaveBeenCalled passes when function has been called',
+      spec: ['toHaveBeenCalled passes when function has been called'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'toHaveBeenCalled fails when function has not been called',
+      spec: ['toHaveBeenCalled fails when function has not been called'],
       error: {
         message: 'Expected mock function to have been called, but it was not called',
         messageLocals: {},
@@ -75,14 +75,14 @@ export async function toHaveBeenCalledTest() {
       }
     },
     {
-      spec: 'not.toHaveBeenCalled passes when function has not been called',
+      spec: ['not.toHaveBeenCalled passes when function has not been called'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'not.toHaveBeenCalled fails when function has been called',
+      spec: ['not.toHaveBeenCalled fails when function has been called'],
       error: {
         message: 'Expected mock function not to have been called, but it was called {{count}} times',
         messageLocals: {
@@ -97,14 +97,14 @@ export async function toHaveBeenCalledTest() {
       }
     },
     {
-      spec: 'toHaveBeenCalled works with multiple calls',
+      spec: ['toHaveBeenCalled works with multiple calls'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'toHaveBeenCalled fails with non-mock function',
+      spec: ['toHaveBeenCalled fails with non-mock function'],
       error: {
         message: 'Expected a mock function, but got {{actual}}',
         messageLocals: {

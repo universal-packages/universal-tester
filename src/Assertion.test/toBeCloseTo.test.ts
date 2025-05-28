@@ -42,14 +42,14 @@ export async function toBeCloseToTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should pass for numbers that are close',
+      spec: ['should pass for numbers that are close'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for numbers that are not close',
+      spec: ['should fail for numbers that are not close'],
       error: {
         message: 'Expected {{actual}} to be close to {{expected}} (precision: {{precision}}), but it was not',
         messageLocals: {
@@ -66,14 +66,14 @@ export async function toBeCloseToTest() {
       }
     },
     {
-      spec: 'should pass with custom precision',
+      spec: ['should pass with custom precision'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail with custom precision',
+      spec: ['should fail with custom precision'],
       error: {
         message: 'Expected {{actual}} to be close to {{expected}} (precision: {{precision}}), but it was not',
         messageLocals: {
@@ -90,7 +90,7 @@ export async function toBeCloseToTest() {
       }
     },
     {
-      spec: 'should fail for non-number value',
+      spec: ['should fail for non-number value'],
       error: {
         message: 'Expected a number, but got {{actual}}',
         messageLocals: {
@@ -105,14 +105,14 @@ export async function toBeCloseToTest() {
       }
     },
     {
-      spec: 'should pass for not.toBeCloseTo with numbers that are not close',
+      spec: ['should pass for not.toBeCloseTo with numbers that are not close'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toBeCloseTo with numbers that are close',
+      spec: ['should fail for not.toBeCloseTo with numbers that are close'],
       error: {
         message: 'Expected {{actual}} not to be close to {{expected}} (precision: {{precision}}), but it was',
         messageLocals: {
@@ -129,14 +129,14 @@ export async function toBeCloseToTest() {
       }
     },
     {
-      spec: 'should pass for not.toBeCloseTo with custom precision',
+      spec: ['should pass for not.toBeCloseTo with custom precision'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toBeCloseTo with custom precision',
+      spec: ['should fail for not.toBeCloseTo with custom precision'],
       error: {
         message: 'Expected {{actual}} not to be close to {{expected}} (precision: {{precision}}), but it was',
         messageLocals: {

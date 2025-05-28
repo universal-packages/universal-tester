@@ -66,28 +66,28 @@ export async function haveLengthAssertionTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'asserts true when array has expected length',
+      spec: ['asserts true when array has expected length'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'asserts true when string has expected length',
+      spec: ['asserts true when string has expected length'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'works with objects that have a length property',
+      spec: ['works with objects that have a length property'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'returns false for values without a length property',
+      spec: ['returns false for values without a length property']  ,
       passed: true,
       options: {
         timeout: 5000

@@ -50,35 +50,35 @@ export async function toBeTruthyTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should pass for true value',
+      spec: ['should pass for true value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should pass for non-empty string',
+      spec: ['should pass for non-empty string'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should pass for number 1',
+      spec: ['should pass for number 1'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should pass for non-empty object',
+      spec: ['should pass for non-empty object'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for false value',
+      spec: ['should fail for false value'],
       error: {
         message: 'Expected value to be truthy, but got {{actual}}',
         messageLocals: {
@@ -93,7 +93,7 @@ export async function toBeTruthyTest() {
       }
     },
     {
-      spec: 'should fail for empty string',
+      spec: ['should fail for empty string'],
       error: {
         message: 'Expected value to be truthy, but got {{actual}}',
         messageLocals: {
@@ -108,7 +108,7 @@ export async function toBeTruthyTest() {
       }
     },
     {
-      spec: 'should fail for 0',
+      spec: ['should fail for 0'],
       error: {
         message: 'Expected value to be truthy, but got {{actual}}',
         messageLocals: {
@@ -123,7 +123,7 @@ export async function toBeTruthyTest() {
       }
     },
     {
-      spec: 'should fail for null',
+      spec: ['should fail for null'],
       error: {
         message: 'Expected value to be truthy, but got {{actual}}',
         messageLocals: {
@@ -138,7 +138,7 @@ export async function toBeTruthyTest() {
       }
     },
     {
-      spec: 'should fail for undefined',
+      spec: ['should fail for undefined'],
       error: {
         message: 'Expected value to be truthy, but got {{actual}}',
         messageLocals: {
@@ -153,14 +153,14 @@ export async function toBeTruthyTest() {
       }
     },
     {
-      spec: 'should pass for not.toBeTruthy with falsy value',
+      spec: ['should pass for not.toBeTruthy with falsy value'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toBeTruthy with truthy value',
+      spec: ['should fail for not.toBeTruthy with truthy value'],
       error: {
         message: 'Expected value to be falsy, but got {{actual}}',
         messageLocals: {

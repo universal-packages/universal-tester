@@ -22,7 +22,7 @@ export async function onlyTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should not run because only is set on another test',
+      spec: ['should not run because only is set on another test'],
       passed: true,
       options: {
         timeout: 5000
@@ -31,7 +31,7 @@ export async function onlyTest() {
       skipReason: '"only" tests are active'
     },
     {
-      spec: 'should run because only is set',
+      spec: ['should run because only is set'],
       passed: true,
       options: {
         timeout: 5000,
@@ -39,7 +39,7 @@ export async function onlyTest() {
       }
     },
     {
-      spec: 'should not run because only is set on another test',
+      spec: ['should not run because only is set on another test'],
       passed: true,
       options: {
         timeout: 5000

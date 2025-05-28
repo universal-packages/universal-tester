@@ -42,14 +42,14 @@ export async function toContainTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should pass for string containing substring',
+      spec: ['should pass for string containing substring'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for string not containing substring',
+      spec: ['should fail for string not containing substring'],
       error: {
         message: 'Expected {{actual}} to contain {{expected}}, but it did not',
         messageLocals: {
@@ -65,14 +65,14 @@ export async function toContainTest() {
       }
     },
     {
-      spec: 'should pass for array containing element',
+      spec: ['should pass for array containing element'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for array not containing element',
+      spec: ['should fail for array not containing element'],
       error: {
         message: 'Expected {{actual}} to contain {{expected}}, but it did not',
         messageLocals: {
@@ -88,7 +88,7 @@ export async function toContainTest() {
       }
     },
     {
-      spec: 'should fail for non-string, non-array value',
+      spec: ['should fail for non-string, non-array value'],
       error: {
         message: 'Expected a string or array, but got {{actual}}',
         messageLocals: {
@@ -103,14 +103,14 @@ export async function toContainTest() {
       }
     },
     {
-      spec: 'should pass for not.toContain with string not containing substring',
+      spec: ['should pass for not.toContain with string not containing substring'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toContain with string containing substring',
+      spec: ['should fail for not.toContain with string containing substring'],
       error: {
         message: 'Expected {{actual}} not to contain {{expected}}, but it did',
         messageLocals: {
@@ -126,14 +126,14 @@ export async function toContainTest() {
       }
     },
     {
-      spec: 'should pass for not.toContain with array not containing element',
+      spec: ['should pass for not.toContain with array not containing element'],
       passed: true,
       options: {
         timeout: 5000
       }
     },
     {
-      spec: 'should fail for not.toContain with array containing element',
+      spec: ['should fail for not.toContain with array containing element'],
       error: {
         message: 'Expected {{actual}} not to contain {{expected}}, but it did',
         messageLocals: {

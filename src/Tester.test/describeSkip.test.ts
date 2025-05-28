@@ -35,7 +35,7 @@ export async function describeSkipTest() {
   const results = await tester.run()
   const expectedResults = [
     {
-      spec: 'should run normally outside describe blocks',
+      spec: ['should run normally outside describe blocks'],
       passed: true,
       options: {
         timeout: 5000
