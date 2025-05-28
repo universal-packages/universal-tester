@@ -10,6 +10,7 @@ import { parallelTest } from './parallel.test'
 import { randomTest } from './random.test'
 import { skipTest } from './skip.test'
 import { timeoutTest } from './timeout.test'
+import { timingTest } from './timing.test'
 
 export async function testerTest() {
   console.log('\n--- RUNNING EVENTS TESTS ---')
@@ -93,6 +94,13 @@ export async function testerTest() {
     await timeoutTest()
   } catch (error) {
     console.error('Timeout test failed:', error)
+  }
+
+  console.log('\n--- RUNNING TIMING TESTS ---')
+  try {
+    await timingTest()
+  } catch (error) {
+    console.error('Timing test failed:', error)
   }
 
   console.log('\n--- RUNNING BAIL TESTS ---')

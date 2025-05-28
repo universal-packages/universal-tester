@@ -14,16 +14,17 @@ export async function timeoutTest() {
   const results = await tester.run()
   const expectedResults = [
     {
+      id: 'tester-1',
       spec: ['should handle test that times out'],
+      passed: false,
       error: {
         message: 'Test timed out after {{timeout}}ms',
         messageLocals: {
           timeout: '100'
         },
-        expected: 100,
-        actual: 100000
-      },
-      passed: false
+        expected: 'Test to not timeout',
+        actual: 'Test timed out'
+      }
     }
   ]
 

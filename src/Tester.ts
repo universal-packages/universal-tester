@@ -2,7 +2,7 @@ import EventEmitter from 'events'
 
 import { Assertion } from './Assertion'
 import { TestError } from './TestError'
-import { DescribeOptions, Test, TestOptions, TestResult, TesterOptions, TestingNode, TestingTree, StateTestingTree, StateTestingNode, StateTest } from './Tester.types'
+import { DescribeOptions, StateTest, StateTestingNode, StateTestingTree, Test, TestOptions, TestResult, TesterOptions, TestingNode, TestingTree } from './Tester.types'
 import { AnythingAssertion } from './asymmetric-assertions/AnythingAssertion'
 import { CloseToAssertion } from './asymmetric-assertions/CloseToAssertion'
 import { ContainAssertion } from './asymmetric-assertions/ContainAssertion'
@@ -96,8 +96,6 @@ export class Tester extends EventEmitter {
     }
     this.currentTestingNodeStack.push(this.testingTree.nodes[0])
   }
-
-
 
   public mockFn() {
     return createMockFunction()
@@ -279,7 +277,7 @@ export class Tester extends EventEmitter {
       } else {
         this.testingTree.status = 'success'
       }
-      
+
       this.emitStateChange()
       return this.testResults
     }
@@ -309,6 +307,7 @@ export class Tester extends EventEmitter {
     let currentNode: TestingNode | undefined = test.parent
 
     test.status = 'running'
+    test.startedAt = Date.now()
     this.updateNodeStatusesInPath(test)
 
     while (currentNode) {
@@ -325,10 +324,14 @@ export class Tester extends EventEmitter {
     const hasBeforeHooksErrors = nodePath.some((node) => node.beforeHooksErrors.length > 0)
 
     if (hasBeforeHooksErrors) {
+      test.endedAt = Date.now()
+      const took = test.startedAt ? test.endedAt - test.startedAt : 0
+
       const testResult: TestResult = {
         id: test.id,
         spec,
         passed: false,
+        took,
         error: new TestError({
           message: 'Can not run if before hooks fail',
           messageLocals: {},
@@ -352,12 +355,16 @@ export class Tester extends EventEmitter {
 
     // If the test should be skipped, record the result without executing
     if (shouldSkip) {
+      test.endedAt = Date.now()
+      const took = test.startedAt ? test.endedAt - test.startedAt : 0
+
       const testResult: TestResult = {
         id: test.id,
         spec,
         passed: true,
         skipped: true,
-        skipReason: skipReason
+        skipReason: skipReason,
+        took
       }
 
       test.hasRun = true
@@ -405,8 +412,8 @@ export class Tester extends EventEmitter {
               messageLocals: {
                 timeout: String(test.options.timeout)
               },
-              expected: test.options.timeout,
-              actual: 100000
+              expected: 'Test to not timeout',
+              actual: 'Test timed out'
             })
           )
         }, test.options.timeout)
@@ -428,10 +435,14 @@ export class Tester extends EventEmitter {
           if (node.beforeHooksErrors.length > 0) {
             this.beforeOrAfterHooksOrTestFailed = true
 
+            test.endedAt = Date.now()
+            const took = test.startedAt ? test.endedAt - test.startedAt : 0
+
             const testResult: TestResult = {
               id: test.id,
               spec,
               passed: false,
+              took,
               error: new TestError({
                 message: 'Can not run if before hooks fail',
                 messageLocals: {},
@@ -486,23 +497,32 @@ export class Tester extends EventEmitter {
       }
 
       // If we get here, the test passed
+      test.endedAt = Date.now()
+      const took = test.startedAt ? test.endedAt - test.startedAt : 0
+
       const testResult: TestResult = {
         id: test.id,
         spec,
-        passed: true
+        passed: true,
+        took
       }
 
       test.status = 'success'
+      test.result = testResult
 
       this.testResults.push(testResult)
       this.updateNodeStatusesInPath(test)
     } catch (error: unknown) {
       this.beforeOrAfterHooksOrTestFailed = true
 
+      test.endedAt = Date.now()
+      const took = test.startedAt ? test.endedAt - test.startedAt : 0
+
       const testResult: TestResult = {
         id: test.id,
         spec,
         passed: false,
+        took,
         error: error as TestError
       }
 
@@ -550,7 +570,7 @@ export class Tester extends EventEmitter {
     return {
       status: tree.status,
       identifier: tree.identifier,
-      nodes: tree.nodes.map(node => this.sanitizeTestingNode(node))
+      nodes: tree.nodes.map((node) => this.sanitizeTestingNode(node))
     }
   }
 
@@ -558,8 +578,8 @@ export class Tester extends EventEmitter {
     return {
       name: node.name,
       describeOptions: node.describeOptions,
-      tests: node.tests.map(test => this.sanitizeTest(test)),
-      children: node.children.map(child => this.sanitizeTestingNode(child)),
+      tests: node.tests.map((test) => this.sanitizeTest(test)),
+      children: node.children.map((child) => this.sanitizeTestingNode(child)),
       completed: node.completed,
       status: node.status,
       beforeHooksErrors: node.beforeHooksErrors,
@@ -575,14 +595,16 @@ export class Tester extends EventEmitter {
       name: test.name,
       options: test.options,
       status: test.status,
-      result: test.result
+      result: test.result,
+      startedAt: test.startedAt,
+      endedAt: test.endedAt
     }
   }
 
   private updateNodeStatus(node: TestingNode): void {
     // Get all tests in this node and its children recursively
     const allTests = this.getAllTestsInNode(node)
-    
+
     if (allTests.length === 0) {
       // No tests in this node or its children
       node.status = 'idle'
@@ -590,30 +612,30 @@ export class Tester extends EventEmitter {
     }
 
     // Check if any test is running
-    const hasRunningTests = allTests.some(test => test.status === 'running')
+    const hasRunningTests = allTests.some((test) => test.status === 'running')
     if (hasRunningTests) {
       node.status = 'running'
       return
     }
 
     // Check if all tests have finished (hasRun = true)
-    const allTestsFinished = allTests.every(test => test.hasRun)
+    const allTestsFinished = allTests.every((test) => test.hasRun)
     if (!allTestsFinished) {
       node.status = 'idle'
       return
     }
 
     // All tests have finished, determine final status
-    const allTestsSkipped = allTests.every(test => test.status === 'skipped')
+    const allTestsSkipped = allTests.every((test) => test.status === 'skipped')
     if (allTestsSkipped) {
       node.status = 'skipped'
       return
     }
 
     // Check if all non-skipped tests passed
-    const nonSkippedTests = allTests.filter(test => test.status !== 'skipped')
-    const allNonSkippedTestsPassed = nonSkippedTests.every(test => test.status === 'success')
-    
+    const nonSkippedTests = allTests.filter((test) => test.status !== 'skipped')
+    const allNonSkippedTestsPassed = nonSkippedTests.every((test) => test.status === 'success')
+
     if (allNonSkippedTestsPassed) {
       node.status = 'success'
     } else {
@@ -623,24 +645,24 @@ export class Tester extends EventEmitter {
 
   private getAllTestsInNode(node: TestingNode): Test[] {
     const tests = [...node.tests]
-    
+
     // Recursively get tests from children
     for (const child of node.children) {
       tests.push(...this.getAllTestsInNode(child))
     }
-    
+
     return tests
   }
 
   private updateNodeStatusesInPath(test: Test): void {
     // Update status for all nodes in the path from test to root
     let currentNode: TestingNode | undefined = test.parent
-    
+
     while (currentNode) {
       this.updateNodeStatus(currentNode)
       currentNode = currentNode.parent
     }
-    
+
     // Emit change event with current state
     this.emitStateChange()
   }

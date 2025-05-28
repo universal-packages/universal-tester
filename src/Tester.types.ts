@@ -34,6 +34,8 @@ export interface Test {
   hasRun: boolean
   status: TestStatus
   result?: TestResult
+  startedAt?: number
+  endedAt?: number
 }
 
 export interface TestResult {
@@ -43,6 +45,7 @@ export interface TestResult {
   passed: boolean
   skipped?: boolean
   skipReason?: string
+  took?: number
 }
 
 export interface TestingNode {
@@ -76,6 +79,8 @@ export interface StateTest {
   options: TestOptions
   status: TestStatus
   result?: TestResult
+  startedAt?: number
+  endedAt?: number
 }
 
 export interface StateTestingNode {
