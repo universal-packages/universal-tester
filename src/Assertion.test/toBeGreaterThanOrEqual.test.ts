@@ -35,17 +35,11 @@ export async function toBeGreaterThanOrEqualTest() {
   const expectedResults = [
     {
       spec: ['should pass for greater number'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should pass for equal number'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for smaller number'],
@@ -58,10 +52,7 @@ export async function toBeGreaterThanOrEqualTest() {
         expected: 10,
         actual: 5
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for non-number value'],
@@ -73,17 +64,11 @@ export async function toBeGreaterThanOrEqualTest() {
         expected: 'number',
         actual: 'string'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toBeGreaterThanOrEqual with smaller number'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toBeGreaterThanOrEqual with greater number'],
@@ -96,10 +81,7 @@ export async function toBeGreaterThanOrEqualTest() {
         expected: 5,
         actual: 10
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for not.toBeGreaterThanOrEqual with equal number'],
@@ -112,10 +94,7 @@ export async function toBeGreaterThanOrEqualTest() {
         expected: 10,
         actual: 10
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

@@ -59,10 +59,7 @@ export async function toHavePropertyTest() {
   const expectedResults = [
     {
       spec: ['should pass for object with property'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for object without property'],
@@ -74,17 +71,11 @@ export async function toHavePropertyTest() {
         expected: 'property age',
         actual: { name: 'test' }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for nested property'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for missing nested property'],
@@ -96,17 +87,11 @@ export async function toHavePropertyTest() {
         expected: 'property user.age',
         actual: { user: { name: 'test' } }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for property with specific value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for property with different value'],
@@ -120,17 +105,11 @@ export async function toHavePropertyTest() {
         expected: 'wrong',
         actual: 'test'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for nested property with specific value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for nested property with different value'],
@@ -144,10 +123,7 @@ export async function toHavePropertyTest() {
         expected: 'wrong',
         actual: 'test'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for non-object value'],
@@ -159,17 +135,11 @@ export async function toHavePropertyTest() {
         expected: 'property length',
         actual: 'string'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toHaveProperty with missing property'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toHaveProperty with existing property'],
@@ -181,17 +151,11 @@ export async function toHavePropertyTest() {
         expected: 'no property name',
         actual: 'test'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toHaveProperty with different value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toHaveProperty with matching value'],
@@ -204,10 +168,7 @@ export async function toHavePropertyTest() {
         expected: 'test',
         actual: 'test'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

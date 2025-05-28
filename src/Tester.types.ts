@@ -1,7 +1,7 @@
 import { TestError } from './TestError'
 
 export type RunOrder = 'sequence' | 'random' | 'parallel'
-export type TesterStatus = 'idle' | 'running' | 'success' | 'failure'
+export type TestingStatus = 'idle' | 'running' | 'success' | 'failure'
 
 export interface TesterOptions {
   bail?: boolean
@@ -29,13 +29,14 @@ export interface Test {
   options: TestOptions
   parent: TestingNode
   hasRun: boolean
+  status: TestingStatus
+  result?: TestResult
 }
 
 export interface TestResult {
   spec: string[]
-  error?: TestError
+  error?: TestError | Error
   passed: boolean
-  options: TestOptions
   skipped?: boolean
   skipReason?: string
 }
@@ -55,4 +56,9 @@ export interface TestingNode {
   afterEachHooksErrors: Error[]
   afterHooks: (() => void | Promise<void>)[]
   afterHooksErrors: Error[]
+}
+
+export interface TestingTree {
+  status: TestingStatus
+  nodes: TestingNode[]
 }

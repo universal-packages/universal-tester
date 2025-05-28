@@ -57,10 +57,7 @@ export async function hierarchyTest() {
   const expectedResults = [
     {
       spec: ['should be a isolated test'],
-      passed: true,
-      options: {
-        timeout: 1000
-      }
+      passed: true
     },
     {
       spec: ['should fail in a isolated test']  ,
@@ -73,31 +70,19 @@ export async function hierarchyTest() {
         expected: 12,
         actual: 10
       },
-      passed: false,
-      options: {
-        timeout: 2000
-      }
+      passed: false
     },
     {
       spec: ['Main describe', 'should be a describe nested test'],
-      passed: true,
-      options: {
-        timeout: 1000
-      }
+      passed: true
     },
     {
       spec: ['Main describe', 'Nested describe level 1', 'should be a nested describe test'],
-      passed: true,
-      options: {
-        timeout: 1200
-      }
+      passed: true
     },
     {
       spec: ['Main describe', 'Nested describe level 1', 'Nested describe level 2', 'should be a deeply nested test'],
-      passed: true,
-      options: {
-        timeout: 500
-      }
+      passed: true
     },
     {
       spec: ['Main describe', 'should fail in a describe nested test'],
@@ -110,10 +95,7 @@ export async function hierarchyTest() {
         expected: 12,
         actual: 10
       },
-      passed: false,
-      options: {
-        timeout: 1000
-      }
+      passed: false
     }
   ]
 

@@ -36,39 +36,23 @@ export async function describeSkipTest() {
   const expectedResults = [
     {
       spec: ['should run normally outside describe blocks'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['Describe with skip set', 'should be skipped because parent describe has skip set'],
       passed: true,
-      options: {
-        timeout: 5000,
-        skip: true,
-        skipReason: 'Testing skip functionality'
-      },
       skipped: true,
       skipReason: 'Testing skip functionality'
     },
     {
       spec: ['Describe with skip set', 'Nested describe inside skipped describe', 'should be skipped because ancestor describe has skip set'],
       passed: true,
-      options: {
-        timeout: 5000,
-        skip: true,
-        skipReason: 'Testing skip functionality'
-      },
       skipped: true,
       skipReason: 'Testing skip functionality'
     },
     {
       spec: ['Regular describe that should run', 'should run normally in a regular describe'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     }
   ]
 

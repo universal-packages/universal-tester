@@ -23,10 +23,7 @@ export async function timeoutTest() {
         expected: 100,
         actual: 100000
       },
-      passed: false,
-      options: {
-        timeout: 100
-      }
+      passed: false
     }
   ]
 

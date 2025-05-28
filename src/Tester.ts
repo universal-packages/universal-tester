@@ -2,7 +2,7 @@ import EventEmitter from 'events'
 
 import { Assertion } from './Assertion'
 import { TestError } from './TestError'
-import { DescribeOptions, Test, TestOptions, TestResult, TesterOptions, TesterStatus, TestingNode } from './Tester.types'
+import { DescribeOptions, Test, TestOptions, TestResult, TesterOptions, TestingNode, TestingTree } from './Tester.types'
 import { AnythingAssertion } from './asymmetric-assertions/AnythingAssertion'
 import { CloseToAssertion } from './asymmetric-assertions/CloseToAssertion'
 import { ContainAssertion } from './asymmetric-assertions/ContainAssertion'
@@ -24,16 +24,15 @@ import { spyOn } from './spyOn'
 export class Tester extends EventEmitter {
   public readonly options: TesterOptions
 
-  private readonly testingTree: TestingNode
+  private readonly testingTree: TestingTree
   private readonly currentTestingNodeStack: TestingNode[] = []
   private readonly testResults: TestResult[] = []
   private readonly testsSequence: Test[] = []
-  private _internalStatus: TesterStatus = 'idle'
 
   private beforeOrAfterHooksOrTestFailed = false
 
-  public get status() {
-    return this._internalStatus
+  public get state(): TestingTree {
+    return this.testingTree
   }
 
   public get not() {
@@ -69,21 +68,26 @@ export class Tester extends EventEmitter {
     super()
     this.options = { bail: false, runOrder: 'sequence', timeout: 5000, ...options }
     this.testingTree = {
-      name: Symbol('root'),
-      describeOptions: { timeout: this.options.timeout },
-      tests: [],
-      children: [],
-      completed: false,
-      beforeHooks: [],
-      beforeHooksErrors: [],
-      beforeHooksHaveRun: false,
-      beforeEachHooks: [],
-      afterEachHooks: [],
-      afterEachHooksErrors: [],
-      afterHooks: [],
-      afterHooksErrors: []
+      status: 'idle',
+      nodes: [
+        {
+          name: Symbol('root'),
+          describeOptions: { timeout: this.options.timeout },
+          tests: [],
+          children: [],
+          completed: false,
+          beforeHooks: [],
+          beforeHooksErrors: [],
+          beforeHooksHaveRun: false,
+          beforeEachHooks: [],
+          afterEachHooks: [],
+          afterEachHooksErrors: [],
+          afterHooks: [],
+          afterHooksErrors: []
+        }
+      ]
     }
-    this.currentTestingNodeStack.push(this.testingTree)
+    this.currentTestingNodeStack.push(this.testingTree.nodes[0])
   }
 
   public mockFn() {
@@ -207,7 +211,8 @@ export class Tester extends EventEmitter {
       fn,
       options: mergedOptions,
       parent: this.currentTestingNodeStack[this.currentTestingNodeStack.length - 1],
-      hasRun: false
+      hasRun: false,
+      status: 'idle'
     }
 
     this.testsSequence.push(test)
@@ -235,13 +240,13 @@ export class Tester extends EventEmitter {
   }
 
   public async run() {
-    if (this._internalStatus === 'running') {
+    if (this.testingTree.status === 'running') {
       throw new Error('Tester is already running')
-    } else if (this._internalStatus === 'success' || this._internalStatus === 'failure') {
+    } else if (this.testingTree.status === 'success' || this.testingTree.status === 'failure') {
       throw new Error('Tester has already completed')
     }
 
-    this._internalStatus = 'running'
+    this.testingTree.status = 'running'
 
     // Check if any test has 'only' flag
     const hasOnlyTests = this.testsSequence.some((test) => test.options.only)
@@ -258,9 +263,9 @@ export class Tester extends EventEmitter {
       await Promise.all(testsToRun.map((test) => this.runTest(test, hasOnlyTests)))
 
       if (this.beforeOrAfterHooksOrTestFailed) {
-        this._internalStatus = 'failure'
+        this.testingTree.status = 'failure'
       } else {
-        this._internalStatus = 'success'
+        this.testingTree.status = 'success'
       }
 
       return this.testResults
@@ -277,9 +282,9 @@ export class Tester extends EventEmitter {
     }
 
     if (this.beforeOrAfterHooksOrTestFailed) {
-      this._internalStatus = 'failure'
+      this.testingTree.status = 'failure'
     } else {
-      this._internalStatus = 'success'
+      this.testingTree.status = 'success'
     }
 
     return this.testResults
@@ -306,7 +311,6 @@ export class Tester extends EventEmitter {
       this.testResults.push({
         spec,
         passed: false,
-        options: test.options,
         error: new TestError({
           message: 'Can not run if before hooks fail',
           messageLocals: {},
@@ -326,7 +330,6 @@ export class Tester extends EventEmitter {
       this.testResults.push({
         spec,
         passed: true,
-        options: test.options,
         skipped: true,
         skipReason: skipReason
       })
@@ -395,7 +398,6 @@ export class Tester extends EventEmitter {
             this.testResults.push({
               spec,
               passed: false,
-              options: test.options,
               error: new TestError({
                 message: 'Can not run if before hooks fail',
                 messageLocals: {},
@@ -446,7 +448,6 @@ export class Tester extends EventEmitter {
       this.testResults.push({
         spec,
         passed: true,
-        options: test.options
       })
     } catch (error: unknown) {
       this.beforeOrAfterHooksOrTestFailed = true
@@ -455,7 +456,6 @@ export class Tester extends EventEmitter {
         spec,
         error: error as TestError,
         passed: false,
-        options: test.options
       })
     } finally {
       // Clear the timeout to prevent memory leaks

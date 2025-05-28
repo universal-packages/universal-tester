@@ -38,31 +38,19 @@ export async function parallelTest() {
   const expectedResults = [
     {
       spec: ['fastTest2'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['fastTest1'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['slowTest1'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['slowTest2'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     }
   ]
 

@@ -100,10 +100,7 @@ export async function toHaveBeenCalledTimesWithTest() {
   const expectedResults = [
     {
       spec: ['toHaveBeenCalledTimesWith passes when function has been called expected times with matching arguments'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['toHaveBeenCalledTimesWith fails when function has been called fewer times with matching arguments'],
@@ -120,10 +117,7 @@ export async function toHaveBeenCalledTimesWithTest() {
           ['world', 456]
         ]
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['toHaveBeenCalledTimesWith fails when function has been called more times with matching arguments'],
@@ -141,17 +135,11 @@ export async function toHaveBeenCalledTimesWithTest() {
           ['hello', 123]
         ]
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['not.toHaveBeenCalledTimesWith passes when function has been called different times with matching arguments'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['not.toHaveBeenCalledTimesWith fails when function has been called expected times with matching arguments'],
@@ -163,24 +151,15 @@ export async function toHaveBeenCalledTimesWithTest() {
         expected: 2,
         actual: 2
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['toHaveBeenCalledTimesWith works with objects using deep equality'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['toHaveBeenCalledTimesWith works with arrays'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['toHaveBeenCalledTimesWith fails with non-mock function'],
@@ -191,10 +170,7 @@ export async function toHaveBeenCalledTimesWithTest() {
         },
         expected: 'mock function'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['toHaveBeenCalledTimesWith works with asymmetric assertions'],
@@ -233,10 +209,7 @@ export async function toHaveBeenCalledTimesWithTest() {
           ]
         ]
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

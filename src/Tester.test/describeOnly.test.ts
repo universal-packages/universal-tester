@@ -39,34 +39,20 @@ export async function describeOnlyTest() {
     {
       spec: ['should not run because only is set on a describe block'],
       passed: true,
-      options: {
-        timeout: 5000
-      },
       skipped: true,
       skipReason: '"only" tests are active'
     },
     {
       spec: ['Describe with only set', 'should run because parent describe has only set'],
-      passed: true,
-      options: {
-        timeout: 5000,
-        only: true
-      }
+      passed: true
     },
     {
       spec: ['Describe with only set', 'Nested describe inside only', 'should run because ancestor describe has only set'],
-      passed: true,
-      options: {
-        timeout: 5000,
-        only: true
-      }
+      passed: true
     },
     {
       spec: ['Regular describe that should be skipped', 'should not run because only is set on another describe'],
       passed: true,
-      options: {
-        timeout: 5000
-      },
       skipped: true,
       skipReason: '"only" tests are active'
     }

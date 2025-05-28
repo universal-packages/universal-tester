@@ -23,10 +23,7 @@ export async function toBeNullTest() {
   const expectedResults = [
     {
       spec: ['should pass for null value'], 
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for non-null value'],
@@ -38,17 +35,11 @@ export async function toBeNullTest() {
         expected: null,
         actual: 'hello'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toBeNull with non-null value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toBeNull with null value'],
@@ -58,10 +49,7 @@ export async function toBeNullTest() {
         expected: 'not null',
         actual: null
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

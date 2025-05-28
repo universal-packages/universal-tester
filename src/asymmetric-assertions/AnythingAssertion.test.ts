@@ -44,17 +44,11 @@ export async function anythingAssertionTest() {
   const expectedResults = [
     {
       spec: ['always asserts with true'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['when not is passed', 'always asserts with false'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     }
   ]
 

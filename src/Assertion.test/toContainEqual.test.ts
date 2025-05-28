@@ -43,10 +43,7 @@ export async function toContainEqualTest() {
   const expectedResults = [
     {
       spec: ['should pass for array containing structurally equal object'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for array not containing structurally equal object'],
@@ -59,17 +56,11 @@ export async function toContainEqualTest() {
         expected: { a: 1, b: 2 },
         actual: [{ a: 1, b: 3 }, { c: 3 }]
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for array containing equal primitive'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for array not containing equal primitive'],
@@ -82,17 +73,11 @@ export async function toContainEqualTest() {
         expected: 4,
         actual: [1, 2, 3]
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for array containing equal nested object'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for array not containing equal nested object'],
@@ -105,10 +90,7 @@ export async function toContainEqualTest() {
         expected: { a: { b: 2 } },
         actual: [{ a: { b: 3 } }, { c: 3 }]
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for non-array value'],
@@ -120,17 +102,11 @@ export async function toContainEqualTest() {
         expected: 'array',
         actual: 'string'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toContainEqual with array not containing equal object'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toContainEqual with array containing equal object'],
@@ -143,10 +119,7 @@ export async function toContainEqualTest() {
         expected: { a: 1, b: 2 },
         actual: [{ a: 1, b: 2 }, { c: 3 }]
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

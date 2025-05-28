@@ -58,31 +58,19 @@ export async function instanceOfAssertionTest() {
   const expectedResults = [
     {
       spec: ['asserts true when value is an instance of expected constructor'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['asserts false when value is not an instance of expected constructor'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['works with inheritance'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['when not is passed', 'inverts the assertion result'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     }
   ]
 

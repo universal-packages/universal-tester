@@ -51,38 +51,23 @@ export async function toBeFalsyTest() {
   const expectedResults = [
     {
       spec: ['should pass for false value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should pass for empty string'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should pass for 0'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should pass for null'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should pass for undefined'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for true value'],
@@ -94,10 +79,7 @@ export async function toBeFalsyTest() {
         expected: 'falsy',
         actual: true
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for non-empty string'],
@@ -109,10 +91,7 @@ export async function toBeFalsyTest() {
         expected: 'falsy',
         actual: 'hello'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for number 1'],
@@ -124,10 +103,7 @@ export async function toBeFalsyTest() {
         expected: 'falsy',
         actual: 1
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for non-empty object'],
@@ -139,17 +115,11 @@ export async function toBeFalsyTest() {
         expected: 'falsy',
         actual: {}
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toBeFalsy with truthy value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toBeFalsy with falsy value'],
@@ -161,10 +131,7 @@ export async function toBeFalsyTest() {
         expected: 'truthy',
         actual: false
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

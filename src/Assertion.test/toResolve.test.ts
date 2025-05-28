@@ -49,10 +49,7 @@ export async function toResolveTest() {
   const expectedResults = [
     {
       spec: ['should pass for promise that resolves'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for promise that rejects'],
@@ -64,17 +61,11 @@ export async function toResolveTest() {
         expected: 'resolution',
         actual: {}
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for promise that resolves with expected value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for promise that resolves with different value'],
@@ -93,10 +84,7 @@ export async function toResolveTest() {
           same: false
         }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for non-promise value'],
@@ -108,17 +96,11 @@ export async function toResolveTest() {
         expected: 'promise',
         actual: 'not a promise'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toResolve with promise that rejects'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toResolve with promise that resolves'],
@@ -130,31 +112,19 @@ export async function toResolveTest() {
         expected: 'rejection',
         actual: 'success'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toResolve with promise that resolves with different value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toResolve with promise that resolves with expected value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should be able to use asymmetric assertions'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     }
   ]
 

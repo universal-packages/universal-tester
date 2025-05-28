@@ -109,10 +109,7 @@ export async function toThrowTest() {
   const expectedResults = [
     {
       spec: ['should pass for function that throws'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for function that does not throw'],
@@ -122,17 +119,11 @@ export async function toThrowTest() {
         expected: 'error',
         actual: 'no error'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for function that throws with matching string'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for function that throws with non-matching string'],
@@ -144,17 +135,11 @@ export async function toThrowTest() {
         expected: 'different error',
         actual: new Error('test error')
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for function that throws with matching regex'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for function that throws with non-matching regex'],
@@ -166,17 +151,11 @@ export async function toThrowTest() {
         expected: /different/,
         actual: new Error('test error')
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for function that throws with matching error'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for function that throws with non-matching error'],
@@ -188,10 +167,7 @@ export async function toThrowTest() {
         expected: new Error('different error'),
         actual: new Error('test error')
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for non-function value'],
@@ -203,17 +179,11 @@ export async function toThrowTest() {
         expected: 'function',
         actual: 'string'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toThrow with function that does not throw'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toThrow with function that throws'],
@@ -225,17 +195,11 @@ export async function toThrowTest() {
         expected: 'no error',
         actual: new Error('test error')
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toThrow with function that throws non-matching error'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toThrow with function that throws matching error'],
@@ -245,10 +209,7 @@ export async function toThrowTest() {
         expected: 'test error',
         actual: new Error('test error')
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

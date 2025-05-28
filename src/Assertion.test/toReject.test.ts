@@ -61,10 +61,7 @@ export async function toRejectTest() {
   const expectedResults = [
     {
       spec: ['should pass for promise that rejects'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for promise that resolves'],
@@ -76,17 +73,11 @@ export async function toRejectTest() {
         expected: 'rejection',
         actual: 'success'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for promise that rejects with expected error message'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for promise that rejects with different error message'],
@@ -99,17 +90,11 @@ export async function toRejectTest() {
         expected: 'different error',
         actual: {}
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for promise that rejects with matching regex'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for promise that rejects with non-matching regex'],
@@ -122,17 +107,11 @@ export async function toRejectTest() {
         expected: {},
         actual: {}
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for promise that rejects with matching error'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for promise that rejects with different error'],
@@ -145,10 +124,7 @@ export async function toRejectTest() {
         expected: {},
         actual: {}
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for non-promise value'],
@@ -160,17 +136,11 @@ export async function toRejectTest() {
         expected: 'promise',
         actual: 'not a promise'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toReject with promise that resolves'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toReject with promise that rejects'],
@@ -182,17 +152,11 @@ export async function toRejectTest() {
         expected: 'no rejection',
         actual: {}
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toReject with promise that rejects with different error'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toReject with promise that rejects with expected error'],
@@ -204,10 +168,7 @@ export async function toRejectTest() {
         expected: 'error message',
         actual: {}
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

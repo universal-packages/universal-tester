@@ -35,10 +35,7 @@ export async function toBeLessThanTest() {
   const expectedResults = [
     {
       spec: ['should pass for smaller number'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for equal number'],
@@ -51,10 +48,7 @@ export async function toBeLessThanTest() {
         expected: 10,
         actual: 10
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for greater number'],
@@ -67,10 +61,7 @@ export async function toBeLessThanTest() {
         expected: 5,
         actual: 10
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for non-number value'],
@@ -82,24 +73,15 @@ export async function toBeLessThanTest() {
         expected: 'number',
         actual: 'string'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toBeLessThan with greater number'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should pass for not.toBeLessThan with equal number'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toBeLessThan with smaller number'],
@@ -112,10 +94,7 @@ export async function toBeLessThanTest() {
         expected: 10,
         actual: 5
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

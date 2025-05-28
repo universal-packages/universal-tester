@@ -89,10 +89,7 @@ export async function toEqualTest() {
   const expectedResults = [
     {
       spec: ['should compare two equal numbers'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should compare two unequal numbers'],
@@ -111,17 +108,11 @@ export async function toEqualTest() {
           same: false
         }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should compare two equal strings'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should compare two unequal strings'],
@@ -140,17 +131,11 @@ export async function toEqualTest() {
           same: false
         }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should compare two equal booleans'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should compare two unequal booleans'],
@@ -169,17 +154,11 @@ export async function toEqualTest() {
           same: false
         }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should compare two equal object instances by value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should compare two unequal object instances'],
@@ -212,17 +191,11 @@ export async function toEqualTest() {
           same: false
         }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should compare two equal arrays by value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should compare two unequal arrays'],
@@ -254,17 +227,11 @@ export async function toEqualTest() {
           same: false
         }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should compare nested objects by value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should compare unequal nested objects'],
@@ -307,17 +274,11 @@ export async function toEqualTest() {
           same: false
         }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should assert to not equal'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail to not equal'],
@@ -335,17 +296,11 @@ export async function toEqualTest() {
           same: true
         }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should be able to use asymmetric assertions'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     }
   ]
 

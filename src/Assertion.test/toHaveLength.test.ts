@@ -43,10 +43,7 @@ export async function toHaveLengthTest() {
   const expectedResults = [
     {
       spec: ['should pass for array with correct length'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for array with incorrect length'],
@@ -60,17 +57,11 @@ export async function toHaveLengthTest() {
         expected: 4,
         actual: 3
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for string with correct length'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for string with incorrect length'],
@@ -84,10 +75,7 @@ export async function toHaveLengthTest() {
         expected: 4,
         actual: 5
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for value without length property'],
@@ -97,17 +85,11 @@ export async function toHaveLengthTest() {
         expected: 'value with length property',
         actual: 123
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toHaveLength with array of different length'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toHaveLength with array of specified length'],
@@ -120,17 +102,11 @@ export async function toHaveLengthTest() {
         expected: 3,
         actual: 3
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toHaveLength with string of different length'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toHaveLength with string of specified length'],
@@ -143,10 +119,7 @@ export async function toHaveLengthTest() {
         expected: 5,
         actual: 5
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

@@ -50,24 +50,15 @@ export async function falsyAssertionTest() {
   const expectedResults = [
     {
       spec: ['asserts true for falsy values'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['asserts false for truthy values'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['when not is passed', 'inverts the assertion result'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     }
   ]
 

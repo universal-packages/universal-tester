@@ -38,10 +38,7 @@ export async function toBeInstanceOfTest() {
   const expectedResults = [
     {
       spec: ['should pass for instance of class'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for instance of different class'],
@@ -54,38 +51,23 @@ export async function toBeInstanceOfTest() {
         expected: 'DifferentClass',
         actual: new TestClass()
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for array instance'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should pass for object instance'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should pass for date instance'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should pass for not.toBeInstanceOf with different class'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toBeInstanceOf with matching class'],
@@ -98,10 +80,7 @@ export async function toBeInstanceOfTest() {
         expected: 'TestClass',
         actual: new TestClass()
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

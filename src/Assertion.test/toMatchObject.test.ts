@@ -66,10 +66,7 @@ export async function toMatchObjectTest() {
   const expectedResults = [
     {
       spec: ['should pass when object matches subset'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail when property does not match'],
@@ -100,10 +97,7 @@ export async function toMatchObjectTest() {
           same: false
         }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail when property does not exist'],
@@ -133,10 +127,7 @@ export async function toMatchObjectTest() {
           same: false
         }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail when not an object'],
@@ -148,10 +139,7 @@ export async function toMatchObjectTest() {
         expected: 'object',
         actual: 'not an object'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail when object is null'],
@@ -163,17 +151,11 @@ export async function toMatchObjectTest() {
         expected: 'object',
         actual: null
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for array with matching items'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for array with non-matching items'],
@@ -213,17 +195,11 @@ export async function toMatchObjectTest() {
           same: false
         }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for nested objects'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for nested objects with non-matching property'],
@@ -274,17 +250,11 @@ export async function toMatchObjectTest() {
           same: false
         }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toMatchObject when object does not match'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toMatchObject when object matches'],
@@ -320,17 +290,11 @@ export async function toMatchObjectTest() {
           same: false
         }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should be able to use asymetric matchers'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     }
   ]
 

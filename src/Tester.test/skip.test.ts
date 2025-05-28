@@ -28,28 +28,17 @@ export async function skipTest() {
   const expectedResults = [
     {
       spec: ['should run normally'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should be skipped'],
       passed: true,
-      options: {
-        timeout: 5000,
-        skip: true,
-        skipReason: 'Just because'
-      },
       skipped: true,
       skipReason: 'Just because'
     },
     {
       spec: ['should run normally'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     }
   ]
 

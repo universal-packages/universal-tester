@@ -82,10 +82,7 @@ export async function toHaveBeenLastCalledWithTest() {
   const expectedResults = [
     {
       spec: ['toHaveBeenLastCalledWith passes when last call matches args'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['toHaveBeenLastCalledWith fails when last call does not match args'],
@@ -110,17 +107,11 @@ export async function toHaveBeenLastCalledWithTest() {
           ]
         }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['not.toHaveBeenLastCalledWith passes when last call does not match args'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['not.toHaveBeenLastCalledWith fails when last call matches args'],
@@ -142,17 +133,11 @@ export async function toHaveBeenLastCalledWithTest() {
           ]
         }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['toHaveBeenLastCalledWith works with multiple args'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['toHaveBeenLastCalledWith fails when no calls were made'],
@@ -162,10 +147,7 @@ export async function toHaveBeenLastCalledWithTest() {
         expected: 'at least 1 call',
         actual: '0 calls'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['toHaveBeenLastCalledWith fails with non-mock function'],
@@ -177,10 +159,7 @@ export async function toHaveBeenLastCalledWithTest() {
         expected: 'mock function',
         actual: regularFn
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

@@ -23,10 +23,7 @@ export async function toBeUndefinedTest() {
   const expectedResults = [
     {
       spec: ['should pass for undefined value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for defined value'],
@@ -38,17 +35,11 @@ export async function toBeUndefinedTest() {
         expected: undefined,
         actual: 'hello'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toBeUndefined with defined value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toBeUndefined with undefined value'],
@@ -58,10 +49,7 @@ export async function toBeUndefinedTest() {
         expected: 'not undefined',
         actual: undefined
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

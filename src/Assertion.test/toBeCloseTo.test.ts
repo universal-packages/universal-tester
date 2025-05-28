@@ -43,10 +43,7 @@ export async function toBeCloseToTest() {
   const expectedResults = [
     {
       spec: ['should pass for numbers that are close'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for numbers that are not close'],
@@ -60,17 +57,11 @@ export async function toBeCloseToTest() {
         expected: 0.4,
         actual: 0.30000000000000004
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass with custom precision'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail with custom precision'],
@@ -84,10 +75,7 @@ export async function toBeCloseToTest() {
         expected: 0.1239,
         actual: 0.1234
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for non-number value'],
@@ -99,17 +87,11 @@ export async function toBeCloseToTest() {
         expected: 'number',
         actual: 'string'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toBeCloseTo with numbers that are not close'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toBeCloseTo with numbers that are close'],
@@ -123,17 +105,11 @@ export async function toBeCloseToTest() {
         expected: 0.3,
         actual: 0.30000000000000004
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toBeCloseTo with custom precision'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toBeCloseTo with custom precision'],
@@ -147,10 +123,7 @@ export async function toBeCloseToTest() {
         expected: 0.1239,
         actual: 0.1234
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

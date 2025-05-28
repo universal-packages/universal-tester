@@ -24,26 +24,16 @@ export async function onlyTest() {
     {
       spec: ['should not run because only is set on another test'],
       passed: true,
-      options: {
-        timeout: 5000
-      },
       skipped: true,
       skipReason: '"only" tests are active'
     },
     {
       spec: ['should run because only is set'],
-      passed: true,
-      options: {
-        timeout: 5000,
-        only: true
-      }
+      passed: true
     },
     {
       spec: ['should not run because only is set on another test'],
       passed: true,
-      options: {
-        timeout: 5000
-      },
       skipped: true,
       skipReason: '"only" tests are active'
     }

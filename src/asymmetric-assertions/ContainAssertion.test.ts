@@ -67,45 +67,27 @@ export async function containAssertionTest() {
   const expectedResults = [
     {
       spec: ['asserts true when string contains expected substring'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['asserts true when array contains expected value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['asserts true when array contains expected object (by reference)'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['returns false for non-string and non-array values'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
           spec: ['when not is passed', 'inverts the assertion result for strings'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['when not is passed', 'inverts the assertion result for arrays'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     }
   ]
 

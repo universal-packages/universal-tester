@@ -56,31 +56,19 @@ export async function lessThanAssertionTest() {
   const expectedResults = [
     {
       spec: ['asserts true when value is less than expected'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['returns false for non-number values (when notToExpect is false)'] ,
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['when not is passed', 'inverts the assertion result for numbers'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['when not is passed', 'returns true for non-number values (when notToExpect is true)'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     }
   ]
 

@@ -36,10 +36,7 @@ export async function toBeNaNTest() {
   const expectedResults = [
     {
       spec: ['should pass for NaN value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for number value'],
@@ -51,10 +48,7 @@ export async function toBeNaNTest() {
         expected: NaN,
         actual: 10
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for string value'],
@@ -66,10 +60,7 @@ export async function toBeNaNTest() {
         expected: NaN,
         actual: 'not a number'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for null value'],
@@ -81,10 +72,7 @@ export async function toBeNaNTest() {
         expected: NaN,
         actual: null
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for undefined value'],
@@ -96,17 +84,11 @@ export async function toBeNaNTest() {
         expected: NaN,
         actual: undefined
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toBeNaN with number value'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toBeNaN with NaN value'],
@@ -116,10 +98,7 @@ export async function toBeNaNTest() {
         expected: 'not NaN',
         actual: NaN
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

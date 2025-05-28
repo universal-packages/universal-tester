@@ -66,10 +66,7 @@ export async function toHaveBeenCalledTimesTest() {
   const expectedResults = [
     {
       spec: ['toHaveBeenCalledTimes passes when function has been called expected times'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['toHaveBeenCalledTimes fails when function has been called more than expected'],
@@ -82,10 +79,7 @@ export async function toHaveBeenCalledTimesTest() {
         expected: 2,
         actual: 3
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['toHaveBeenCalledTimes fails when function has been called fewer than expected'],
@@ -98,17 +92,11 @@ export async function toHaveBeenCalledTimesTest() {
         expected: 2,
         actual: 1
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['not.toHaveBeenCalledTimes passes when function has been called different times'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['not.toHaveBeenCalledTimes fails when function has been called expected times'],
@@ -120,10 +108,7 @@ export async function toHaveBeenCalledTimesTest() {
         expected: 2,
         actual: 2
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['toHaveBeenCalledTimes fails with non-mock function'],
@@ -134,10 +119,7 @@ export async function toHaveBeenCalledTimesTest() {
         },
         expected: 'mock function'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

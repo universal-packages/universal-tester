@@ -89,10 +89,7 @@ export async function toHaveBeenCalledWithTest() {
   const expectedResults = [
     {
       spec: ['toHaveBeenCalledWith passes when function was called with matching primitive arguments'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['toHaveBeenCalledWith fails when function was not called with matching arguments'],
@@ -121,17 +118,11 @@ export async function toHaveBeenCalledWithTest() {
           }
         ]
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['not.toHaveBeenCalledWith passes when function was not called with given arguments'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['not.toHaveBeenCalledWith fails when function was called with given arguments'],
@@ -159,31 +150,19 @@ export async function toHaveBeenCalledWithTest() {
           }
         ]
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['toHaveBeenCalledWith works with objects using deep equality'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['toHaveBeenCalledWith works with arrays'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['toHaveBeenCalledWith finds matching call among multiple calls'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['toHaveBeenCalledWith fails with non-mock function'],
@@ -194,17 +173,11 @@ export async function toHaveBeenCalledWithTest() {
         },
         expected: 'mock function'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['toHaveBeenCalledWith should be able to use asymmetric assertions'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     }
   ]
 

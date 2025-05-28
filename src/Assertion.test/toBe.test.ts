@@ -73,10 +73,7 @@ export async function toBeTest() {
   const expectedResults = [
     {
       spec: ['should compare two equal numbers'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should compare two unequal numbers'],
@@ -89,17 +86,11 @@ export async function toBeTest() {
         expected: 12,
         actual: 10
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should compare two equal strings'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should compare two unequal strings'],
@@ -112,17 +103,11 @@ export async function toBeTest() {
         expected: 'world',
         actual: 'hello'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should compare two equal booleans'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should compare two unequal booleans'],
@@ -135,17 +120,11 @@ export async function toBeTest() {
         expected: false,
         actual: true
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should compare two equal object instances'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should compare two unequal object instances'],
@@ -164,17 +143,11 @@ export async function toBeTest() {
           b: 2
         }
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should compare two equal arrays'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should compare two unequal arrays'],
@@ -187,17 +160,11 @@ export async function toBeTest() {
         expected: [1, 2, 4],
         actual: [1, 2, 3]
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should assert to not be equal'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail to not be equal'],
@@ -210,17 +177,11 @@ export async function toBeTest() {
         expected: 1,
         actual: 1
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should be able to use asymmetric assertion'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     }
   ]
 

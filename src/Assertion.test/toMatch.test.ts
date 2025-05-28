@@ -27,10 +27,7 @@ export async function toMatchTest() {
   const expectedResults = [
     {
       spec: ['should pass for string matching regex'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for string not matching regex'],
@@ -43,10 +40,7 @@ export async function toMatchTest() {
         expected: /universe/,
         actual: 'hello world'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for non-string value'],
@@ -58,17 +52,11 @@ export async function toMatchTest() {
         expected: 'string',
         actual: 123
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toMatch with non-matching regex'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toMatch with matching regex'],
@@ -81,10 +69,7 @@ export async function toMatchTest() {
         expected: /world/,
         actual: 'hello world'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 

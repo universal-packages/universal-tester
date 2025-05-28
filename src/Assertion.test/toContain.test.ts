@@ -43,10 +43,7 @@ export async function toContainTest() {
   const expectedResults = [
     {
       spec: ['should pass for string containing substring'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for string not containing substring'],
@@ -59,17 +56,11 @@ export async function toContainTest() {
         expected: 'universe',
         actual: 'hello world'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for array containing element'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for array not containing element'],
@@ -82,10 +73,7 @@ export async function toContainTest() {
         expected: 4,
         actual: [1, 2, 3]
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should fail for non-string, non-array value'],
@@ -97,17 +85,11 @@ export async function toContainTest() {
         expected: 'string or array',
         actual: 123
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toContain with string not containing substring'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toContain with string containing substring'],
@@ -120,17 +102,11 @@ export async function toContainTest() {
         expected: 'world',
         actual: 'hello world'
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     },
     {
       spec: ['should pass for not.toContain with array not containing element'],
-      passed: true,
-      options: {
-        timeout: 5000
-      }
+      passed: true
     },
     {
       spec: ['should fail for not.toContain with array containing element'],
@@ -143,10 +119,7 @@ export async function toContainTest() {
         expected: 2,
         actual: [1, 2, 3]
       },
-      passed: false,
-      options: {
-        timeout: 5000
-      }
+      passed: false
     }
   ]
 
