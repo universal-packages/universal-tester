@@ -258,6 +258,7 @@ export class Tester extends EventEmitter {
     }
 
     this.testingTree.status = 'running'
+    this.emitStateChange()
 
     // Check if any test has 'only' flag
     const hasOnlyTests = this.testsSequence.some((test) => test.options.only)
@@ -278,7 +279,8 @@ export class Tester extends EventEmitter {
       } else {
         this.testingTree.status = 'success'
       }
-
+      
+      this.emitStateChange()
       return this.testResults
     }
 
@@ -298,6 +300,7 @@ export class Tester extends EventEmitter {
       this.testingTree.status = 'success'
     }
 
+    this.emitStateChange()
     return this.testResults
   }
 
@@ -637,5 +640,12 @@ export class Tester extends EventEmitter {
       this.updateNodeStatus(currentNode)
       currentNode = currentNode.parent
     }
+    
+    // Emit change event with current state
+    this.emitStateChange()
+  }
+
+  private emitStateChange(): void {
+    this.emit('change', this.state)
   }
 }

@@ -2,6 +2,7 @@ import { asymmetricAssertionsTest } from './asymmetricAssertions.test'
 import { bailTest } from './bail.test'
 import { describeOnlyTest } from './describeOnly.test'
 import { describeSkipTest } from './describeSkip.test'
+import { eventsTest } from './events.test'
 import { hierarchyTest } from './hierarchy.test'
 import { lifecycleHooksTest } from './lifecycleHooks.test'
 import { onlyTest } from './only.test'
@@ -11,6 +12,13 @@ import { skipTest } from './skip.test'
 import { timeoutTest } from './timeout.test'
 
 export async function testerTest() {
+  console.log('\n--- RUNNING EVENTS TESTS ---')
+  try {
+    await eventsTest()
+  } catch (error) {
+    console.error('Events test failed:', error)
+  }
+
   console.log('\n--- RUNNING HIERARCHY TESTS ---')
   try {
     await hierarchyTest()
