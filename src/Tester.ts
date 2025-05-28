@@ -82,6 +82,7 @@ export class Tester extends EventEmitter {
           tests: [],
           children: [],
           completed: false,
+          status: 'idle',
           beforeHooks: [],
           beforeHooksErrors: [],
           beforeHooksHaveRun: false,
@@ -179,6 +180,7 @@ export class Tester extends EventEmitter {
       children: [],
       parent: this.currentTestingNodeStack[this.currentTestingNodeStack.length - 1],
       completed: false,
+      status: 'idle',
       beforeHooks: [],
       beforeHooksErrors: [],
       beforeHooksHaveRun: false,
@@ -304,6 +306,7 @@ export class Tester extends EventEmitter {
     let currentNode: TestingNode | undefined = test.parent
 
     test.status = 'running'
+    this.updateNodeStatusesInPath(test)
 
     while (currentNode) {
       nodePath.push(currentNode)
@@ -336,6 +339,7 @@ export class Tester extends EventEmitter {
       test.result = testResult
 
       this.testResults.push(testResult)
+      this.updateNodeStatusesInPath(test)
 
       return
     }
@@ -358,6 +362,7 @@ export class Tester extends EventEmitter {
       test.result = testResult
 
       this.testResults.push(testResult)
+      this.updateNodeStatusesInPath(test)
 
       for (const node of nodePath) {
         const allTestsCompleted = node.tests.every((test) => test.hasRun)
@@ -437,6 +442,7 @@ export class Tester extends EventEmitter {
             test.result = testResult
 
             this.testResults.push(testResult)
+            this.updateNodeStatusesInPath(test)
 
             return
           }
@@ -486,6 +492,7 @@ export class Tester extends EventEmitter {
       test.status = 'success'
 
       this.testResults.push(testResult)
+      this.updateNodeStatusesInPath(test)
     } catch (error: unknown) {
       this.beforeOrAfterHooksOrTestFailed = true
 
@@ -500,6 +507,7 @@ export class Tester extends EventEmitter {
       test.result = testResult
 
       this.testResults.push(testResult)
+      this.updateNodeStatusesInPath(test)
     } finally {
       // Clear the timeout to prevent memory leaks
       if (timeoutId) clearTimeout(timeoutId)
@@ -550,6 +558,7 @@ export class Tester extends EventEmitter {
       tests: node.tests.map(test => this.sanitizeTest(test)),
       children: node.children.map(child => this.sanitizeTestingNode(child)),
       completed: node.completed,
+      status: node.status,
       beforeHooksErrors: node.beforeHooksErrors,
       beforeHooksHaveRun: node.beforeHooksHaveRun,
       afterEachHooksErrors: node.afterEachHooksErrors,
@@ -564,6 +573,69 @@ export class Tester extends EventEmitter {
       options: test.options,
       status: test.status,
       result: test.result
+    }
+  }
+
+  private updateNodeStatus(node: TestingNode): void {
+    // Get all tests in this node and its children recursively
+    const allTests = this.getAllTestsInNode(node)
+    
+    if (allTests.length === 0) {
+      // No tests in this node or its children
+      node.status = 'idle'
+      return
+    }
+
+    // Check if any test is running
+    const hasRunningTests = allTests.some(test => test.status === 'running')
+    if (hasRunningTests) {
+      node.status = 'running'
+      return
+    }
+
+    // Check if all tests have finished (hasRun = true)
+    const allTestsFinished = allTests.every(test => test.hasRun)
+    if (!allTestsFinished) {
+      node.status = 'idle'
+      return
+    }
+
+    // All tests have finished, determine final status
+    const allTestsSkipped = allTests.every(test => test.status === 'skipped')
+    if (allTestsSkipped) {
+      node.status = 'skipped'
+      return
+    }
+
+    // Check if all non-skipped tests passed
+    const nonSkippedTests = allTests.filter(test => test.status !== 'skipped')
+    const allNonSkippedTestsPassed = nonSkippedTests.every(test => test.status === 'success')
+    
+    if (allNonSkippedTestsPassed) {
+      node.status = 'success'
+    } else {
+      node.status = 'failure'
+    }
+  }
+
+  private getAllTestsInNode(node: TestingNode): Test[] {
+    const tests = [...node.tests]
+    
+    // Recursively get tests from children
+    for (const child of node.children) {
+      tests.push(...this.getAllTestsInNode(child))
+    }
+    
+    return tests
+  }
+
+  private updateNodeStatusesInPath(test: Test): void {
+    // Update status for all nodes in the path from test to root
+    let currentNode: TestingNode | undefined = test.parent
+    
+    while (currentNode) {
+      this.updateNodeStatus(currentNode)
+      currentNode = currentNode.parent
     }
   }
 }

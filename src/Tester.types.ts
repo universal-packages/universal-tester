@@ -52,6 +52,7 @@ export interface TestingNode {
   children: TestingNode[]
   parent?: TestingNode
   completed: boolean
+  status: TestStatus
   beforeHooks: (() => void | Promise<void>)[]
   beforeHooksErrors: Error[]
   beforeHooksHaveRun: boolean
@@ -83,6 +84,7 @@ export interface StateTestingNode {
   tests: StateTest[]
   children: StateTestingNode[]
   completed: boolean
+  status: TestStatus
   beforeHooksErrors: Error[]
   beforeHooksHaveRun: boolean
   afterEachHooksErrors: Error[]
