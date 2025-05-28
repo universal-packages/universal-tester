@@ -28,6 +28,7 @@ export class Tester extends EventEmitter {
   private readonly currentTestingNodeStack: TestingNode[] = []
   private readonly testResults: TestResult[] = []
   private readonly testsSequence: Test[] = []
+  private testIdCounter = 0
 
   private beforeOrAfterHooksOrTestFailed = false
 
@@ -64,11 +65,16 @@ export class Tester extends EventEmitter {
     return this.testResults
   }
 
+  public get tests() {
+    return this.testsSequence
+  }
+
   public constructor(options?: TesterOptions) {
     super()
-    this.options = { bail: false, runOrder: 'sequence', timeout: 5000, ...options }
+    this.options = { bail: false, runOrder: 'sequence', timeout: 5000, identifier: 'tester', ...options }
     this.testingTree = {
       status: 'idle',
+      identifier: this.options.identifier!,
       nodes: [
         {
           name: Symbol('root'),
@@ -89,6 +95,8 @@ export class Tester extends EventEmitter {
     }
     this.currentTestingNodeStack.push(this.testingTree.nodes[0])
   }
+
+
 
   public mockFn() {
     return createMockFunction()
@@ -207,6 +215,7 @@ export class Tester extends EventEmitter {
     if (options) Object.assign(mergedOptions, options)
 
     const test: Test = {
+      id: this.generateTestId(),
       name,
       fn,
       options: mergedOptions,
@@ -311,6 +320,7 @@ export class Tester extends EventEmitter {
 
     if (hasBeforeHooksErrors) {
       const testResult: TestResult = {
+        id: test.id,
         spec,
         passed: false,
         error: new TestError({
@@ -336,6 +346,7 @@ export class Tester extends EventEmitter {
     // If the test should be skipped, record the result without executing
     if (shouldSkip) {
       const testResult: TestResult = {
+        id: test.id,
         spec,
         passed: true,
         skipped: true,
@@ -410,6 +421,7 @@ export class Tester extends EventEmitter {
             this.beforeOrAfterHooksOrTestFailed = true
 
             const testResult: TestResult = {
+              id: test.id,
               spec,
               passed: false,
               error: new TestError({
@@ -466,6 +478,7 @@ export class Tester extends EventEmitter {
 
       // If we get here, the test passed
       const testResult: TestResult = {
+        id: test.id,
         spec,
         passed: true
       }
@@ -477,6 +490,7 @@ export class Tester extends EventEmitter {
       this.beforeOrAfterHooksOrTestFailed = true
 
       const testResult: TestResult = {
+        id: test.id,
         spec,
         passed: false,
         error: error as TestError
@@ -515,5 +529,9 @@ export class Tester extends EventEmitter {
         }
       }
     }
+  }
+
+  private generateTestId(): string {
+    return `${this.options.identifier}-${++this.testIdCounter}`
   }
 }

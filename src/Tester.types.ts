@@ -8,6 +8,7 @@ export interface TesterOptions {
   bail?: boolean
   runOrder?: RunOrder
   timeout?: number
+  identifier?: string
 }
 
 export interface DescribeOptions {
@@ -25,6 +26,7 @@ export interface TestOptions {
 }
 
 export interface Test {
+  id: string
   name: string
   fn: () => void | Promise<void>
   options: TestOptions
@@ -35,6 +37,7 @@ export interface Test {
 }
 
 export interface TestResult {
+  id: string
   spec: string[]
   error?: TestError | Error
   passed: boolean
@@ -61,5 +64,6 @@ export interface TestingNode {
 
 export interface TestingTree {
   status: TestingStatus
+  identifier: string
   nodes: TestingNode[]
 }
