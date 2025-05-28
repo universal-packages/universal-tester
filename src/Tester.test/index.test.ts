@@ -1,4 +1,5 @@
 import { asymmetricAssertionsTest } from './asymmetricAssertions.test'
+import { bailTest } from './bail.test'
 import { describeOnlyTest } from './describeOnly.test'
 import { describeSkipTest } from './describeSkip.test'
 import { hierarchyTest } from './hierarchy.test'
@@ -84,6 +85,13 @@ export async function testerTest() {
     await timeoutTest()
   } catch (error) {
     console.error('Timeout test failed:', error)
+  }
+
+  console.log('\n--- RUNNING BAIL TESTS ---')
+  try {
+    await bailTest()
+  } catch (error) {
+    console.error('Bail test failed:', error)
   }
 
   console.log('\n--- RUNNING ASYMMETRIC ASSERTIONS TESTS ---')
