@@ -2,7 +2,7 @@ import EventEmitter from 'events'
 
 import { Assertion } from './Assertion'
 import { TestError } from './TestError'
-import { DescribeOptions, Test, TestOptions, TestResult, TesterOptions, TestingNode, TestingTree } from './Tester.types'
+import { DescribeOptions, Test, TestOptions, TestResult, TesterOptions, TestingNode, TestingTree, StateTestingTree, StateTestingNode, StateTest } from './Tester.types'
 import { AnythingAssertion } from './asymmetric-assertions/AnythingAssertion'
 import { CloseToAssertion } from './asymmetric-assertions/CloseToAssertion'
 import { ContainAssertion } from './asymmetric-assertions/ContainAssertion'
@@ -32,8 +32,8 @@ export class Tester extends EventEmitter {
 
   private beforeOrAfterHooksOrTestFailed = false
 
-  public get state(): TestingTree {
-    return this.testingTree
+  public get state(): StateTestingTree {
+    return this.sanitizeTestingTree(this.testingTree)
   }
 
   public get not() {
@@ -533,5 +533,37 @@ export class Tester extends EventEmitter {
 
   private generateTestId(): string {
     return `${this.options.identifier}-${++this.testIdCounter}`
+  }
+
+  private sanitizeTestingTree(tree: TestingTree): StateTestingTree {
+    return {
+      status: tree.status,
+      identifier: tree.identifier,
+      nodes: tree.nodes.map(node => this.sanitizeTestingNode(node))
+    }
+  }
+
+  private sanitizeTestingNode(node: TestingNode): StateTestingNode {
+    return {
+      name: node.name,
+      describeOptions: node.describeOptions,
+      tests: node.tests.map(test => this.sanitizeTest(test)),
+      children: node.children.map(child => this.sanitizeTestingNode(child)),
+      completed: node.completed,
+      beforeHooksErrors: node.beforeHooksErrors,
+      beforeHooksHaveRun: node.beforeHooksHaveRun,
+      afterEachHooksErrors: node.afterEachHooksErrors,
+      afterHooksErrors: node.afterHooksErrors
+    }
+  }
+
+  private sanitizeTest(test: Test): StateTest {
+    return {
+      id: test.id,
+      name: test.name,
+      options: test.options,
+      status: test.status,
+      result: test.result
+    }
   }
 }

@@ -67,3 +67,30 @@ export interface TestingTree {
   identifier: string
   nodes: TestingNode[]
 }
+
+// Sanitized versions without function references
+export interface StateTest {
+  id: string
+  name: string
+  options: TestOptions
+  status: TestStatus
+  result?: TestResult
+}
+
+export interface StateTestingNode {
+  name: string | symbol
+  describeOptions: DescribeOptions
+  tests: StateTest[]
+  children: StateTestingNode[]
+  completed: boolean
+  beforeHooksErrors: Error[]
+  beforeHooksHaveRun: boolean
+  afterEachHooksErrors: Error[]
+  afterHooksErrors: Error[]
+}
+
+export interface StateTestingTree {
+  status: TestingStatus
+  identifier: string
+  nodes: StateTestingNode[]
+}
