@@ -217,19 +217,7 @@ export async function toBeTest() {
     },
     {
       spec: ['should be able to use asymmetric assertion'],
-      error: {
-        message: 'Expected {{expected}} but got {{actual}}',
-        messageLocals: {
-          expected: 'Anything',
-          actual: '1'
-        },
-        expected: {
-          notToExpect: false,
-          assertionName: 'Anything'
-        },
-        actual: 1
-      },
-      passed: false,
+      passed: true,
       options: {
         timeout: 5000
       }

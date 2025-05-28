@@ -31,7 +31,7 @@ export class Assertion {
           actual: this.value
         })
     } else {
-      if (this.value !== expected)
+      if (this.value !== expected && !this.asymmetricAssertionPasses(expected))
         throw new TestError({
           message: `Expected {{expected}} but got {{actual}}`,
           messageLocals: {
