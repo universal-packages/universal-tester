@@ -2,6 +2,7 @@ import { TestError } from './TestError'
 
 export type RunOrder = 'sequence' | 'random' | 'parallel'
 export type TestingStatus = 'idle' | 'running' | 'success' | 'failure'
+export type TestStatus = TestingStatus | 'skipped'
 
 export interface TesterOptions {
   bail?: boolean
@@ -29,7 +30,7 @@ export interface Test {
   options: TestOptions
   parent: TestingNode
   hasRun: boolean
-  status: TestingStatus
+  status: TestStatus
   result?: TestResult
 }
 

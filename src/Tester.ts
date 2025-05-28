@@ -294,6 +294,8 @@ export class Tester extends EventEmitter {
     const nodePath: TestingNode[] = []
     let currentNode: TestingNode | undefined = test.parent
 
+    test.status = 'running'
+
     while (currentNode) {
       nodePath.push(currentNode)
       currentNode = currentNode.parent
@@ -308,7 +310,7 @@ export class Tester extends EventEmitter {
     const hasBeforeHooksErrors = nodePath.some((node) => node.beforeHooksErrors.length > 0)
 
     if (hasBeforeHooksErrors) {
-      this.testResults.push({
+      const testResult: TestResult = {
         spec,
         passed: false,
         error: new TestError({
@@ -317,7 +319,14 @@ export class Tester extends EventEmitter {
           expected: 'Before hooks to not fail',
           actual: 'Before hooks failed'
         })
-      })
+      }
+
+      test.hasRun = true
+      test.status = 'failure'
+      test.result = testResult
+
+      this.testResults.push(testResult)
+
       return
     }
 
@@ -326,13 +335,18 @@ export class Tester extends EventEmitter {
 
     // If the test should be skipped, record the result without executing
     if (shouldSkip) {
-      test.hasRun = true
-      this.testResults.push({
+      const testResult: TestResult = {
         spec,
         passed: true,
         skipped: true,
         skipReason: skipReason
-      })
+      }
+
+      test.hasRun = true
+      test.status = 'skipped'
+      test.result = testResult
+
+      this.testResults.push(testResult)
 
       for (const node of nodePath) {
         const allTestsCompleted = node.tests.every((test) => test.hasRun)
@@ -395,7 +409,7 @@ export class Tester extends EventEmitter {
           if (node.beforeHooksErrors.length > 0) {
             this.beforeOrAfterHooksOrTestFailed = true
 
-            this.testResults.push({
+            const testResult: TestResult = {
               spec,
               passed: false,
               error: new TestError({
@@ -404,7 +418,13 @@ export class Tester extends EventEmitter {
                 expected: 'Before hooks to not fail',
                 actual: 'Before hooks failed'
               })
-            })
+            }
+
+            test.hasRun = true
+            test.status = 'failure'
+            test.result = testResult
+
+            this.testResults.push(testResult)
 
             return
           }
@@ -445,18 +465,27 @@ export class Tester extends EventEmitter {
       }
 
       // If we get here, the test passed
-      this.testResults.push({
+      const testResult: TestResult = {
         spec,
-        passed: true,
-      })
+        passed: true
+      }
+
+      test.status = 'success'
+
+      this.testResults.push(testResult)
     } catch (error: unknown) {
       this.beforeOrAfterHooksOrTestFailed = true
 
-      this.testResults.push({
+      const testResult: TestResult = {
         spec,
-        error: error as TestError,
         passed: false,
-      })
+        error: error as TestError
+      }
+
+      test.status = 'failure'
+      test.result = testResult
+
+      this.testResults.push(testResult)
     } finally {
       // Clear the timeout to prevent memory leaks
       if (timeoutId) clearTimeout(timeoutId)
