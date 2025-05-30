@@ -18,6 +18,7 @@ import { toHaveBeenCalledTest } from './toHaveBeenCalled.test'
 import { toHaveBeenCalledWithTest } from './toHaveBeenCalledWith.test'
 import { toHaveBeenCalledTimesTest } from './toHaveBeenCalledTimes.test'
 import { toHaveBeenCalledTimesWithTest } from './toHaveBeenCalledTimesWith.test'
+import { toHaveBeenLastCalledWithTest } from './toHaveBeenLastCalledWith.test'
 import { toHaveLengthTest } from './toHaveLength.test'
 import { toHavePropertyTest } from './toHaveProperty.test'
 import { toMatchTest } from './toMatch.test'
@@ -214,5 +215,12 @@ export async function assertionTest() {
     await toHaveBeenCalledTimesWithTest()
   } catch (error) {
     console.error('toHaveBeenCalledTimesWith test failed:', error)
+  }
+
+  console.log('\n--- RUNNING toHaveBeenLastCalledWith TESTS ---')
+  try {
+    await toHaveBeenLastCalledWithTest()
+  } catch (error) {
+    console.error('toHaveBeenLastCalledWith test failed:', error)
   }
 }

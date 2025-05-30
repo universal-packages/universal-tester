@@ -61,14 +61,6 @@ export class Tester extends EventEmitter {
     }
   }
 
-  public get results() {
-    return this.testResults
-  }
-
-  public get tests() {
-    return this.testsSequence
-  }
-
   public constructor(options?: TesterOptions) {
     super()
     this.options = { bail: false, runOrder: 'sequence', timeout: 5000, identifier: 'tester', ...options }
