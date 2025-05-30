@@ -284,7 +284,6 @@ async function testEventEmissionWithLifecycleHooks() {
   const describeNode = finalState.nodes[0].children[0]
   tester.expect(describeNode.beforeHooksHaveRun).toBe(true)
   tester.expect(describeNode.beforeHooksErrors).toEqual([])
-  tester.expect(describeNode.afterEachHooksErrors).toEqual([])
   tester.expect(describeNode.afterHooksErrors).toEqual([])
 
   console.log('Lifecycle hooks event emission test passed')

@@ -80,7 +80,6 @@ export class Tester extends EventEmitter {
           beforeHooksHaveRun: false,
           beforeEachHooks: [],
           afterEachHooks: [],
-          afterEachHooksErrors: [],
           afterHooks: [],
           afterHooksErrors: []
         }
@@ -176,7 +175,6 @@ export class Tester extends EventEmitter {
       beforeHooksHaveRun: false,
       beforeEachHooks: [],
       afterEachHooks: [],
-      afterEachHooksErrors: [],
       afterHooks: [],
       afterHooksErrors: []
     }
@@ -213,7 +211,8 @@ export class Tester extends EventEmitter {
       options: mergedOptions,
       parent: this.currentTestingNodeStack[this.currentTestingNodeStack.length - 1],
       hasRun: false,
-      status: 'idle'
+      status: 'idle',
+      afterEachHooksErrors: []
     }
 
     this.testsSequence.push(test)
@@ -534,7 +533,7 @@ export class Tester extends EventEmitter {
             await hook()
           } catch (error: unknown) {
             this.beforeOrAfterHooksOrTestFailed = true
-            node.afterEachHooksErrors.push(error as Error)
+            test.afterEachHooksErrors.push(error as Error)
           }
         }
       }
@@ -576,7 +575,6 @@ export class Tester extends EventEmitter {
       status: node.status,
       beforeHooksErrors: node.beforeHooksErrors,
       beforeHooksHaveRun: node.beforeHooksHaveRun,
-      afterEachHooksErrors: node.afterEachHooksErrors,
       afterHooksErrors: node.afterHooksErrors
     }
   }
@@ -589,7 +587,8 @@ export class Tester extends EventEmitter {
       status: test.status,
       result: test.result,
       startedAt: test.startedAt,
-      endedAt: test.endedAt
+      endedAt: test.endedAt,
+      afterEachHooksErrors: test.afterEachHooksErrors || []
     }
   }
 

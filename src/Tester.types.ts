@@ -36,6 +36,7 @@ export interface Test {
   result?: TestResult
   startedAt?: number
   endedAt?: number
+  afterEachHooksErrors: Error[]
 }
 
 export interface TestResult {
@@ -61,7 +62,6 @@ export interface TestingNode {
   beforeHooksHaveRun: boolean
   beforeEachHooks: (() => void | Promise<void>)[]
   afterEachHooks: (() => void | Promise<void>)[]
-  afterEachHooksErrors: Error[]
   afterHooks: (() => void | Promise<void>)[]
   afterHooksErrors: Error[]
 }
@@ -81,6 +81,7 @@ export interface StateTest {
   result?: TestResult
   startedAt?: number
   endedAt?: number
+  afterEachHooksErrors: Error[]
 }
 
 export interface StateTestingNode {
@@ -92,7 +93,6 @@ export interface StateTestingNode {
   status: TestStatus
   beforeHooksErrors: Error[]
   beforeHooksHaveRun: boolean
-  afterEachHooksErrors: Error[]
   afterHooksErrors: Error[]
 }
 
