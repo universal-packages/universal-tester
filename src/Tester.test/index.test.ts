@@ -4,6 +4,7 @@ import { describeOnlyTest } from './describeOnly.test'
 import { describeSkipTest } from './describeSkip.test'
 import { eventsTest } from './events.test'
 import { hierarchyTest } from './hierarchy.test'
+import { hookErrorsTest } from './hookErrors.test'
 import { lifecycleHooksTest } from './lifecycleHooks.test'
 import { onlyTest } from './only.test'
 import { parallelTest } from './parallel.test'
@@ -32,6 +33,13 @@ export async function testerTest() {
     await lifecycleHooksTest()
   } catch (error) {
     console.error('Lifecycle hooks test failed:', error)
+  }
+
+  console.log('\n--- RUNNING HOOK ERRORS TESTS ---')
+  try {
+    await hookErrorsTest()
+  } catch (error) {
+    console.error('Hook errors test failed:', error)
   }
 
   console.log('\n--- RUNNING RANDOM ORDER TESTS ---')
