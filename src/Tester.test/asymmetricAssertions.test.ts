@@ -195,16 +195,12 @@ export async function asymmetricAssertionsTest() {
     tester.expect({ a: 1, b: 'hello' }).not.toEqual({ a: 1, b: tester.not.expectHaveLength(5) })
   })
 
-  tester.test(
-    'not.expectHaveProperty matches objects NOT having the expected property',
-    () => {
-      tester.expect({ a: 1, b: { d: 3 } }).toEqual({ a: 1, b: tester.not.expectHaveProperty('c') })
-      tester.expect({ a: 1, b: { c: 3, d: 3 } }).toEqual({ a: 1, b: tester.not.expectHaveProperty('c', 2) })
-      tester.expect({ a: 1, b: { c: 2, d: 3 } }).not.toEqual({ a: 1, b: tester.not.expectHaveProperty('c') })
-      tester.expect({ a: 1, b: { c: 2, d: 3 } }).not.toEqual({ a: 1, b: tester.not.expectHaveProperty('c', 2) })
-    },
-    { only: true }
-  )
+  tester.test('not.expectHaveProperty matches objects NOT having the expected property', () => {
+    tester.expect({ a: 1, b: { d: 3 } }).toEqual({ a: 1, b: tester.not.expectHaveProperty('c') })
+    tester.expect({ a: 1, b: { c: 3, d: 3 } }).toEqual({ a: 1, b: tester.not.expectHaveProperty('c', 2) })
+    tester.expect({ a: 1, b: { c: 2, d: 3 } }).not.toEqual({ a: 1, b: tester.not.expectHaveProperty('c') })
+    tester.expect({ a: 1, b: { c: 2, d: 3 } }).not.toEqual({ a: 1, b: tester.not.expectHaveProperty('c', 2) })
+  })
 
   tester.test('not.expectMatchObject matches objects that do NOT contain the expected properties', () => {
     tester.expect({ a: 1, b: { c: 5, d: 3 } }).toEqual({ a: 1, b: tester.not.expectMatchObject({ c: 2, d: 3 }) })
