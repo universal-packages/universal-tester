@@ -86,28 +86,28 @@ export async function toHaveBeenLastCalledWithTest() {
     },
     {
       spec: ['toHaveBeenLastCalledWith fails when last call does not match args'],
+      passed: false,
       error: {
         message: 'Expected last call to have been called with {{expected}}, but it was called with {{actual}}',
         messageLocals: {
-          expected: 'first',
-          actual: 'second'
+          expected: 'Array',
+          actual: 'Array'
         },
         expected: ['first'],
         actual: ['second'],
         difference: {
-          same: false,
           type: 'array',
           items: [
             {
-              same: false,
-              type: 'primitive',
+              type: 'different',
               expected: 'first',
-              actual: 'second'
+              actual: 'second',
+              same: false
             }
-          ]
+          ],
+          same: false
         }
-      },
-      passed: false
+      }
     },
     {
       spec: ['not.toHaveBeenLastCalledWith passes when last call does not match args'],
@@ -115,25 +115,24 @@ export async function toHaveBeenLastCalledWithTest() {
     },
     {
       spec: ['not.toHaveBeenLastCalledWith fails when last call matches args'],
+      passed: false,
       error: {
         message: 'Expected last call not to have been called with given arguments, but it was',
         messageLocals: {},
         expected: ['second'],
         actual: ['second'],
         difference: {
-          same: true,
           type: 'array',
           items: [
             {
-              same: true,
-              type: 'primitive',
-              expected: 'second',
-              actual: 'second'
+              type: 'same',
+              value: 'second',
+              same: true
             }
-          ]
+          ],
+          same: true
         }
-      },
-      passed: false
+      }
     },
     {
       spec: ['toHaveBeenLastCalledWith works with multiple args'],
@@ -141,25 +140,28 @@ export async function toHaveBeenLastCalledWithTest() {
     },
     {
       spec: ['toHaveBeenLastCalledWith fails when no calls were made'],
+      passed: false,
       error: {
         message: 'Expected mock function to have been called, but it was not called',
         messageLocals: {},
         expected: 'at least 1 call',
         actual: '0 calls'
-      },
-      passed: false
+      }
     },
     {
       spec: ['toHaveBeenLastCalledWith fails with non-mock function'],
+      passed: false,
       error: {
         message: 'Expected a mock function, but got {{actual}}',
         messageLocals: {
           actual: '()=>{}'
         },
-        expected: 'mock function',
-        actual: regularFn
-      },
-      passed: false
+        expected: 'mock function'
+      }
+    },
+    {
+      spec: ['toHaveBeenLastCalledWith should be able to use asymmetric assertions'],
+      passed: true
     }
   ]
 

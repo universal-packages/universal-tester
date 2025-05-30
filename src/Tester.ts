@@ -46,11 +46,11 @@ export class Tester extends EventEmitter {
       expectGreaterThan: (value: number) => new GreaterThanAssertion(value, true),
       expectGreaterThanOrEqual: (value: number) => new GreaterThanOrEqualAssertion(value, true),
       expectHaveLength: (length: number) => new HaveLengthAssertion(length, true),
-      expectHaveProperty: (path: string, value?: any) => {
-        if (arguments.length === 1) {
+      expectHaveProperty: (path: string, ...args: any[]) => {
+        if (args.length === 0) {
           return new HavePropertyAssertion(path, true)
         }
-        return new HavePropertyAssertion(path, true, value)
+        return new HavePropertyAssertion(path, true, args[0])
       },
       expectInstanceOf: (constructor: Function) => new InstanceOfAssertion(constructor, true),
       expectLessThan: (value: number) => new LessThanAssertion(value, true),
